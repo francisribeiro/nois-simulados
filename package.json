@@ -1,0 +1,30 @@
+{
+  "name": "nois-simulados",
+  "version": "1.0.0",
+  "description": "aplicativo pra realização de simulados",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+    "dependencies": {
+        "express": "*",
+        "pg": "*",
+        "bcryptjs": "*",
+        "cors": "*",
+        "jsonwebtoken": "*",
+        "body-parser": "*",
+        "passport": "*",
+        "passport-jwt": "*"
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francisribeiro/nois-simulados.git"
+  },
+  "author": "Francis Ribeiro && Gustavo Gomides",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francisribeiro/nois-simulados/issues"
+  },
+  "homepage": "https://github.com/francisribeiro/nois-simulados#readme"
+}
