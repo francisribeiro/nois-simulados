@@ -15,7 +15,7 @@ npm install
 npm start
 ```
 
-##USER Endpoints 
+## USER Endpoints 
 ```bash
 POST /users/register
 ```
@@ -31,7 +31,7 @@ POST /users/register
 ```
 
 ```bash
-POST /users/authenticate   // Gives back a token
+POST /users/authenticate   // Devolve um token
 ```
 
 ```js
@@ -42,5 +42,5 @@ POST /users/authenticate   // Gives back a token
 ```
 
 ```bash
-GET /users/profile         // Needs json web token to authorize
+GET /users/profile         // Precisa de um token JSON para autorizar
 ```
