@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const database = require('../config/database');
 
-// User Schema
+// Modelo de Usuário
 var userSchema = function (name, email, username, password, type) {
     this.name = name;
     this.email = email;
@@ -12,15 +12,12 @@ var userSchema = function (name, email, username, password, type) {
 
 const User = module.exports = userSchema;
 
-
-module.exports.getUserById = (function (id, callback) {
-    const query = database.query(`SELECT * FROM usuario WHERE id = ($1)`, [id], callback);
-});
-
+// Pega um usuário pelo Username
 module.exports.getUserByUsername = (function (username, callback) {
     const query = database.query(`SELECT * FROM usuario WHERE username = ($1)`, [username], callback);
 });
 
+// Faz a comparação dos passwords
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
         if (err) throw err;
@@ -35,7 +32,8 @@ module.exports.addUser = (function (newUser, callback) {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            database.query('INSERT INTO usuario(nome, email, username, password, tipo) values($1, $2, $3, $4, $5)', [newUser.name, newUser.email, newUser.username, newUser.password, newUser.type], callback);
+            database.query('INSERT INTO usuario(nome, email, username, password, tipo) values($1, $2, $3, $4, $5)', 
+            [newUser.name, newUser.email, newUser.username, newUser.password, newUser.type], callback);
         });
     });
 });
