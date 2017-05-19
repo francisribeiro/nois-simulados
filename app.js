@@ -3,9 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const pg = require('pg');
 const users = require('./routes/users');
-const config = require('./config/database');
 
 const app = express();
 const port = process.env.port || 3000;
