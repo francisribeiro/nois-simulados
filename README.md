@@ -28,7 +28,7 @@ POST /users/register
 	"password":"francis_ribeiro",
 	"type": "aluno"
 }
-´´´
+```
 
 ```bash
 POST /users/authenticate   // Gives back a token
@@ -39,7 +39,7 @@ POST /users/authenticate   // Gives back a token
 	"username":"francis_ribeiro",
 	"password":"francis_ribeiro",
 }
-´´´
+```
 
 ```bash
 GET /users/profile         // Needs json web token to authorize
