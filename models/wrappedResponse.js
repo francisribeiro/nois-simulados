@@ -1,7 +1,6 @@
-
 module.exports.generateResponse = generateResponse;
 
-function generateResponse(code, status, message, data){
+function generateResponse(code, status, message, data) {
 	let response = {
 		code: code,
 		status: status,

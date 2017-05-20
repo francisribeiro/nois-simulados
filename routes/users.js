@@ -31,7 +31,7 @@ router.post('/authenticate', (req, res, next) => {
 
     User.getUserByUsername(username, (err, user) => {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at authenticate user!', null));
-        if (!user.rows[0]) return res.json(WrappedResponse.generateResponse(400, 'error', 'Usuário não encontrado!', null));
+        if (!user.rows[0]) return res.json(WrappedResponse.generateResponse(400, 'error', 'Cannot find user!', null));
         User.comparePassword(password, user.rows[0].password, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
@@ -47,14 +47,14 @@ router.post('/authenticate', (req, res, next) => {
                     }
                 };
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Authenticate User Successfully!', data))
-            } else return res.json(WrappedResponse.generateResponse(400, 'error', 'Senha inválida!', null));
+            } else return res.json(WrappedResponse.generateResponse(400, 'error', 'Invalid Password!', null));
         });
     });
 });
 
 // Perfil
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    res.json(WrappedResponse.generateResponse(200, 'success', 'GEt Profile Successfully!', { user: req.user.rows[0] }));
+    res.json(WrappedResponse.generateResponse(200, 'success', 'Get Profile Successfully!', { user: req.user.rows[0] }));
 });
 
 module.exports = router;

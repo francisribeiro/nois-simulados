@@ -576,15 +576,14 @@ var LoginComponent = (function () {
             username: this.username,
             password: this.password
         };
-        this.authService.authenticateUser(user).subscribe(function (response) {
-            if (response.code == 200) {
-                response = response.data;
-                _this.authService.storeUserData(response.token, response.user);
+        this.authService.authenticateUser(user).subscribe(function (data) {
+            if (data.status == "success") {
+                _this.authService.storeUserData(data.data.token, data.data.user);
                 _this.flashMessage.show('Agora você está logado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/dashboard']);
             }
             else {
-                _this.flashMessage.show(response.message, { cssClass: 'alert-danger', timeout: 3000 });
+                _this.flashMessage.show(data.message, { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/login']);
             }
         });
@@ -715,7 +714,7 @@ var RegisterComponent = (function () {
         }
         // Register users
         this.authService.registerUser(user).subscribe(function (data) {
-            if (data.code == 200) {
+            if (data.success) {
                 _this.flashMessage.show('Agora você está registrado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/login']);
             }
