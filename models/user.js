@@ -37,3 +37,21 @@ module.exports.addUser = (function (newUser, callback) {
         });
     });
 });
+
+// Count users
+module.exports.countUsers = (function(callback){
+    database.query(
+        'SELECT count(*) from usuario',
+        '',
+        callback
+    );  
+});
+
+// Count users by Type
+module.exports.countUsersByType = (function(type, callback){
+    database.query(
+        'SELECT count(*) from usuario where tipo = $1',
+        [type],
+        callback
+    );
+});
