@@ -55,6 +55,10 @@ body {
     margin-bottom: 10px;
 }
 
+.form-signin input[type="number"] {
+    margin-bottom: 10px;
+}
+
 .form-signin input[type="email"] {
     margin-bottom: 10px;
 }
@@ -63,16 +67,20 @@ body {
     margin-bottom: 10px;
 }
 
-.form-signin button, select {
+.form-signin button, select, textarea {
     margin-bottom: 10px;
 }
 
 /* Register */
 
 .form-size{
-    max-width: 630px !important;
+    max-width: 830px !important;
 }
 
-.form-signin input[type="text"] {
+.form-signin button, select, textarea {
     margin-bottom: 10px;
+}
+.form-signin span{
+    display: block;
+    padding-bottom: 10px;
 }

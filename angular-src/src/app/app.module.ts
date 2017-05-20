@@ -8,14 +8,16 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { ProfileComponent } from './components/admin/profile/profile.component';
 
 import { APP_ROUTES_PROVIDER } from './app.routes';
 import { ValidateService } from './services/validate.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { AddNewQuestionComponent } from './components/admin/add-new-question/add-new-question.component';
+import { AddNewAlternativeComponent } from './components/admin/add-new-alternative/add-new-alternative.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { AuthGuard } from './guards/auth.guard';
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddNewQuestionComponent,
+    AddNewAlternativeComponent
   ],
   imports: [
     BrowserModule,
