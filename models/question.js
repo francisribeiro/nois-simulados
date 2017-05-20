@@ -18,6 +18,7 @@ module.exports.deleteQuestion = deleteQuestion;
 module.exports.countQuestions = countQuestions;
 module.exports.countQuestionsByArea = countQuestionsByArea;
 module.exports.getIdQuestion = getIdQuestion;
+module.exports.getLastIdQuestion = getLastIdQuestion;
 
 // Insert Question
 function insertQuestion(question, callback){
@@ -87,6 +88,15 @@ function getIdQuestion(question, callback){
 	database.query(
 		'SELECT id from questao where pergunta = $1',
 		[question],
+		callback
+	);	
+}
+
+// Get last ID Question
+function getLastIdQuestion(callback){
+	database.query(
+		'SELECT max(id) from questao',
+		'',
 		callback
 	);	
 }

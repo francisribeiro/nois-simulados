@@ -20,7 +20,7 @@ create table alternativas(
     alternativa varchar(300) not null,
     correta boolean not null,
     questao int not null,
-    foreign key(questao) references questao(id)
+    foreign key(questao) references questao(id) on delete cascade
 );
 
 create table simulado(
@@ -34,6 +34,6 @@ create table questoesSimulado(
     id serial primary key,
     simulado int not null,
     questao int not null,
-    foreign key(simulado) references simulado(id),
+    foreign key(simulado) references simulado(id) on delete cascade,
     foreign key(questao) references questao(id) 
 );

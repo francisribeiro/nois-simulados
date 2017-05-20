@@ -18,7 +18,14 @@ router.post('/', function(req, res, next){
 
     Question.insertQuestion(newQuestion, function(err, result){
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert question!', null));
-        else res.json(WrappedResponse.generateResponse(200, 'success', 'Insert Question Successfully!', newQuestion));
+        else {
+            Question.getLastIdQuestion(function(error, data){
+                if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert question!', null));
+                else 
+                    res.json(WrappedResponse.generateResponse(200, 'success', 
+                        'Insert Question Successfully!', {id: data.rows[0].max}));
+            });
+        }
     });
 });
 
