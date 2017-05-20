@@ -576,14 +576,15 @@ var LoginComponent = (function () {
             username: this.username,
             password: this.password
         };
-        this.authService.authenticateUser(user).subscribe(function (data) {
-            if (data.success) {
-                _this.authService.storeUserData(data.token, data.user);
+        this.authService.authenticateUser(user).subscribe(function (response) {
+            if (response.code == 200) {
+                response = response.data;
+                _this.authService.storeUserData(response.token, response.user);
                 _this.flashMessage.show('Agora você está logado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/dashboard']);
             }
             else {
-                _this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+                _this.flashMessage.show(response.message, { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/login']);
             }
         });
@@ -633,7 +634,7 @@ var ProfileComponent = (function () {
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.authService.getProfile().subscribe(function (profile) {
-            _this.user = profile.user;
+            _this.user = profile.data.user;
         }, function (err) {
             console.log(err);
             return false;
@@ -714,7 +715,7 @@ var RegisterComponent = (function () {
         }
         // Register users
         this.authService.registerUser(user).subscribe(function (data) {
-            if (data.success) {
+            if (data.code == 200) {
                 _this.flashMessage.show('Agora você está registrado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/login']);
             }
