@@ -1,0 +1,15 @@
+<div class="container theme-showcase" role="main">
+
+  <!-- Login -->
+  <form class="form-signin well" (submit)="onLoginSubmit()">
+    <legend>Fazer login</legend>
+    <label for="inputUsername" class="sr-only">Usuário</label>
+    <input type="text" id="inputUsername" class="form-control" placeholder="Nome de Usuário" required autofocus [(ngModel)]="username"
+      name="username">
+    <label for="inputPassword" class="sr-only">Senha</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required [(ngModel)]="password" name="password">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
+  </form>
+
+</div>
+<!-- /container -->

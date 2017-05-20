@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const WrappedResponse = require('../models/wrappedResponse');
 const database = require('../config/database');
 
 const router = express.Router();
@@ -17,8 +18,8 @@ router.post('/register', (req, res, next) => {
     );
 
     User.addUser(newUser, (err, user) => {
-        if (err) res.json({success: false, msg: 'Falha ao registrar usuário'});
-        else res.json({success: true, msg: 'Usuário Registrado'});
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert user!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Insert User Successfully!', newUser));
     });
 });
 
@@ -29,31 +30,31 @@ router.post('/authenticate', (req, res, next) => {
     const password = req.body.password;
 
     User.getUserByUsername(username, (err, user) => {
-        if (err) throw err;
-        if (!user.rows[0]) return res.json({ success: false, msg: 'Usuário não encontrado' });
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at authenticate user!', null));
+        if (!user.rows[0]) return res.json(WrappedResponse.generateResponse(400, 'error', 'Usuário não encontrado!', null));
         User.comparePassword(password, user.rows[0].password, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
                 const token = jwt.sign(user.rows[0], database.secret, {
                     expiresIn: 604800 // 1 semana
                 });
-                res.json({
-                    success: true,
+                let data = {
                     token: `JWT ${token}`,
                     user: {
-                        name: user.rows[0].name,
+                        name: user.rows[0].nome,
                         username: user.rows[0].username,
                         email: user.rows[0].email
                     }
-                })
-            } else return res.json({ success: false, msg: 'Password Inválido' });
+                };
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Authenticate User Successfully!', data))
+            } else return res.json(WrappedResponse.generateResponse(400, 'error', 'Senha inválida!', null));
         });
     });
 });
 
 // Perfil
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    res.json({ user: req.user.rows[0] });
+    res.json(WrappedResponse.generateResponse(200, 'success', 'GEt Profile Successfully!', { user: req.user.rows[0] }));
 });
 
 module.exports = router;
