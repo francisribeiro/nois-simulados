@@ -7,9 +7,13 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthService {
   authToken: any;
   user: any;
+  questionTitle: any;
 
   constructor(private http: Http) { }
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // User
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -53,5 +57,44 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
+  }
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Question
+  registerQuestion(newQuestion) {
+    let headers = new Headers();
+    this.questionTitle = newQuestion.question;
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/questions/', newQuestion, { headers: headers })
+      .map(res => res.json());
+  }
+
+  getQuestion() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/questions/q/${this.questionTitle}`, { headers: headers })
+      .map(res => res.json());
+  }
+
+  getQuestionId() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/questions/q-id/${this.questionTitle}`, { headers: headers })
+      .map(res => res.json());
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Alternatives
+  registerAlternative(newAlternative) {
+    console.log(newAlternative);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/alternatives/', newAlternative, { headers: headers })
+      .map(res => res.json());
   }
 }
