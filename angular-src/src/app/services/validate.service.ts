@@ -7,7 +7,7 @@ export class ValidateService {
 
   // Validando os campos
   validateRegister(user) {
-    if (!user.name || !user.username || !user.email || !user.password)
+    if (!user.name || !user.username || !user.email || !user.password || !user.type)
       return false;
     else
       return true;

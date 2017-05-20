@@ -41,12 +41,12 @@ router.post('/authenticate', (req, res, next) => {
                     success: true,
                     token: `JWT ${token}`,
                     user: {
-                        name: user.rows[0].name,
+                        name: user.rows[0].nome,
                         username: user.rows[0].username,
                         email: user.rows[0].email
                     }
                 })
-            } else return res.json({ success: false, msg: 'Password Inválido' });
+            } else return res.json({ success: false, msg: 'Senha Inválida' });
         });
     });
 });

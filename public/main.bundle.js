@@ -139,7 +139,7 @@ var NavbarComponent = (function () {
     };
     NavbarComponent.prototype.onLogoutClick = function () {
         this.authService.logout();
-        this.flashMessage.show('You are logged out', { cssClass: 'alert-success', timeout: 3000 });
+        this.flashMessage.show('Agora você está deslogado!', { cssClass: 'alert-success', timeout: 3000 });
         this.router.navigate(['/login']);
         return false;
     };
@@ -390,42 +390,42 @@ module.exports = "<app-navbar></app-navbar>\n<div class=\"container\">\n    <fla
 /***/ 171:
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"page-header\">Dashboard</h2>\n<p>Welcome to your dashboard</p>"
+module.exports = "<h2 class=\"page-header\">Dashboard</h2>\n<p>Bem vindo ao Nois Simulados!</p>"
 
 /***/ }),
 
 /***/ 172:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron text-center\">\n    <h1>MEAN Authentication App</h1>\n    <p class=\"lead\">Welcome to our custom MEAN authentication application built from scratch</p>\n    <div>\n        <a class=\"btn btn-primary\" [routerLink]=\"['/register']\">Register</a>\n        <a class=\"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"col-md-4\">\n        <h3>Express Backend</h3>\n        <p>A rock solid Node.js/Express server using Mongoose to organize models and query the database</p>\n    </div>\n    <div class=\"col-md-4\">\n        <h3>Angular-CLI</h3>\n        <p>Angular-CLI to generate components, services and more. Local dev server and easy compilation</p>\n    </div>\n    <div class=\"col-md-4\">\n        <h3>JWT Tokens</h3>\n        <p>Full featured authentication using JSON web tokens. Login and store user data</p>\n    </div>\n</div>"
+module.exports = "<div class=\"container theme-showcase\" role=\"main\">\n\n  <!-- Main jumbotron -->\n  <div class=\"jumbotron text-center\">\n    <h1>Nois Simulados</h1>\n    <p>Olá, seja muito bem vindo ao Nois Simulados!</p>\n    <p>Caso ainda você seja novo por aqui Increva-se! Ou faça login.</p>\n    <div>\n      <a class=\"btn btn-primary\" [routerLink]=\"['/register']\">Increva-se</a>\n      <a class=\"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col-md-4\">\n      <h3>Lorem ipsum </h3>\n      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna\n        aliqua.\n      </p>\n    </div>\n    <div class=\"col-md-4\">\n      <h3>Duis aute </h3>\n      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>\n    </div>\n    <div class=\"col-md-4\">\n      <h3>Excepteur sint</h3>\n      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n    </div>\n  </div>\n\n</div>\n"
 
 /***/ }),
 
 /***/ 173:
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"page-header\">Login</h2>\n<form (submit)=\"onLoginSubmit()\">\n    <div class=\"form-group\">\n        <label>Username</label>\n        <input type=\"text\" class=\"form-control\" [(ngModel)]=\"username\" name=\"username\">\n    </div>\n    <div class=\"form-group\">\n        <label>Password</label>\n        <input type=\"password\" class=\"form-control\" [(ngModel)]=\"password\" name=\"password\">\n    </div>\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Login\">\n</form>"
+module.exports = "<div class=\"container theme-showcase\" role=\"main\">\n\n  <!-- Login -->\n  <form class=\"form-signin well\" (submit)=\"onLoginSubmit()\">\n    <legend>Fazer login</legend>\n    <label for=\"inputUsername\" class=\"sr-only\">Usuário</label>\n    <input type=\"text\" id=\"inputUsername\" class=\"form-control\" placeholder=\"Nome de Usuário\" required autofocus [(ngModel)]=\"username\"\n      name=\"username\">\n    <label for=\"inputPassword\" class=\"sr-only\">Senha</label>\n    <input type=\"password\" id=\"inputPassword\" class=\"form-control\" placeholder=\"Senha\" required [(ngModel)]=\"password\" name=\"password\">\n    <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Fazer login</button>\n  </form>\n\n</div>\n<!-- /container -->\n"
 
 /***/ }),
 
 /***/ 174:
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n            <a class=\"navbar-brand\" href=\"#\">MEAN Auth App</a>\n        </div>\n        <div id=\"navbar\" class=\"collapse navbar-collapse\">\n            <ul class=\"nav navbar-nav navbar-left\">\n                <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/']\">Home</a></li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li *ngIf=\"authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/dashboard']\">Dashboard</a></li>\n                <li *ngIf=\"authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/profile']\">Profile</a></li>\n                <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/login']\">Login</a></li>\n                <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/register']\">Register</a></li>\n                <li *ngIf=\"authService.loggedIn()\"><a (click)=\"onLogoutClick()\" href=\"#\">Logout</a></li>\n            </ul>\n        </div>\n        <!--/.nav-collapse -->\n    </div>\n</nav>"
+module.exports = "<!-- Fixed navbar -->\n<nav class=\"navbar navbar-inverse navbar-fixed-top\">\n  <div class=\"container\">\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\n        aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n      <a class=\"navbar-brand\" href=\"#\">Nois Simulados</a>\n    </div>\n    <div id=\"navbar\" class=\"collapse navbar-collapse\">\n      <ul class=\"nav navbar-nav navbar-left\">\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/']\">Home</a></li>\n      </ul>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li *ngIf=\"authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/dashboard']\">Dashboard</a></li>\n        <li *ngIf=\"authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/profile']\">Perfil</a></li>\n        <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/login']\">Login</a></li>\n        <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a [routerLink]=\"['/register']\">Registrar</a></li>\n        <li *ngIf=\"authService.loggedIn()\"><a (click)=\"onLogoutClick()\" href=\"#\">Sair</a></li>\n      </ul>\n    </div>\n    <!--/.nav-collapse -->\n  </div>\n</nav>\n"
 
 /***/ }),
 
 /***/ 175:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"user\">\n    <h2 class=\"page-header\">{{user.name}}</h2>\n    <ul class=\"list-group\">\n        <li class=\"list-group-item\">Usename: {{user.username}}</li>\n        <li class=\"list-group-item\">Email: {{user.email}}</li>\n    </ul>\n</div>"
+module.exports = "<div *ngIf=\"user\">\n    <h2 class=\"page-header\">{{user.nome}}</h2>\n    <ul class=\"list-group\">\n        <li class=\"list-group-item\">Usuário: {{user.username}}</li>\n        <li class=\"list-group-item\">Email: {{user.email}}</li>\n    </ul>\n</div>"
 
 /***/ }),
 
 /***/ 176:
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRegisterSubmit()\">\n    <div class=\"form-group\">\n        <label>Name</label>\n        <input type=\"text\" [(ngModel)]=\"name\" name=\"name\" class=\"form-control\">\n    </div>\n    <div class=\"form-group\">\n        <label>Username</label>\n        <input type=\"text\" [(ngModel)]=\"username\" name=\"username\" class=\"form-control\">\n    </div>\n    <div class=\"form-group\">\n        <label>Email</label>\n        <input type=\"text\" [(ngModel)]=\"email\" name=\"email\" class=\"form-control\">\n    </div>\n    <div class=\"form-group\">\n        <label>Password</label>\n        <input type=\"password\" [(ngModel)]=\"password\" name=\"password\" class=\"form-control\">\n    </div>\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">\n</form>"
+module.exports = "<div class=\"container theme-showcase\" role=\"main\">\n\n  <!-- Register -->\n  <form class=\"form-signin form-horizontal well form-size\" (submit)=\"onRegisterSubmit()\">\n    <fieldset>\n      <legend>Inscreva-se</legend>\n\n      <label for=\"inputNome\" class=\"col-lg-2 control-label\">Nome</label>\n      <div class=\"col-lg-10\">\n        <input type=\"text\" class=\"form-control\" id=\"inputNome\" placeholder=\"Nome\" required autofocus [(ngModel)]=\"name\" name=\"name\">\n      </div>\n\n      <label for=\"inputUsuario\" class=\"col-lg-2 control-label\">Usuário</label>\n      <div class=\"col-lg-10\">\n        <input type=\"text\" class=\"form-control\" id=\"inputUsuario\" placeholder=\"Usuário\" required [(ngModel)]=\"username\" name=\"username\">\n      </div>\n\n      <label for=\"inputEmail\" class=\"col-lg-2 control-label\">Email</label>\n      <div class=\"col-lg-10\">\n        <input type=\"email\" class=\"form-control\" id=\"inputEmail\" placeholder=\"Email\" required [(ngModel)]=\"email\" name=\"email\">\n      </div>\n\n      <label for=\"inputPassword\" class=\"col-lg-2 control-label\">Senha</label>\n      <div class=\"col-lg-10\">\n        <input type=\"password\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Senha\" required [(ngModel)]=\"password\" name=\"password\">\n      </div>\n\n      <label for=\"inputTipo\" class=\"col-lg-2 control-label\">Tipo</label>\n      <div class=\"col-lg-10\">\n        <select class=\"form-control\" id=\"inputTipo\" required [(ngModel)]=\"type\" name=\"type\" required>\n            <option disabled hidden [value]=\"selectUndefinedOptionValue\">Escolha uma opção...</option>\n            <option *ngFor=\"let type of types\" [ngValue]=\"type.id\">{{type.name}}</option>\n        </select>\n      </div>\n\n      <div class=\"col-lg-10 col-lg-offset-2\">\n        <button type=\"submit\" class=\"btn btn-lg btn-primary btn-block\" value=\"Submit\">Registar</button>\n      </div>\n    </fieldset>\n  </form>\n</div>\n<!-- /container -->\n"
 
 /***/ }),
 
@@ -579,7 +579,7 @@ var LoginComponent = (function () {
         this.authService.authenticateUser(user).subscribe(function (data) {
             if (data.success) {
                 _this.authService.storeUserData(data.token, data.user);
-                _this.flashMessage.show('You are now logged in', { cssClass: 'alert-success', timeout: 3000 });
+                _this.flashMessage.show('Agora você está logado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/dashboard']);
             }
             else {
@@ -686,6 +686,10 @@ var RegisterComponent = (function () {
         this.flashMessage = flashMessage;
         this.authService = authService;
         this.router = router;
+        this.types = [
+            { id: 'aluno', name: "Aluno" },
+            { id: 'professor', name: "Professor" }
+        ];
     }
     RegisterComponent.prototype.ngOnInit = function () {
     };
@@ -695,26 +699,27 @@ var RegisterComponent = (function () {
             name: this.name,
             username: this.username,
             email: this.email,
-            password: this.password
+            password: this.password,
+            type: this.type
         };
         // Required fields
         if (!this.validateService.validateRegister(user)) {
-            this.flashMessage.show('Please fill in all fields', { cssClass: 'alert-danger', timeout: 3000 });
+            this.flashMessage.show('Por Favor, preencha todos os campos!', { cssClass: 'alert-danger', timeout: 3000 });
             return false;
         }
         // Validate email
         if (!this.validateService.validateEmail(user.email)) {
-            this.flashMessage.show('Please use a valid email', { cssClass: 'alert-danger', timeout: 3000 });
+            this.flashMessage.show('Por favor, use um email válido!', { cssClass: 'alert-danger', timeout: 3000 });
             return false;
         }
         // Register users
         this.authService.registerUser(user).subscribe(function (data) {
             if (data.success) {
-                _this.flashMessage.show('You are now registered', { cssClass: 'alert-success', timeout: 3000 });
+                _this.flashMessage.show('Agora você está registrado!', { cssClass: 'alert-success', timeout: 3000 });
                 _this.router.navigate(['/login']);
             }
             else {
-                _this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
+                _this.flashMessage.show('Algo deu errado ao se registrar!', { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/register']);
             }
         });
@@ -801,7 +806,7 @@ var ValidateService = (function () {
     }
     // Validando os campos
     ValidateService.prototype.validateRegister = function (user) {
-        if (!user.name || !user.username || !user.email || !user.password)
+        if (!user.name || !user.username || !user.email || !user.password || !user.type)
             return false;
         else
             return true;

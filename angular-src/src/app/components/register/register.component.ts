@@ -14,6 +14,12 @@ export class RegisterComponent implements OnInit {
   username: String;
   email: String;
   password: String;
+  type: String;
+  selectUndefinedOptionValue:any;
+  types = [
+       {id: 'aluno', name: "Aluno"},
+       {id: 'professor', name: "Professor"}
+     ];
 
   constructor(
     private validateService: ValidateService,
@@ -30,28 +36,29 @@ export class RegisterComponent implements OnInit {
       name: this.name,
       username: this.username,
       email: this.email,
-      password: this.password
+      password: this.password,
+      type:this.type
     }
 
     // Required fields
     if (!this.validateService.validateRegister(user)) {
-      this.flashMessage.show('Please fill in all fields', { cssClass: 'alert-danger', timeout: 3000 });
+      this.flashMessage.show('Por Favor, preencha todos os campos!', { cssClass: 'alert-danger', timeout: 3000 });
       return false;
     }
 
     // Validate email
     if (!this.validateService.validateEmail(user.email)) {
-      this.flashMessage.show('Please use a valid email', { cssClass: 'alert-danger', timeout: 3000 });
+      this.flashMessage.show('Por favor, use um email válido!', { cssClass: 'alert-danger', timeout: 3000 });
       return false;
     }
 
     // Register users
     this.authService.registerUser(user).subscribe(data => {
       if (data.success) {
-        this.flashMessage.show('You are now registered', { cssClass: 'alert-success', timeout: 3000 });
+        this.flashMessage.show('Agora você está registrado!', { cssClass: 'alert-success', timeout: 3000 });
         this.router.navigate(['/login']);
       } else {
-        this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
+        this.flashMessage.show('Algo deu errado ao se registrar!', { cssClass: 'alert-danger', timeout: 3000 });
         this.router.navigate(['/register']);
       }
     });

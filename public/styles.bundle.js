@@ -91,7 +91,7 @@ exports = module.exports = __webpack_require__(10)(false);
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n", ""]);
+exports.push([module.i, "body {\n    padding-top: 70px;\n    padding-bottom: 30px;\n}\n\n\n/* Theme */\n\n.theme-showcase>p>.btn {\n    margin: 5px 0;\n}\n\n.theme-showcase .navbar .container {\n    width: auto;\n}\n\n\n/* Login*/\n\n.form-signin {\n    max-width: 430px;\n    padding: 20px;\n    margin: 0 auto;\n    margin-top: 50px;\n}\n\n.form-signin legend {\n    padding-bottom: 10px;\n}\n\n.form-signin .form-signin-heading,\n.form-signin .checkbox {\n    margin-bottom: 10px;\n}\n\n.form-signin .checkbox {\n    font-weight: normal;\n}\n\n.form-signin .form-control {\n    position: relative;\n    height: auto;\n    box-sizing: border-box;\n    padding: 10px;\n    font-size: 16px;\n}\n\n.form-signin .form-control:focus {\n    z-index: 2;\n}\n\n.form-signin input[type=\"text\"] {\n    margin-bottom: 10px;\n}\n\n.form-signin input[type=\"email\"] {\n    margin-bottom: 10px;\n}\n\n.form-signin input[type=\"password\"] {\n    margin-bottom: 10px;\n}\n\n.form-signin button, select {\n    margin-bottom: 10px;\n}\n\n/* Register */\n\n.form-size{\n    max-width: 630px !important;\n}\n\n.form-signin input[type=\"text\"] {\n    margin-bottom: 10px;\n}", ""]);
 
 // exports
 
