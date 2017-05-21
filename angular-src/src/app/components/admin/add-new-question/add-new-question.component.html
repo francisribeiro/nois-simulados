@@ -1,7 +1,23 @@
-<!-- Register -->
+<header id="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Questões <small>Controle Suas Questões</small></h1>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+</header>
+<section id="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="active">Dashboard > Adicionar Questões</li>
+    </ol>
+  </div>
+</section>
 <form class="form-signin form-horizontal well form-size" (submit)="onRegisterSubmit()">
   <fieldset>
-    <legend>Cadastrar Questão</legend>
+    <legend>Cadastrar Nova Questão</legend>
 
     <label for="inputQuestion" class="col-lg-2 control-label">Questão</label>
     <div class="col-lg-10">
@@ -36,8 +52,8 @@
     </div>
 
     <div class="col-lg-10 col-lg-offset-2">
-      <button type="reset" class="btn btn-lg btn-danger" value="Reset">Cancelar</button>
-      <button type="submit" class="btn btn-lg btn-primary" value="Submit">Continuar</button>
+      <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
+      <button type="submit" class="btn btn-lg btn-primary" value="Submit">Continuar Cadastro</button>
     </div>
   </fieldset>
 </form>
