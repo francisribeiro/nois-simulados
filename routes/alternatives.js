@@ -9,6 +9,7 @@ module.exports = router;
 // Insert Alternative
 router.post('/', function(req, res, next){
     let newAlternative = new Alternative(
+        req.body.id,
         req.body.alternative,
         req.body.correct,
         req.body.questionId
@@ -28,6 +29,7 @@ router.get('/list/:q', function(req, res, next){
             let alternatives = new Array();
             result.rows.forEach(function(q){
                 alternatives.push(new Alternative(
+                    q.id,
                     q.alternativa,
                     q.correta,
                     q.questao
@@ -41,6 +43,7 @@ router.get('/list/:q', function(req, res, next){
 // Update Alternative
 router.put('/:id', function(req, res, next){
     let alternative = new Alternative(
+        req.body.id,
         req.body.alternative,
         req.body.correct,
         req.body.questionId

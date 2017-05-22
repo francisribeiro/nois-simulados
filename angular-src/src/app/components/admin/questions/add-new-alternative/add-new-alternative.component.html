@@ -1,0 +1,64 @@
+<header id="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Alternativas <small>Controle Suas Alternativas</small></h1>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+</header>
+<section id="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="active">Dashboard > Questões > Adicionar Questões > Adicionar Alternativas </li>
+    </ol>
+  </div>
+</section>
+<div *ngIf="question">
+  <!-- Register -->
+  <form class="form-signin form-horizontal well form-size" (submit)="onRegisterSubmit()">
+    <fieldset>
+      <legend>{{question.question}}</legend>
+
+      <label for="inputAlternativeA" class="col-lg-2 control-label">Alternativa A)</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="2" class="form-control" id="inputAlternativeA" placeholder="Insira a Alternativa A)"
+          required autofocus [(ngModel)]="alternatives[0].alternative" name="alternativeA"></textarea>
+      </div>
+
+      <label for="inputAlternativeB" class="col-lg-2 control-label">Alternativa B)</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="2" class="form-control" id="inputAlternativeB" placeholder="Insira a Alternativa B)"
+          required autofocus [(ngModel)]="alternatives[1].alternative" name="alternativeB"></textarea>
+      </div>
+
+      <label for="inputAlternativeC" class="col-lg-2 control-label">Alternativa C)</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="2" class="form-control" id="inputAlternativeC" placeholder="Insira a Alternativa C)"
+          required autofocus [(ngModel)]="alternatives[2].alternative" name="alternativeC"></textarea>
+      </div>
+
+      <label for="inputAlternativeD" class="col-lg-2 control-label">Alternativa D)</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="2" class="form-control" id="inputAlternativeD" placeholder="Insira a Alternativa D)"
+          required autofocus [(ngModel)]="alternatives[3].alternative" name="alternativeD"></textarea>
+      </div>
+
+      <label for="answer" class="col-lg-2 control-label">Resposta</label>
+      <div class="col-lg-10">
+        <span *ngFor=" let opt of options">
+          <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="opt.id" (change)="onSelectionChange(opt.id)">
+            {{ opt.name }}
+        </span>
+      </div>
+
+
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
+        <button type="submit" class="btn btn-lg btn-primary" value="Submit">Finalizar Cadastro</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<!-- /container -->

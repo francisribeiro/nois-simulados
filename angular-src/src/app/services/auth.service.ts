@@ -86,6 +86,28 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  getAllQuestions() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/questions/list`, { headers: headers })
+      .map(res => res.json());
+  }
+
+
+ getQuestionById(id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/questions/q-s/${id}`, { headers: headers })
+      .map(res => res.json());
+  }
+
+  updateQuestion(question) {
+    let headers = new Headers();
+    this.questionTitle = question.question;
+    headers.append('Content-Type', 'application/json');
+    return this.http.put('http://localhost:3000/questions/', question, { headers: headers })
+      .map(res => res.json());
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +117,20 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/alternatives/', newAlternative, { headers: headers })
+      .map(res => res.json());
+  }
+
+  getAllAlternatives(questionId) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/alternatives/list/${questionId}`, { headers: headers })
+      .map(res => res.json());
+  }
+
+   UpdateAlternative(newAlternative) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.put(`http://localhost:3000/alternatives/${newAlternative.id}`, newAlternative, { headers: headers })
       .map(res => res.json());
   }
 }

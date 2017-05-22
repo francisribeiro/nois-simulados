@@ -16,8 +16,12 @@ import { ValidateService } from './services/validate.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-import { AddNewQuestionComponent } from './components/admin/add-new-question/add-new-question.component';
-import { AddNewAlternativeComponent } from './components/admin/add-new-alternative/add-new-alternative.component';
+import { AddNewQuestionComponent } from './components/admin/questions/add-new-question/add-new-question.component';
+import { AddNewAlternativeComponent } from './components/admin/questions/add-new-alternative/add-new-alternative.component';
+import { QuestionsComponent } from './components/admin/questions/questions.component';
+import { TruncatePipe } from './pipes/truncate';
+import { EditQuestionComponent } from './components/admin/questions/edit-question/edit-question.component';
+import { EditAlternativesComponent } from './components/admin/questions/edit-alternatives/edit-alternatives.component';
 
 
 @NgModule({
@@ -30,7 +34,11 @@ import { AddNewAlternativeComponent } from './components/admin/add-new-alternati
     DashboardComponent,
     ProfileComponent,
     AddNewQuestionComponent,
-    AddNewAlternativeComponent
+    AddNewAlternativeComponent,
+    QuestionsComponent,
+    TruncatePipe,
+    EditQuestionComponent,
+    EditAlternativesComponent
   ],
   imports: [
     BrowserModule,

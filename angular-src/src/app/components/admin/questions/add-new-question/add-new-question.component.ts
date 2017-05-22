@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidateService } from '../../../services/validate.service';
+import { ValidateService } from '../../../../services/validate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -52,10 +52,10 @@ export class AddNewQuestionComponent implements OnInit {
     this.authService.registerQuestion(newQuestion).subscribe(data => {
       if (data.status == "success") {
         this.flashMessage.show('Questão cadastrada com sucesso', { cssClass: 'alert-success', timeout: 3000 });
-        this.router.navigate(['/alternatives']);
+        this.router.navigate(['/alternatives/add']);
       } else {
         this.flashMessage.show('Algo deu errado ao cadastrar a questão!', { cssClass: 'alert-danger', timeout: 3000 });
-        this.router.navigate(['/question']);
+        this.router.navigate(['/question/add']);
       }
     });
   }

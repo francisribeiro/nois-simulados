@@ -1,6 +1,7 @@
 const database = require('../config/database');
 
-var questionSchema = function(status, timesAppeared, area, feedback, question){
+var questionSchema = function(id, status, timesAppeared, area, feedback, question){
+	this.id = id;
 	this.status = status;
 	this.timesAppeared = timesAppeared;
 	this.area = area;
@@ -19,6 +20,7 @@ module.exports.countQuestions = countQuestions;
 module.exports.countQuestionsByArea = countQuestionsByArea;
 module.exports.getIdQuestion = getIdQuestion;
 module.exports.getLastIdQuestion = getLastIdQuestion;
+module.exports.getQuestionById = getQuestionById;
 
 // Insert Question
 function insertQuestion(question, callback){
@@ -49,9 +51,10 @@ function listQuestions(callback){
 
 // Update Question
 function updateQuestion(question, callback){
+	console.log(question);
 	database.query(
-		'UPDATE questao set status = $1, vezesapareceu = $2, area = $3, feedback = $4 WHERE pergunta = $5',
-		[question.status, question.timesAppeared, question.area, question.feedback, question.question], 
+		'UPDATE questao set status = $1, vezesapareceu = $2, area = $3, feedback = $4, pergunta = $5 WHERE id = $6',
+		[question.status, question.timesAppeared, question.area, question.feedback, question.question, question.id], 
 		callback
 	);
 }
@@ -99,4 +102,13 @@ function getLastIdQuestion(callback){
 		'',
 		callback
 	);	
+}
+
+// Get Question by ID
+function getQuestionById(id, callback){
+	database.query(
+		'SELECT * from questao where id = ($1)',
+		[id],
+		callback
+	);
 }

@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ValidateService } from '../../../services/validate.service';
+import { ValidateService } from '../../../../services/validate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -75,10 +75,10 @@ export class AddNewAlternativeComponent implements OnInit {
       this.authService.registerAlternative(this.alternatives[i]).subscribe(data => {
         if (i == 3 && data.status == "success") {
           this.flashMessage.show('Questão cadastrada com sucesso', { cssClass: 'alert-success', timeout: 3000 });
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/question']);
         } else if (i == 3 && data.status == "error") {
           this.flashMessage.show('Algo deu errado ao cadastrar as alternativas!', { cssClass: 'alert-danger', timeout: 3000 });
-          this.router.navigate(['/alternatives']);
+          this.router.navigate(['/question']);
         }
       });
     }

@@ -1,6 +1,7 @@
 const database = require('../config/database');
 
-var alternativeSchema = function(alternative, correct, questionId){
+var alternativeSchema = function(id, alternative, correct, questionId){
+	this.id = id;
 	this.alternative = alternative;
 	this.correct = correct;
 	this.questionId = questionId;
