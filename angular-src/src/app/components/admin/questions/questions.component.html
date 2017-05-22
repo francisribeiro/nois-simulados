@@ -71,7 +71,7 @@
                   <td>{{question.question | truncate:35}}</td>
                   <td><b>{{question.status | uppercase}}</b></td>
                   <td><a class="btn btn-primary" type="button" [routerLink]="['edit', question.id]">Editar</a>
-                    <a class="btn btn-danger" type="button" [routerLink]="['/question/delete/']" href="#">Apagar</a></td>
+                    <a class="btn btn-danger" type="button" [routerLink]="['delete', question.id]" href="#">Apagar</a></td>
                 </tr>
               </table>
             </div>

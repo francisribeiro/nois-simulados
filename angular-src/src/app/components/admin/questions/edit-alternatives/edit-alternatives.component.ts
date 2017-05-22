@@ -36,7 +36,6 @@ export class EditAlternativesComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.authService.getAllAlternatives(this.questionId).subscribe(data => {
       this.alternatives = data.data;
     }, err => {
