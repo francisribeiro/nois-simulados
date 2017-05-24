@@ -14,7 +14,7 @@
                         </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <li>
-                  <router-link type="button" to="/question/add">Adicionar Questões</router-link>
+                  <router-link type="button" to="/questoes/add">Adicionar Questões</router-link>
                 </li>
                 <li>
                   <router-link type="button" to="/simulados/add">Adicionar Simulados</router-link>
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-  import auth from '../auth'
+  import auth from '../../auth'
   
   export default {
     name: 'dashboard',

@@ -1,14 +1,23 @@
 import Vue from 'vue'
 import App from './components/App'
-import Dashboard from './components/Dashboard'
-import Home from './components/Home'
 import Login from './components/Login'
-import Profile from './components/Profile'
+import Home from './components/Home'
 import Register from './components/Register'
+
+//Admin files
+import Profile from './components/admin/Profile'
+import Dashboard from './components/admin/Dashboard'
+
+//Questions
+import AddQuestoes from './components/admin/questoes/AddQuestoes'
+import AddAlternativas from './components/admin/questoes/AddAlternativas'
+
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+
 Vue.use(VueResource)
 Vue.use(VueRouter)
+
 import auth from './auth'
 
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
@@ -44,6 +53,15 @@ const router = new VueRouter({
     {
       path: '*',
       redirect: '/home'
+    },
+    {
+      path:'/questoes/add',
+      component:AddQuestoes
+    }
+    ,
+    {
+      path:'/alternativas/add',
+      component:AddAlternativas
     }
   ]
 })

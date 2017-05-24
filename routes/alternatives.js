@@ -8,6 +8,7 @@ module.exports = router;
 
 // Insert Alternative
 router.post('/', function(req, res, next){
+    console.log(req.length);
     let newAlternative = new Alternative(
         req.body.id,
         req.body.alternative,

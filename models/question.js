@@ -98,7 +98,7 @@ function getIdQuestion(question, callback){
 // Get last ID Question
 function getLastIdQuestion(callback){
 	database.query(
-		'SELECT max(id) from questao',
+		'SELECT * from questao where id = (select max(id) from questao)',
 		'',
 		callback
 	);	

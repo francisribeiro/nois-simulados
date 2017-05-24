@@ -124,3 +124,22 @@ router.get('/q-s/:id', function (req, res, next) {
         }
     });
 });
+
+// Get last ID question
+router.get('/q-l-id', function (req, res, next) {
+    Question.getLastIdQuestion(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get question ID!', null));
+        else {
+            let row = result.rows[0];
+            let question = new Question(
+                row.id,
+                row.status,
+                row.vezesapareceu,
+                row.area,
+                row.feedback,
+                row.pergunta
+            );
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Question ID Successfully!', question));
+        }
+    });
+});
