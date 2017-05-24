@@ -3,9 +3,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
+
 const users = require('./routes/users');
 const questions = require('./routes/questions');
 const alternatives = require('./routes/alternatives');
+const simulados = require('./routes/simulado');
+const questoesSimulado = require('./routes/questoesSimulado');
 const reports = require('./routes/reports/reports');
 
 const app = express();
@@ -33,6 +36,12 @@ app.use('/questions', questions);
 
 // Rota para Alternativas
 app.use('/alternatives', alternatives);
+
+// Rota para Simulados
+app.use('/simulados', simulados);
+
+// Rota para as Questões do Simulado
+app.use('/questoes-simulado', questoesSimulado);
 
 // Rota para Relatórios
 app.use('/reports', reports);

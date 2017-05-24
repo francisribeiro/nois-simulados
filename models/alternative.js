@@ -16,12 +16,32 @@ module.exports.getCorrect = getCorrect;
 module.exports.getId = getId;
 
 // Insert Alternative
-function insertAlternative(alternative, callback){
-	database.query(
-		'INSERT INTO alternativas(alternativa, correta, questao) values($1, $2, $3)',
-		[alternative.alternative, alternative.correct, alternative.questionId], 
-		callback
-	);
+function insertAlternative(alternativeList, successCallback, errorCallback){
+  	var question = alternativeList.questao;
+
+  	var error = 0;
+	var cont = 0;
+
+	alternativeList.alternativas.forEach(function(alternative){
+		cont++;
+
+		database.query(
+			'INSERT INTO alternativas(alternativa, correta, questao) values($1, $2, $3)',
+			[alternative.letra, alternative.correta, question], 
+			function(){
+				error++;
+			}
+		);
+		if(cont == 4){
+			if(error == 0){
+				successCallback();
+			}else{
+				errorCallback();
+			}			
+		}		
+
+	});
+
 }
 
 // List Alternatives by Question

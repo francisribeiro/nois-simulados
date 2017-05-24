@@ -8,18 +8,36 @@ module.exports = router;
 
 // Insert Alternative
 router.post('/', function(req, res, next){
-    console.log(req.length);
     let newAlternative = new Alternative(
         req.body.id,
         req.body.alternative,
         req.body.correct,
         req.body.questionId
     );
-
-    Alternative.insertAlternative(newAlternative, function(err, result){
-        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert alternative!', null));
-        else res.json(WrappedResponse.generateResponse(200, 'success', 'Insert Alternative Successfully!', newAlternative));
-    });
+    // objeto exemplo:
+    //  {
+    //     "alternativas": [
+    //         {"letra": "letra A", "correta":false},
+    //         {"letra": "letra B", "correta":true},
+    //         {"letra": "letra C", "correta":false},
+    //         {"letra": "letra D", "correta":false}
+    //     ],
+    //     "questao": 3017
+    // }
+    
+   let alternativeList = {
+        alternativas: req.body.alternativas,
+        questao: req.body.questao
+    };
+ 
+    Alternative.insertAlternative(alternativeList, 
+        function(err, result){
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Insert Alternative Successfully!', alternativeList));
+        },
+        function(err, result){
+            res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert alternative!', ''))
+        }
+    );
 });
 
 // List Alternatives by Question

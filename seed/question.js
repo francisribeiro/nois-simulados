@@ -31,6 +31,8 @@ module.exports = (function () {
 		        if (!err) {
 		        	console.log('Question insert successfully!');
 		        	getIdQuestion(question.question);
+		        }else{
+		        	console.log(err);
 		        }
 		    });
 		}
@@ -46,6 +48,7 @@ module.exports = (function () {
 
 	function generateQuestion(i, status, feedback){
 		return new Question(
+			i,
 			status,
 			getTimesAppeared(),
 			getArea(),
@@ -56,27 +59,35 @@ module.exports = (function () {
 
 	function getIdQuestion(question, callback){
 		Question.getIdQuestion(question, function(err, result){
-			generateAlternatives(result.rows[0].id).forEach(function(alt){
-				insertAlternative(alt);
-			});
+			insertAlternative(result.rows[0].id);
 		});
 	}
+	
+	function insertAlternative(questionId){
+    	var indexCorrect = Math.floor(Math.random() * 4);
+    	var aCorreta, bCorreta, cCorreta, dCorreta;
+    	aCorreta = (indexCorrect == 0) ? true : false;
+    	bCorreta = (indexCorrect == 1) ? true : false;
+    	cCorreta = (indexCorrect == 2) ? true : false;
+    	dCorreta = (indexCorrect == 3) ? true : false;
 
-	function generateAlternatives(questionId){
-		var array = new Array();
-		for(var i = 0; i < 4; i++){
-			array.push(new Alternative(
-				alternatives[i],
-				true,
-				questionId
-			));
-		}
-		return array;
-	}
+    	var alternativeList = {
+    		alternativas: [
+	            {letra: alternatives[0], correta:aCorreta},
+	            {letra: alternatives[1], correta:bCorreta},
+	            {letra: alternatives[2], correta:cCorreta},
+	            {letra: alternatives[3], correta:dCorreta}
+	        ],
+	        questao: questionId	
+    	};
 
-	function insertAlternative(alternative){
-		Alternative.insertAlternative(alternative, function(err, result){
-			console.log('Alternativa Inserida!');
-		});
+		Alternative.insertAlternative(alternativeList, 
+			function(err, result){
+				console.log('Alternativa Inserida!');
+			},
+			function(err, result){
+				console.log('Alternativa não foi inserida!');
+			}
+		);
 	}
 })();
