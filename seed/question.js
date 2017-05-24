@@ -31,6 +31,8 @@ module.exports = (function () {
 		        if (!err) {
 		        	console.log('Question insert successfully!');
 		        	getIdQuestion(question.question);
+		        }else{
+		        	console.log(err);
 		        }
 		    });
 		}
