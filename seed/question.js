@@ -59,35 +59,11 @@ module.exports = (function () {
 
 	function getIdQuestion(question, callback){
 		Question.getIdQuestion(question, function(err, result){
-			// generateAlternatives(result.rows[0].id).forEach(function(alt){
-			// 	insertAlternative(alt);
-			// });
 			insertAlternative(result.rows[0].id);
 		});
 	}
-
-	// function generateAlternatives(questionId){
-	// 	var array = new Array();
-	// 	for(var i = 0; i < 4; i++){
-	// 		array.push(new Alternative(
-	// 			alternatives[i],
-	// 			true,
-	// 			questionId
-	// 		));
-	// 	}
-	// 	return array;
-	// }
 	
 	function insertAlternative(questionId){
-		 //  {
-    //     "alternativas": [
-    //         {"letra": "letra A", "correta":false},
-    //         {"letra": "letra B", "correta":true},
-    //         {"letra": "letra C", "correta":false},
-    //         {"letra": "letra D", "correta":false}
-    //     ],
-    //     "questao": 3017
-    // }
     	var indexCorrect = Math.floor(Math.random() * 4);
     	var aCorreta, bCorreta, cCorreta, dCorreta;
     	aCorreta = (indexCorrect == 0) ? true : false;
