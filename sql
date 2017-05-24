@@ -9,7 +9,7 @@ CREATE TABLE usuario (
 create table questao(
     id serial primary key,
     status varchar(7) not null,
-    vezesApareceu int not null,
+    vezesApareceu int,
     area varchar(50) not null,
     feedback varchar(300) not null,
     pergunta varchar(300) not null
@@ -26,7 +26,8 @@ create table alternativas(
 create table simulado(
     id serial primary key,
     usuario varchar(50) not null,
-    tempoExecucao time default '0:0',
+    tempoExecucao real default '0',
+    titulo varchar(50) not null,
     foreign key(usuario) references usuario(username) on delete cascade
 );
 

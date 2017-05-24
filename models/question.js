@@ -51,7 +51,6 @@ function listQuestions(callback){
 
 // Update Question
 function updateQuestion(question, callback){
-	console.log(question);
 	database.query(
 		'UPDATE questao set status = $1, vezesapareceu = $2, area = $3, feedback = $4, pergunta = $5 WHERE id = $6',
 		[question.status, question.timesAppeared, question.area, question.feedback, question.question, question.id], 
