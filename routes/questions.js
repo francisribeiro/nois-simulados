@@ -143,3 +143,14 @@ router.get('/q-l-id', function (req, res, next) {
         }
     });
 });
+
+// Get number of questions
+router.get('/q-c', function (req, res, next) {
+    Question.countQuestions(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions!', null));
+        else {
+            let numberOfQuestions = result.rows[0];
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions Successfully!', numberOfQuestions));
+        }
+    });
+});

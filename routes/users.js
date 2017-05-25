@@ -57,4 +57,15 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
     res.json(WrappedResponse.generateResponse(200, 'success', 'Get Profile Successfully!', { user: req.user.rows[0] }));
 });
 
+// Get number of useres
+router.get('/u-c', function (req, res, next) {
+    User.countUsers(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count users!', null));
+        else {
+            let numberOfUsers = result.rows[0];
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Count Users Successfully!', numberOfUsers));
+        }
+    });
+});
+
 module.exports = router;

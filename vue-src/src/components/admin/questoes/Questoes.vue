@@ -9,7 +9,7 @@
     
                     <div class="col-md-2">
                         <div class="dropdown create">
-                            <router-link type="button" to="/questoes/add" class="btn btn-primary dropdown-toggle">Inserir Nova Questão</router-link>
+                            <router-link type="button" to="/questoes/add" class="btn btn-danger dropdown-toggle">Inserir Nova Questão</router-link>
                         </div>
                     </div>
                 </div>
@@ -36,27 +36,28 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input class="form-control" type="text" placeholder="Procurar por Questões...">
+                                        <input class="form-control" v-model="filterInput" type="text" placeholder="Procurar por Questões...">
                                     </div>
                                 </div>
                                 <br>
-                                    <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover">
                                     <tbody>
                                         <tr>
                                             <th>Título da Questão</th>
                                             <th>Status</th>
                                             <th></th>
                                         </tr>
-                                        <tr v-for="question in questions">
+                                        <tr v-for="question in filterBy(questions, filterInput)">
                                             <td>{{question.question}}</td>
                                             <td><b>{{question.status}}</b></td>
                                             <td>
+                                                <router-link class="btn btn-success" type="button" v-bind:to="{ path: 'questoes/view/' + question.id }">Visualizar</router-link>
                                                 <router-link class="btn btn-primary" type="button" v-bind:to="{ path: 'questoes/edit/' + question.id }">Editar</router-link>
-                                                <a class="btn btn-danger" type="button" v-on:click="deleteAlternatives(question.id, question)">Apagar</a></td>
+                                                <a class="btn btn-danger" type="button" v-on:click="deleteAlternatives(question.id)">Apagar</a></td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                    
+                                    </tbody>
+                                </table>
+    
                             </div>
                         </div>
                     </div>
@@ -70,10 +71,11 @@
 <script>
     export default {
         name: 'Questoes',
-
+    
         data() {
             return {
-                questions: []
+                questions: [],
+                filterInput: ''
             }
         },
     
@@ -85,25 +87,35 @@
                     console.log('error')
                 })
             },
-
-            deleteAlternatives(questionId){
-                this.$http.delete(`http://localhost:3000/alternatives/a/${questionId}`).then((response)=>{
+    
+            deleteAlternatives(questionId) {
+                this.$http.delete(`http://localhost:3000/alternatives/a/${questionId}`).then((response) => {
                     this.deleteQuestion(questionId)
-                }), error =>{
+                }), error => {
                     console.log('error')
                 }
             },
-
-            deleteQuestion(questionId, question){
-                this.$http.delete(`http://localhost:3000/questions/q/${questionId}`).then((response)=>{
+    
+            deleteQuestion(questionId) {
+                this.$http.delete(`http://localhost:3000/questions/q/${questionId}`).then((response) => {
                     this.$router.push('/questoes')
-                    this.questions.splice(this.questions.indexOf(question, 1))
-                }), error =>{
+                    var index = this.questions.map(e => {
+                        return e.id
+                    }).indexOf(questionId)
+                    this.questions.splice(index, 1)
+                }), error => {
                     console.log('error')
                 }
+            },
+    
+            filterBy(list, value) {
+                value = value.charAt(0).toUpperCase() + value.slice(1);
+                return list.filter(function(question) {
+                    return question.question.indexOf(value) > -1;
+                });
             }
         },
-        
+    
         created() {
             this.getAllQuestions()
         }

@@ -10,8 +10,8 @@
           <div class="col-md-2">
             <div class="dropdown create">
               <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Adicionar Conteúdo
-                              <span class="caret"></span>
-                          </button>
+                                    <span class="caret"></span>
+                                </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <li>
                   <router-link type="button" to="/questoes/add">Adicionar Questões</router-link>
@@ -55,7 +55,7 @@
                 <div class="col-md-3">
                   <div class="well dash-box">
                     <h2>
-                      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 33
+                      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{numberOfQuestions}}
                     </h2>
                     <h4>Questões</h4>
                   </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-3">
                   <div class="well dash-box">
                     <h2>
-                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 2
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{numberOfUsers}}
                     </h2>
                     <h4>Usuários</h4>
                   </div>
@@ -90,11 +90,40 @@
   
   export default {
     name: 'dashboard',
-    data() {
-      return {}
-    },
-    methods: {
   
+    data() {
+      return {
+        numberOfQuestions: null,
+        numberOfUsers: null
+      }
+    },
+  
+    methods: {
+      getNumberOfQuestions() {
+        this.$http.get('http://localhost:3000/questions/q-c').then((response) => {
+          this.numberOfQuestions = response.data.data.count
+        }, error => {
+          console.log('error')
+        })
+      },
+  
+      getNumberOfUsers() {
+        this.$http.get('http://localhost:3000/users/u-c').then((response) => {
+          this.numberOfUsers = response.data.data.count
+        }, error => {
+          console.log('error')
+        })
+      }
+    },
+  
+    created() {
+      this.getNumberOfQuestions()
+      this.getNumberOfUsers()
+    },
+  
+    updated() {
+      this.getNumberOfQuestions()
+      this.getNumberOfUsers()
     }
   }
 </script>

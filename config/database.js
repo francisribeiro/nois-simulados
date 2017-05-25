@@ -21,7 +21,7 @@ pool.on('error', function (err, client) {
 
 // A query para passar queries para o pool 
 module.exports.query = function (text, values, callback) {
-    console.log('query: ', text, values);
+    //console.log('query: ', text, values);
     if(values == null || values == '') pool.query(text, callback);
     else return pool.query(text, values, callback);
 };

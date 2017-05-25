@@ -4,7 +4,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Register from './components/Register'
 
-//Admin files
+// Admin files
 import Profile from './components/admin/Profile'
 import Dashboard from './components/admin/Dashboard'
 import Sidebar from './components/admin/Sidebar'
@@ -13,6 +13,7 @@ import AddQuestoes from './components/admin/questoes/AddQuestoes'
 import AddAlternativas from './components/admin/questoes/AddAlternativas'
 import EditQuestoes from './components/admin/questoes/EditQuestoes'
 import EditAlternativas from './components/admin/questoes/EditAlternativas'
+import ViewQuestoes from './components/admin/questoes/ViewQuestoes'
 
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -30,53 +31,19 @@ auth.checkAuth()
 // App Routes
 const router = new VueRouter({
   mode: 'history',
-  routes: [{
-      path: '/home',
-      component: Home
-    },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/register',
-      component: Register
-    },
-    {
-      path: '/dashboard',
-      component: Dashboard,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/profile',
-      component: Profile
-    },
-    {
-      path: '*',
-      redirect: '/home'
-    },
-    {
-      path: '/questoes',
-      component: Questoes
-    },
-    {
-      path: '/questoes/add',
-      component: AddQuestoes
-    },
-    {
-      path: '/alternativas/add',
-      component: AddAlternativas
-    },
-    {
-      path: '/questoes/edit/:id',
-      component: EditQuestoes
-    },
-    {
-      path: '/alternativas/edit/:id',
-      component: EditAlternativas
-    }
+  routes: [
+    {path: '/home', component: Home},
+    {path: '/login', component: Login},
+    {path: '/register', component: Register},
+    {path: '*', redirect: '/home'},
+    {path: '/dashboard', component: Dashboard, meta: {requiresAuth: true}},
+    {path: '/profile', component: Profile, meta: {requiresAuth: true}},
+    {path: '/questoes', component: Questoes, meta: {requiresAuth: true}},
+    {path: '/questoes/add', component: AddQuestoes, meta: {requiresAuth: true}},
+    {path: '/alternativas/add', component: AddAlternativas, meta: {requiresAuth: true}},
+    {path: '/questoes/edit/:id', component: EditQuestoes, meta: {requiresAuth: true}},
+    {path: '/alternativas/edit/:id', component: EditAlternativas, meta: {requiresAuth: true}},
+    {path: '/questoes/view/:id', component: ViewQuestoes, meta: {requiresAuth: true}}
   ]
 })
 
