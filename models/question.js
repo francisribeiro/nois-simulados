@@ -59,10 +59,10 @@ function updateQuestion(question, callback){
 }
 
 // Delete Question
-function deleteQuestion(question, callback){
+function deleteQuestion(id, callback){
 	database.query(
-		'DELETE from questao where pergunta = ($1)',
-		[question],
+		'DELETE from questao where id = ($1)',
+		[id],
 		callback
 	);
 }

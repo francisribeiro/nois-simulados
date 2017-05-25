@@ -89,8 +89,8 @@ router.put('/', function (req, res, next) {
 });
 
 // Delete Question
-router.delete('/q/:q', function (req, res, next) {
-    Question.deleteQuestion(req.params.q, function (err, result) {
+router.delete('/q/:id', function (req, res, next) {
+    Question.deleteQuestion(req.params.id, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete question!', null));
         else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Question Successfully!', null));
     });

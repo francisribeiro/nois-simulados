@@ -41,6 +41,7 @@
                                 </div>
                                 <br>
                                     <table class="table table-striped table-hover">
+                                    <tbody>
                                         <tr>
                                             <th>Título da Questão</th>
                                             <th>Status</th>
@@ -51,9 +52,11 @@
                                             <td><b>{{question.status}}</b></td>
                                             <td>
                                                 <router-link class="btn btn-primary" type="button" v-bind:to="{ path: 'questoes/edit/' + question.id }">Editar</router-link>
-                                                <a class="btn btn-danger" type="button">Apagar</a></td>
+                                                <a class="btn btn-danger" type="button" v-on:click="deleteAlternatives(question.id, question)">Apagar</a></td>
                                         </tr>
+                                        </tbody>
                                     </table>
+                                    
                             </div>
                         </div>
                     </div>
@@ -67,6 +70,7 @@
 <script>
     export default {
         name: 'Questoes',
+
         data() {
             return {
                 questions: []
@@ -74,16 +78,34 @@
         },
     
         methods: {
-            getLastQuestion() {
+            getAllQuestions() {
                 this.$http.get('http://localhost:3000/questions/list').then((response) => {
                     this.questions = response.data.data
                 }, error => {
                     console.log('error')
                 })
+            },
+
+            deleteAlternatives(questionId){
+                this.$http.delete(`http://localhost:3000/alternatives/a/${questionId}`).then((response)=>{
+                    this.deleteQuestion(questionId)
+                }), error =>{
+                    console.log('error')
+                }
+            },
+
+            deleteQuestion(questionId, question){
+                this.$http.delete(`http://localhost:3000/questions/q/${questionId}`).then((response)=>{
+                    this.$router.push('/questoes')
+                    this.questions.splice(this.questions.indexOf(question, 1))
+                }), error =>{
+                    console.log('error')
+                }
             }
         },
+        
         created() {
-            this.getLastQuestion()
+            this.getAllQuestions()
         }
     }
 </script>

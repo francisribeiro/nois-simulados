@@ -8,12 +8,6 @@ module.exports = router;
 
 // Insert Alternative
 router.post('/', function(req, res, next){
-    let newAlternative = new Alternative(
-        req.body.id,
-        req.body.alternative,
-        req.body.correct,
-        req.body.questionId
-    );
     // objeto exemplo:
     //  {
     //     "alternativas": [
@@ -95,5 +89,13 @@ router.get('/a/:a/q/:q', function(req, res, next){
         	res.json(WrappedResponse.generateResponse(200, 'success', 
         		'Get ID Alternative Successfully!', data));
         }
+    });
+});
+
+// Delete alternatives
+router.delete('/a/:q', function (req, res, next) {
+    Alternative.deleteAlternative(req.params.q, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete alternatives!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Alternatives Successfully!', null));
     });
 });

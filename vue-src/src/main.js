@@ -12,7 +12,7 @@ import Questoes from './components/admin/questoes/Questoes'
 import AddQuestoes from './components/admin/questoes/AddQuestoes'
 import AddAlternativas from './components/admin/questoes/AddAlternativas'
 import EditQuestoes from './components/admin/questoes/EditQuestoes'
-import EditAlternativas from './components/admin/questoes/EditQuestoes'
+import EditAlternativas from './components/admin/questoes/EditAlternativas'
 
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
