@@ -53,8 +53,86 @@ router.post('/authenticate', (req, res, next) => {
 });
 
 // Perfil
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    res.json(WrappedResponse.generateResponse(200, 'success', 'Get Profile Successfully!', { user: req.user.rows[0] }));
+router.get('/profile', passport.authenticate('jwt', {
+    session: false
+}), (req, res, next) => {
+    res.json(WrappedResponse.generateResponse(200, 'success', 'Get Profile Successfully!', {
+        user: req.user.rows[0]
+    }));
 });
 
+// Get number of users
+router.get('/u-c', function (req, res, next) {
+    User.countUsers(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count users!', null));
+        else {
+            let numberOfUsers = result.rows[0];
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Count Users Successfully!', numberOfUsers));
+        }
+    });
+});
+
+
+// List Users
+router.get('/list', function (req, res, next) {
+    User.listUsers(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at list users!', null));
+        else {
+            let users = new Array();
+            result.rows.forEach(function (u) {
+                users.push(new User(
+                    u.nome,
+                    u.email,
+                    u.username,
+                    u.password,
+                    u.tipo
+                ));
+            });
+            res.json(WrappedResponse.generateResponse(200, 'success', 'List Users Successfully!', users));
+        }
+    });
+});
+
+// Get user
+router.get('/u/:u', function (req, res, next) {
+    User.getUserByUsername(req.params.u, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get user!', null));
+        else {
+            let row = result.rows[0];
+            let user = new User(
+                row.nome,
+                row.email,
+                row.username,
+                row.password,
+                row.tipo
+            );
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get User Successfully!', user));
+        }
+    });
+});
+
+// Delete User
+router.delete('/u/:username', function (req, res, next) {
+    User.deleteUser(req.params.username, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete user!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete User Successfully!', null));
+    });
+});
+
+
+// Update User
+router.put('/', function (req, res, next) {
+    let user = new User(
+        req.body.name,
+        req.body.email,
+        req.body.username,
+        req.body.password,
+        req.body.type
+    );
+
+    User.updateUser(user, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at update user!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Update User Successfully!', user));
+    });
+})
 module.exports = router;

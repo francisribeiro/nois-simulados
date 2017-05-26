@@ -14,6 +14,7 @@ module.exports.listAlternativesByQuestion = listAlternativesByQuestion;
 module.exports.updateAlternative = updateAlternative;
 module.exports.getCorrect = getCorrect;
 module.exports.getId = getId;
+module.exports.deleteAlternative = deleteAlternative;
 
 // Insert Alternative
 function insertAlternative(alternativeList, successCallback, errorCallback){
@@ -76,6 +77,15 @@ function getId(alternative, questionId, callback){
 	database.query(
 		'SELECT id from alternativas where questao = $1 and alternativa = $2',
 		[questionId, alternative],
+		callback
+	);
+}
+
+// Delete Alternatives
+function deleteAlternative(questionId, callback){
+	database.query(
+		'DELETE from alternativas where questao = ($1)',
+		[questionId],
 		callback
 	);
 }

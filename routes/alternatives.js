@@ -91,3 +91,11 @@ router.get('/a/:a/q/:q', function(req, res, next){
         }
     });
 });
+
+// Delete alternatives
+router.delete('/a/:q', function (req, res, next) {
+    Alternative.deleteAlternative(req.params.q, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete alternatives!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Alternatives Successfully!', null));
+    });
+});

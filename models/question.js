@@ -60,10 +60,10 @@ function updateQuestion(question, callback){
 }
 
 // Delete Question
-function deleteQuestion(question, callback){
+function deleteQuestion(id, callback){
 	database.query(
-		'DELETE from questao where pergunta = ($1)',
-		[question],
+		'DELETE from questao where id = ($1)',
+		[id],
 		callback
 	);
 }
@@ -98,7 +98,7 @@ function getIdQuestion(question, callback){
 // Get last ID Question
 function getLastIdQuestion(callback){
 	database.query(
-		'SELECT max(id) from questao',
+		'SELECT * from questao where id = (select max(id) from questao)',
 		'',
 		callback
 	);	

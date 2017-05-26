@@ -89,8 +89,8 @@ router.put('/', function (req, res, next) {
 });
 
 // Delete Question
-router.delete('/q/:q', function (req, res, next) {
-    Question.deleteQuestion(req.params.q, function (err, result) {
+router.delete('/q/:id', function (req, res, next) {
+    Question.deleteQuestion(req.params.id, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete question!', null));
         else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Question Successfully!', null));
     });
@@ -142,6 +142,37 @@ router.get('/area/:a', function(req, res, next){
                 ));
             });
             res.json(WrappedResponse.generateResponse(200, 'success', 'Get Questions by Area Successfully!', questions));
+        }
+    });
+});
+
+// Get last ID question
+router.get('/q-l-id', function (req, res, next) {
+    Question.getLastIdQuestion(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get question ID!', null));
+        else {
+            let row = result.rows[0];
+            let question = new Question(
+                row.id,
+                row.status,
+                row.vezesapareceu,
+                row.area,
+                row.feedback,
+                row.pergunta
+            );
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Question ID Successfully!', question));
+        }
+    });
+});
+
+// Get number of questions
+router.get('/q-c', function (req, res, next) {
+    Question.countQuestions(function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions!', null));
+        else {
+            let numberOfQuestions = result.rows[0];
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions Successfully!', numberOfQuestions));
+
         }
     });
 });
