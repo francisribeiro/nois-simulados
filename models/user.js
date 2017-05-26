@@ -32,35 +32,50 @@ module.exports.addUser = (function (newUser, callback) {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            database.query('INSERT INTO usuario(nome, email, username, password, tipo) values($1, $2, $3, $4, $5)', 
-            [newUser.name, newUser.email, newUser.username, newUser.password, newUser.type], callback);
+            database.query('INSERT INTO usuario(nome, email, username, password, tipo) values($1, $2, $3, $4, $5)', [newUser.name, newUser.email, newUser.username, newUser.password, newUser.type], callback);
         });
     });
 });
 
 // Count users
-module.exports.countUsers = (function(callback){
+module.exports.countUsers = (function (callback) {
     database.query(
         'SELECT count(*) from usuario',
         '',
         callback
-    );  
+    );
 });
 
 // Count users by Type
-module.exports.countUsersByType = (function(type, callback){
+module.exports.countUsersByType = (function (type, callback) {
     database.query(
-        'SELECT count(*) from usuario where tipo = $1',
-        [type],
+        'SELECT count(*) from usuario where tipo = $1', [type],
         callback
     );
 });
 
 // List Users
-module.exports.listUsers = (function(callback){
+module.exports.listUsers = (function (callback) {
+    database.query(
+        'SELECT * from usuario',
+        '',
+        callback
+    );
+});
+
+// Delete User
+module.exports.deleteUser = (function (username, callback) {
+    database.query(
+        'DELETE from usuario where username = ($1)', [username],
+        callback
+    );
+});
+
+    // Update User
+module.exports.updateUser = (function(user, callback){
 	database.query(
-		'SELECT * from usuario',
-		'',
+		'UPDATE usuario set nome = $1, email = $2 WHERE username = $3',
+		[user.name, user.email, user.username], 
 		callback
-	);	
+	);
 });

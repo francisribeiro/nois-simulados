@@ -110,4 +110,29 @@ router.get('/u/:u', function (req, res, next) {
         }
     });
 });
+
+// Delete User
+router.delete('/u/:username', function (req, res, next) {
+    User.deleteUser(req.params.username, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete user!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete User Successfully!', null));
+    });
+});
+
+
+// Update User
+router.put('/', function (req, res, next) {
+    let user = new User(
+        req.body.name,
+        req.body.email,
+        req.body.username,
+        req.body.password,
+        req.body.type
+    );
+
+    User.updateUser(user, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at update user!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Update User Successfully!', user));
+    });
+})
 module.exports = router;

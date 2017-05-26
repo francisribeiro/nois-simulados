@@ -20,6 +20,7 @@ import ViewQuestoes from './components/admin/questoes/ViewQuestoes'
 // Users
 import Usuarios from './components/admin/usuarios/Usuarios'
 import ViewUsuarios from './components/admin/usuarios/ViewUsuarios'
+import EditUsuarios from './components/admin/usuarios/EditUsuarios'
 
 // Sweet Alert
 import VueSweetAlert from 'vue-sweetalert'
@@ -34,7 +35,7 @@ Vue.use(VueSweetAlert)
 
 import auth from './auth'
 
-Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
+Vue.http.headers.common['Authorization'] = localStorage.getItem('id_token');
 
 // Check the user's auth status when the app starts
 auth.checkAuth()
@@ -56,7 +57,8 @@ const router = new VueRouter({
     {path: '/alternativas/edit/:id', component: EditAlternativas, meta: {requiresAuth: true}},
     {path: '/questoes/view/:id', component: ViewQuestoes, meta: {requiresAuth: true}},
     {path: '/usuarios', component: Usuarios, meta: {requiresAuth: true}},
-    {path: '/usuarios/view/:username', component: ViewUsuarios, meta: {requiresAuth: true}}
+    {path: '/usuarios/view/:username', component: ViewUsuarios, meta: {requiresAuth: true}},
+    {path: '/profile/edit/:username', component: EditUsuarios, meta: {requiresAuth: true}}
   ]
 })
 

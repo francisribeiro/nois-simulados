@@ -45,7 +45,7 @@
                                             <td>{{user.name}}</td>
                                             <td><b>{{user.type}}</b></td>
                                             <td>
-                                                <router-link class="btn btn-success" type="button" v-bind:to="{ path: 'usuarios/view/' + user.username }">Visualizar</router-link>
+                                                <router-link class="btn btn-success btn-sm" type="button" v-bind:to="{ path: 'usuarios/view/' + user.username }">Visualizar</router-link>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -83,7 +83,7 @@
             filterBy(list, value) {
                 value = value.toLowerCase()
                 return list.filter(function(user) {
-                    return user.name.indexOf(value) > -1;
+                    return user.name.toLowerCase().indexOf(value) > -1;
                 });
             }
         },
