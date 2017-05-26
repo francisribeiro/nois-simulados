@@ -45,15 +45,16 @@
                                         <tr>
                                             <th>Título da Questão</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>Opções</th>
                                         </tr>
-                                        <tr v-for="question in filterBy(questions, filterInput)">
+                                        <tr valign="middle" v-for="question in filterBy(questions, filterInput)">
                                             <td>{{question.question}}</td>
-                                            <td><b>{{question.status}}</b></td>
+                                            <td v-bind:class="{ 'ativa': question.status == 'ativa', 'inativa': question.status == 'inativa'}"><b>{{question.status | uppercase}}</b></td>
+                                                 
                                             <td>
-                                                <router-link class="btn btn-success" type="button" v-bind:to="{ path: 'questoes/view/' + question.id }">Visualizar</router-link>
-                                                <router-link class="btn btn-primary" type="button" v-bind:to="{ path: 'questoes/edit/' + question.id }">Editar</router-link>
-                                                <a class="btn btn-danger" type="button" v-on:click="deleteAlternatives(question.id)">Apagar</a></td>
+                                                <router-link class=" btn btn-success btn-sm" type="button " v-bind:to="{ path: 'questoes/view/' + question.id } ">Visualizar</router-link>
+                                                <router-link class="btn btn-primary btn-sm" type="button " v-bind:to="{ path: 'questoes/edit/' + question.id } ">Editar</router-link>
+                                                <a class="btn btn-danger btn-sm" type="button " v-on:click="confirmMsg(question.id) ">Apagar</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -98,7 +99,6 @@
     
             deleteQuestion(questionId) {
                 this.$http.delete(`http://localhost:3000/questions/q/${questionId}`).then((response) => {
-                    this.$router.push('/questoes')
                     var index = this.questions.map(e => {
                         return e.id
                     }).indexOf(questionId)
@@ -109,15 +109,44 @@
             },
     
             filterBy(list, value) {
-                value = value.charAt(0).toUpperCase() + value.slice(1);
+                value = value.toLowerCase()
                 return list.filter(function(question) {
-                    return question.question.indexOf(value) > -1;
+                    return question.question.toLowerCase().indexOf(value) > -1;
                 });
-            }
+            },
+    
+            confirmMsg(questionId) {
+                this.$swal({
+                    title: 'Você tem certeza?',
+                    text: "Você não poderá reverter isso!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, exclua isso!'
+                }).then(() => {
+                    this.deleteAlternatives(questionId)
+                    this.$swal(
+                        'Excluída!',
+                        'Sua Questão foi apagada!',
+                        'success'
+                    )
+                })
+            },
         },
     
         created() {
             this.getAllQuestions()
+        },
+
+        updated() {
+            this.getAllQuestions()
+        },
+
+        filters: {
+            uppercase(string){
+                return string.toUpperCase()
+            }
         }
     }
 </script>

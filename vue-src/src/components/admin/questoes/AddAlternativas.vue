@@ -45,14 +45,14 @@
                 <label for="answer" class="col-lg-2 control-label">Resposta</label>
                 <div class="col-lg-10">
                     <span v-for="opt in options">
-                                 <input type="radio" name="radiogroup" v-model="picked" v-bind:value="opt.id" >
-                                    {{ opt.name }}
-                            </span>
+                                             <input type="radio" name="radiogroup" v-model="picked" v-bind:value="opt.id" >
+                                                {{ opt.name }}
+                                        </span>
                 </div>
     
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-lg btn-primary" value="Submit">Finalizar Cadastro</button>
+                    <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
+                    <button type="submit" class="btn btn-primary" value="Submit">Finalizar Cadastro</button>
                 </div>
             </fieldset>
         </form>
@@ -63,7 +63,7 @@
 <script>
     export default {
         name: 'AddAlternativas',
-
+    
         data() {
             return {
                 question: [],
@@ -105,20 +105,26 @@
                 ]
             }
         },
-
+    
         methods: {
             addAlternatives() {
                 this.alternativas[this.picked].correta = true
                 this.$http.post('http://localhost:3000/alternatives', {
                     alternativas: this.alternativas,
                     questao: this.questao
-                }).then(response => {}, error => {
+                }).then(response => {
+                    this.$router.push('/questoes')
+                    this.$swal({
+                        title: 'Sucesso!',
+                        text: 'A Questão foi Cadastrada!',
+                        timer: 3000,
+                        type: 'success'
+                    })
+                }, error => {
                     console.log('error')
-                }).finally(function() {
-                    this.$router.push('/dashboard')
                 })
             },
-
+    
             getLastQuestion() {
                 this.$http.get('http://localhost:3000/questions/q-l-id').then((response) => {
                     this.question = response.data.data
@@ -128,7 +134,7 @@
                 });
             }
         },
-        
+    
         created() {
             this.getLastQuestion()
         }

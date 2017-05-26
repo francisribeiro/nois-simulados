@@ -71,7 +71,7 @@
                 <div class="col-md-3">
                   <div class="well dash-box">
                     <h2>
-                      <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> 12,007
+                      <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> 12
                     </h2>
                     <h4>Relatórios</h4>
                   </div>

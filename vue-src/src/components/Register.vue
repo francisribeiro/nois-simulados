@@ -30,9 +30,9 @@
           <label for="inputTipo" class="col-lg-2 control-label">Tipo</label>
           <div class="col-lg-10">
             <select class="form-control" id="inputTipo" required v-model="selected" name="type" required>
-                                  <option value="" disabled hidden>Escolha uma opção...</option>
-                                  <option v-for="type in types" v-bind:value="type.id">{{type.name}}</option>
-                              </select>
+                                      <option value="" disabled hidden>Escolha uma opção...</option>
+                                      <option v-for="type in types" v-bind:value="type.id">{{type.name}}</option>
+                                  </select>
           </div>
   
           <div class="col-lg-10 col-lg-offset-2">
@@ -79,7 +79,13 @@
   
         this.$http.post('http://localhost:3000/users/register', user).then(response => {
           this.$router.push('/login')
-        }, response => {
+          this.$swal({
+            title: 'Sucesso!',
+            text: 'Você foi Registrado! Agora faça login!',
+            timer: 3000,
+            type: 'success'
+          })
+        }, error => {
           console.log('error')
         });
       }

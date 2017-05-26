@@ -8,6 +8,8 @@ import Register from './components/Register'
 import Profile from './components/admin/Profile'
 import Dashboard from './components/admin/Dashboard'
 import Sidebar from './components/admin/Sidebar'
+
+// Questions
 import Questoes from './components/admin/questoes/Questoes'
 import AddQuestoes from './components/admin/questoes/AddQuestoes'
 import AddAlternativas from './components/admin/questoes/AddAlternativas'
@@ -15,11 +17,20 @@ import EditQuestoes from './components/admin/questoes/EditQuestoes'
 import EditAlternativas from './components/admin/questoes/EditAlternativas'
 import ViewQuestoes from './components/admin/questoes/ViewQuestoes'
 
+// Users
+import Usuarios from './components/admin/usuarios/Usuarios'
+import ViewUsuarios from './components/admin/usuarios/ViewUsuarios'
+
+// Sweet Alert
+import VueSweetAlert from 'vue-sweetalert'
+
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
+// Uses
 Vue.use(VueResource)
 Vue.use(VueRouter)
+Vue.use(VueSweetAlert)
 
 import auth from './auth'
 
@@ -43,10 +54,11 @@ const router = new VueRouter({
     {path: '/alternativas/add', component: AddAlternativas, meta: {requiresAuth: true}},
     {path: '/questoes/edit/:id', component: EditQuestoes, meta: {requiresAuth: true}},
     {path: '/alternativas/edit/:id', component: EditAlternativas, meta: {requiresAuth: true}},
-    {path: '/questoes/view/:id', component: ViewQuestoes, meta: {requiresAuth: true}}
+    {path: '/questoes/view/:id', component: ViewQuestoes, meta: {requiresAuth: true}},
+    {path: '/usuarios', component: Usuarios, meta: {requiresAuth: true}},
+    {path: '/usuarios/view/:username', component: ViewUsuarios, meta: {requiresAuth: true}}
   ]
 })
-
 
 // Components register
 Vue.component('sidebar', Sidebar);

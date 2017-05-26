@@ -1,5 +1,5 @@
 <template>
-    <div class="Profile">
+    <div class="Usuarios">
         <header id="header">
             <div class="container">
                 <div class="row">
@@ -62,7 +62,7 @@
 
 <script>
     export default {
-        name: 'Profile',
+        name: 'Usuarios',
     
         data() {
             return {

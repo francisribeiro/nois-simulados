@@ -45,8 +45,8 @@
                 </div>
         
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-lg btn-primary" value="Submit">Continuar Cadastro</button>
+                    <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
+                    <button type="submit" class="btn btn-primary" value="Submit">Continuar Cadastro</button>
                 </div>
             </fieldset>
         </form>

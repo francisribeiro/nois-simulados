@@ -19,7 +19,7 @@
                 </router-link>
                 <router-link type="button" to="/relatorios" class="list-group-item">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Relatórios
-                    <span class="badge">12007</span>
+                    <span class="badge">12</span>
                 </router-link>
             </div>
         </div>

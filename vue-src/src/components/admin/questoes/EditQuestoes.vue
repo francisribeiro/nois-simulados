@@ -45,8 +45,9 @@
                 </div>
     
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-lg btn-primary" value="Submit">Continuar Edição</button>
+                    <button v-on:click="goBack" class="btn btn-success">Voltar</button>
+                    <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
+                    <button type="submit" class="btn btn-primary" value="Submit">Continuar Edição</button>
                 </div>
             </fieldset>
         </form>
@@ -65,7 +66,8 @@
                 options: [
                     {id: 'ativa', name: 'Ativa'},
                     {id: 'inativa', name: 'Inativa'}
-                ]
+                ],
+                aux:true
             }
         },
 
@@ -80,10 +82,16 @@
 
             updateQuestion() {
                 this.$http.put('http://localhost:3000/questions/', this.question).then((response) => {
-                    this.$router.push(`/alternativas/edit/${this.question.id}`)
+                    if(this.aux)
+                        this.$router.push(`/alternativas/edit/${this.question.id}`)
                 }, error => {
                     console.log('error')
                 })
+            },
+
+            goBack(){
+                this.aux = false
+                this.$router.push('/questoes')
             }
         },
 

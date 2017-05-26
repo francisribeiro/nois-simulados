@@ -55,3 +55,12 @@ module.exports.countUsersByType = (function(type, callback){
         callback
     );
 });
+
+// List Users
+module.exports.listUsers = (function(callback){
+	database.query(
+		'SELECT * from usuario',
+		'',
+		callback
+	);	
+});

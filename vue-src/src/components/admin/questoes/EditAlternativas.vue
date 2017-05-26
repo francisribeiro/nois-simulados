@@ -45,14 +45,14 @@
                 <label for="answer" class="col-lg-2 control-label">Resposta</label>
                 <div class="col-lg-10">
                     <span v-for="opt in options">
-                                             <input type="radio" name="radiogroup" v-model="picked" v-bind:value="opt.id" >
-                                                {{ opt.name }}
-                                        </span>
+                                                     <input type="radio" name="radiogroup" v-model="picked" v-bind:value="opt.id" >
+                                                        {{ opt.name }}
+                                                </span>
                 </div>
     
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-lg btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-lg btn-primary" value="Submit">Finalizar Edição</button>
+                    <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
+                    <button type="submit" class="btn btn-primary" value="Submit">Finalizar Edição</button>
                 </div>
             </fieldset>
         </form>
@@ -92,7 +92,7 @@
         methods: {
             updateAlternatives() {
                 var count = 0;
-
+    
                 this.alternativas.forEach((a) => {
                     if (this.picked == count)
                         a.correct = true
@@ -103,14 +103,21 @@
                         alternative: a.alternative,
                         correct: a.correct,
                         questionId: a.questionId
-                    }).then(response => {}, error => {
+                    }).then(response => {
+                        this.$swal({
+                            title: 'Sucesso!',
+                            text: 'Sua Questão foi Atualizada!',
+                            timer: 3000,
+                            type: 'success'
+                        })
+                    }, error => {
                         console.log('error')
                     })
                     count++;
                 })
     
                 if (count == 4)
-                    this.$router.push('/dashboard')
+                    this.$router.push('/questoes')
             },
     
             getQuestion() {
