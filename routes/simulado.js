@@ -1,5 +1,6 @@
 const express = require('express');
 const Simulado = require('../models/simulado');
+const Question = require('../models/question');
 const WrappedResponse = require('../models/wrappedResponse');
 const database = require('../config/database');
 const router = express.Router();
@@ -7,7 +8,7 @@ const router = express.Router();
 module.exports = router;
 
 // Insert Simulado
-router.post('/', function (req, res, next) {
+router.post('/area/:a/limite/:l', function (req, res, next) {
     let executionTime = '0';
 
     let novoSimulado = new Simulado(
@@ -22,15 +23,40 @@ router.post('/', function (req, res, next) {
         else {
             Simulado.getLastIdSimulado(function (error, data) {
                 if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at insert simulado!', null));
-                else
-                    res.json(WrappedResponse.generateResponse(200, 'success',
-                        'Insert Simulado Successfully!', {
-                            id: data.rows[0].max
-                        }));
+                else {
+                    var area = req.params.a;
+                    var limite = req.params.l;
+                    var id = data.rows[0].max;
+
+                    getQuestoes(area, limite, id, res);
+                }
             });
         }
     });
 });
+
+function getQuestoes(area, limite, id, res){
+    Question.getQuestionsByArea(area, function(err, result){
+        var obj = [];
+        obj.push({id: id});
+        obj.push({questoes: getUnique(result.rows, limite)});
+        res.json(WrappedResponse.generateResponse(200, 'success',
+                        'Insert Simulado Successfully!', obj));
+    });
+}
+
+function getUnique(array, count) {
+    var tmp = array.slice(array);
+    var questoes = [];
+
+    for (var i = 0; i < count; i++) {
+        var index = Math.floor(Math.random() * tmp.length);
+        var removed = tmp.splice(index, 1);
+        
+        questoes.push(removed[0].id);
+    }
+    return questoes;
+}
 
 // Get Simulado
 router.get('/usuario/:u/titulo/:t', function (req, res, next) {
