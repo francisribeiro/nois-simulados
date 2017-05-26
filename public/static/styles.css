@@ -73,6 +73,9 @@ textarea {
   margin-bottom: 10px;
 }
 
+.form-signin button{
+  font-size: 16px !important;
+}
 
 /* Register */
 
@@ -80,33 +83,41 @@ textarea {
   max-width: 830px !important;
 }
 
-.form-signin button,
-select,
-textarea {
-  margin-bottom: 10px;
-}
-
 .form-signin span {
   display: block;
   padding-bottom: 10px;
 }
 
+.valign{
+  padding-top:5px; 
+}
 
 /* Custom */
 
+.badge{
+  background-color: #d9534f;
+}
+
+.ativa{
+  color:#93c54b;
+}
+
+.inativa{
+  color:#d9534f;
+}
+
 .main-color-bg {
-  background-color:#3e3f3a !important;
+  background-color: #3e3f3a !important;
   border-color: #3e3f3a !important;
   color: #ffffff !important;
 }
 
-.panel-title{
+.panel-title {
   color: #ffffff !important;
   font-size: 14px !important;
   padding-top: 5px;
   padding-bottom: 5px;
 }
-
 
 #header .create {
   padding-top: 20px;
@@ -123,6 +134,7 @@ textarea {
 .breadcrumb a {
   color: #000;
 }
+
 
 /* Painel*/
 
