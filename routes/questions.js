@@ -124,3 +124,24 @@ router.get('/q-s/:id', function (req, res, next) {
         }
     });
 });
+
+// Get Questions by Area
+router.get('/area/:a', function(req, res, next){
+    Question.getQuestionsByArea(req.params.a, function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get questions by area!', null));
+        else {
+            let questions = new Array();
+            result.rows.forEach(function (q) {
+                questions.push(new Question(
+                    q.id,
+                    q.status,
+                    q.vezesapareceu,
+                    q.area,
+                    q.feedback,
+                    q.pergunta
+                ));
+            });
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Questions by Area Successfully!', questions));
+        }
+    });
+});

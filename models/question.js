@@ -21,6 +21,7 @@ module.exports.countQuestionsByArea = countQuestionsByArea;
 module.exports.getIdQuestion = getIdQuestion;
 module.exports.getLastIdQuestion = getLastIdQuestion;
 module.exports.getQuestionById = getQuestionById;
+module.exports.getQuestionsByArea = getQuestionsByArea;
 
 // Insert Question
 function insertQuestion(question, callback){
@@ -108,6 +109,15 @@ function getQuestionById(id, callback){
 	database.query(
 		'SELECT * from questao where id = ($1)',
 		[id],
+		callback
+	);
+}
+
+// Get Questions by Area
+function getQuestionsByArea(area, callback){
+	database.query(
+		'SELECT * from questao where area = ($1)',
+		[area],
 		callback
 	);
 }
