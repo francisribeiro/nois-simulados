@@ -158,3 +158,11 @@ router.get('/:id', function(req, res, next){
         }
     });
 });
+
+// Delete User
+router.delete('/:id', function (req, res, next) {
+    Simulado.deleteSimulado(req.params.id, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete simulado!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Simulado Successfully!', null));
+    });
+});

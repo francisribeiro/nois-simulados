@@ -80,3 +80,11 @@ function getSimuladoByID(id, callback){
 		callback
 	);
 }
+
+// Delete Simulado
+module.exports.deleteSimulado = (function (id, callback) {
+    database.query(
+        'DELETE from simulado where id = ($1)', [id],
+        callback
+    );
+});
