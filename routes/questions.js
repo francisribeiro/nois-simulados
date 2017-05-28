@@ -172,7 +172,44 @@ router.get('/q-c', function (req, res, next) {
         else {
             let numberOfQuestions = result.rows[0];
             res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions Successfully!', numberOfQuestions));
+        }
+    });
+});
 
+// List Area
+router.get('/list-area', function(req, res, next){
+    Question.listArea(function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions!', null));
+        else {
+            var areas = new Array();
+            result.rows.forEach(function(a){
+                areas.push(a.area);
+            });
+            res.json(WrappedResponse.generateResponse(200, 'success', 'List Areas Successfully!', areas));
+        }
+    });
+});
+
+// Get Pergunta
+router.get('/pergunta/:id', function(req, res, next){
+    Question.getPergunta(req.params.id, function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get pergunta!', null));
+        else {
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Pergunta Successfully!', result.rows[0].pergunta));
+        }
+    });
+});
+
+// Count Questions by Area
+router.get('/count-questions-area/:area', function(req, res, next){
+    Question.countQuestionsByArea(req.params.area, function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions by area!', null));
+        else {
+            let countArea = {
+                area: req.params.area,
+                count: result.rows[0].count
+            }
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions by Area Successfully!', countArea));
         }
     });
 });

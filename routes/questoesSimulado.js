@@ -15,15 +15,20 @@ router.post('/', function (req, res, next) {
         questoes: req.body.questoes
     };
 
-    QuestoesSimulado.insertQuestaoSimulado(informacoes, function(){
-        res.json(WrappedResponse.generateResponse(200, 'success', 'Insert Question Simulado Successfully!', ''));
+    QuestoesSimulado.insertQuestaoSimulado(informacoes, function(err, result){
+        if(err)
+        	res.json(WrappedResponse.generateResponse(400, 'error', 'Error at Question Simulado Successfully!', ''));
+        else
+        	res.json(WrappedResponse.generateResponse(200, 'success', 'Insert Question Simulado Successfully!', ''));
     });
 });
 
-
-// clicou em simulado abre a página para colocar o título e a área do simulado
-
-// abre uma tela mostrando a quantidade de questões daquela área 
-    // e o usuário escolhe a quantidade de questões para seu simulado(definir opções de quantidade)
-
-// começa o simulado
+// Count Questões de um Simulado
+router.get('/simulado/:id', function(req, res, next){
+	QuestoesSimulado.countQuestionsSimulado(req.params.id, function(err, result){
+		if(err)
+        	res.json(WrappedResponse.generateResponse(400, 'error', 'Error at Count Question Simulado Successfully!', ''));
+        else
+        	res.json(WrappedResponse.generateResponse(200, 'success', 'Count Question Simulado Successfully!', result.rows[0].count));	
+	});
+});

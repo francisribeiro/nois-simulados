@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './components/App'
+import store from './store'
 import Login from './components/Login'
 import Home from './components/Home'
 import Register from './components/Register'
@@ -21,6 +22,12 @@ import ViewQuestoes from './components/admin/questoes/ViewQuestoes'
 import Usuarios from './components/admin/usuarios/Usuarios'
 import ViewUsuarios from './components/admin/usuarios/ViewUsuarios'
 import EditUsuarios from './components/admin/usuarios/EditUsuarios'
+
+// Simulados
+import AddSimulados from './components/admin/simulados/AddSimulados'
+import IniciarSimulado from './components/admin/simulados/IniciarSimulado'
+import Simulados from './components/admin/simulados/Simulados'
+import ViewSimulados from './components/admin/simulados/ViewSimulados'
 
 // Sweet Alert
 import VueSweetAlert from 'vue-sweetalert'
@@ -58,7 +65,11 @@ const router = new VueRouter({
     {path: '/questoes/view/:id', component: ViewQuestoes, meta: {requiresAuth: true}},
     {path: '/usuarios', component: Usuarios, meta: {requiresAuth: true}},
     {path: '/usuarios/view/:username', component: ViewUsuarios, meta: {requiresAuth: true}},
-    {path: '/profile/edit/:username', component: EditUsuarios, meta: {requiresAuth: true}}
+    {path: '/profile/edit/:username', component: EditUsuarios, meta: {requiresAuth: true}},
+    {path: '/simulados', component: Simulados, meta: {requiresAuth: true}},
+    {path: '/simulados/add', component: AddSimulados, meta: {requiresAuth: true}},
+    {path: '/simulados/iniciar', component: IniciarSimulado, meta: {requiresAuth: true}},
+    {path: '/simulados/view/:id', component: ViewSimulados, meta: {requiresAuth: true}}
   ]
 })
 
@@ -79,5 +90,6 @@ router.beforeEach((to, from, next) => {
 // App Register
 const app = new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app');

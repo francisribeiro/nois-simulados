@@ -1,5 +1,6 @@
 const express = require('express');
 const Alternative = require('../models/alternative');
+const QuestoesSimulado = require('../models/questoesSimulado');
 const WrappedResponse = require('../models/wrappedResponse');
 const database = require('../config/database');
 const router = express.Router();
@@ -99,3 +100,22 @@ router.delete('/a/:q', function (req, res, next) {
         else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Alternatives Successfully!', null));
     });
 });
+
+// Get Alternatives per Simulado and Question
+router.get('/simulado/:id', function(req, res, next){
+    Alternative.getAlternativesSimuladoQuestion(req.params.id, function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get alternatives per simulado!', null));
+        else {
+            var questoes = [];
+            result.rows.forEach(function(q){
+                questoes.push(q.questao);
+            });
+            var obj = {
+                questoes: questoes
+            };
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Alternatives per Simulado Successfully!', obj));  
+        } 
+    });
+    
+});
+

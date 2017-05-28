@@ -21,7 +21,10 @@ module.exports.countQuestionsByArea = countQuestionsByArea;
 module.exports.getIdQuestion = getIdQuestion;
 module.exports.getLastIdQuestion = getLastIdQuestion;
 module.exports.getQuestionById = getQuestionById;
-module.exports.getQuestionsByArea = getQuestionsByArea;
+module.exports.getQuestionsByAreaAtiva = getQuestionsByAreaAtiva;
+module.exports.listArea = listArea;
+module.exports.getPergunta = getPergunta;
+module.exports.getQuestionsSimulado = getQuestionsSimulado;
 
 // Insert Question
 function insertQuestion(question, callback){
@@ -114,10 +117,37 @@ function getQuestionById(id, callback){
 }
 
 // Get Questions by Area
-function getQuestionsByArea(area, callback){
+function getQuestionsByAreaAtiva(area, callback){
 	database.query(
-		'SELECT * from questao where area = ($1)',
-		[area],
+		'SELECT * from questao where area = ($1) and status = ($2)',
+		[area, 'ativa'],
+		callback
+	);
+}
+
+// Get Areas
+function listArea(callback){
+	database.query(
+		'SELECT DISTINCT area FROM questao',
+		'',
+		callback
+	);
+}
+
+// Get Title
+function getPergunta(questionId, callback){
+	database.query(
+		'SELECT pergunta FROM questao WHERE id = ($1)',
+		[questionId],
+		callback
+	);
+}
+
+// Get Questions Simulado
+function getQuestionsSimulado(area, limit, callback){
+	database.query(
+		'SELECT id FROM (SELECT DISTINCT * FROM questao WHERE area = ($1) and status = ($2)) questao ORDER BY RANDOM() LIMIT ($3)',
+		[area, 'ativa', limit],
 		callback
 	);
 }

@@ -12,10 +12,10 @@ const Simulado = module.exports = simuladoSchema;
 module.exports.insertSimulado = insertSimulado;
 module.exports.getSimulado = getSimulado;
 module.exports.listSimulados = listSimulados;
-module.exports.updateSimulado = updateSimulado;
-module.exports.deleteSimulado = deleteSimulado;
 module.exports.getLastIdSimulado = getLastIdSimulado;
 module.exports.getSimuladosByUsuario = getSimuladosByUsuario;
+module.exports.countSimulados = countSimulados;
+module.exports.getSimuladoByID = getSimuladoByID;
 
 // Insert Simulado
 function insertSimulado(simulado, callback){
@@ -44,23 +44,6 @@ function listSimulados(callback){
 	);	
 }
 
-// Update Simulado
-function updateSimulado(simulado, callback){
-	database.query(
-		'UPDATE simulado set tempoExecucao = $1, titulo = $2 WHERE id = $3',
-		[simulado.executionTime, simulado.title, simulado.id], 
-		callback
-	);
-}
-
-// Delete Simulado
-function deleteSimulado(id, callback){
-	database.query(
-		'DELETE from simulado where id = ($1)',
-		[id],
-		callback
-	);
-}
 
 // Get last ID Simulado
 function getLastIdSimulado(callback){
@@ -76,6 +59,24 @@ function getSimuladosByUsuario(usuario, callback){
 	database.query(
 		'SELECT * from simulado where usuario = ($1)',
 		[usuario],
+		callback
+	);
+}
+
+// Count Simulado
+function countSimulados(callback){
+	database.query(
+		'SELECT count(*) from simulado',
+		'',
+		callback
+	);	
+}
+
+// Get Simulado por ID
+function getSimuladoByID(id, callback){
+	database.query(
+		'SELECT * from simulado where id = ($1)',
+		[id],
 		callback
 	);
 }
