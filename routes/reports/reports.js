@@ -29,25 +29,5 @@ router.get('/count-users-type/:type', function(req, res, next){
     });
 });
 
-// Count Questions
-router.get('/count-questions', function(req, res, next){
-    Question.countQuestions(function(err, result){
-        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions!', null));
-        else res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions Successfully!', result.rows[0].count));
-    });
-});
 
-// Count Questions by Area
-router.get('/count-questions-area/:area', function(req, res, next){
-	Question.countQuestionsByArea(req.params.area, function(err, result){
-        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at count questions by area!', null));
-        else {
-        	let countArea = {
-        		area: req.params.area,
-        		count: result.rows[0].count
-        	}
-        	res.json(WrappedResponse.generateResponse(200, 'success', 'Count Questions by Area Successfully!', countArea));
-        }
-    });
-});
 

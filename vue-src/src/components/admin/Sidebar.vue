@@ -7,7 +7,7 @@
                 </router-link>
                 <router-link type="button" to="/simulados" class="list-group-item">
                     <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Simulados
-                    <span class="badge">12</span>
+                    <span class="badge">{{numberOfSimulados}}</span>
                 </router-link>
                 <router-link type="button" to="/questoes" class="list-group-item">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Questões
@@ -33,7 +33,8 @@
         data() {
             return {
                 numberOfQuestions: null,
-                numberOfUsers: null
+                numberOfUsers: null,
+                numberOfSimulados: null
             }
         },
     
@@ -52,18 +53,26 @@
                 }, error => {
                     console.log('error')
                 })
+            },
+            getNumberOfSimulados(){
+                this.$http.get('http://localhost:3000/simulados/s-c').then((response) => {
+                this.numberOfSimulados = response.data.data.count
+                }, error => {
+                console.log('error')
+                })
             }
         },
     
         created() {
             this.getNumberOfQuestions()
             this.getNumberOfUsers()
-    
+            this.getNumberOfSimulados()
         },
     
         updated() {
             this.getNumberOfQuestions()
             this.getNumberOfUsers()
+            this.getNumberOfSimulados()
         }
     }
 </script>

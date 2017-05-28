@@ -8,16 +8,18 @@
     "start": "node app",
     "seed": "node seed.js"
   },
-    "dependencies": {
-        "express": "*",
-        "pg": "*",
-        "bcryptjs": "*",
-        "cors": "*",
-        "jsonwebtoken": "*",
-        "body-parser": "*",
-        "passport": "*",
-        "passport-jwt": "*"
-    },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "pg": "*",
+    "vue-cli": "^2.8.2",
+    "vuex": "^2.3.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/francisribeiro/nois-simulados.git"

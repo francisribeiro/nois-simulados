@@ -47,7 +47,7 @@
                 <div class="col-md-3">
                   <div class="well dash-box">
                     <h2>
-                      <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 12
+                      <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{numberOfSimulados}}
                     </h2>
                     <h4>Simulados</h4>
                   </div>
@@ -94,7 +94,8 @@
     data() {
       return {
         numberOfQuestions: null,
-        numberOfUsers: null
+        numberOfUsers: null,
+        numberOfSimulados: null
       }
     },
   
@@ -113,17 +114,26 @@
         }, error => {
           console.log('error')
         })
+      },
+      getNumberOfSimulados(){
+        this.$http.get('http://localhost:3000/simulados/s-c').then((response) => {
+          this.numberOfSimulados = response.data.data.count
+        }, error => {
+          console.log('error')
+        })
       }
     },
   
     created() {
       this.getNumberOfQuestions()
       this.getNumberOfUsers()
+      this.getNumberOfSimulados()
     },
   
     updated() {
       this.getNumberOfQuestions()
       this.getNumberOfUsers()
+      this.getNumberOfSimulados()
     }
   }
 </script>
