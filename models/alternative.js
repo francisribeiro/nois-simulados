@@ -15,6 +15,7 @@ module.exports.updateAlternative = updateAlternative;
 module.exports.getCorrect = getCorrect;
 module.exports.getId = getId;
 module.exports.deleteAlternative = deleteAlternative;
+module.exports.getAlternativesSimuladoQuestion = getAlternativesSimuladoQuestion;
 
 // Insert Alternative
 function insertAlternative(alternativeList, successCallback, errorCallback){
@@ -89,3 +90,13 @@ function deleteAlternative(questionId, callback){
 		callback
 	);
 }
+
+// Get Alternatives Per Simulado and Question
+function getAlternativesSimuladoQuestion(simuladoID, callback){
+	database.query(
+		'select questao from questoessimulado where simulado = $1',
+		[simuladoID],
+		callback
+	);
+}
+

@@ -11,6 +11,7 @@ var questoesSimuladoSchema = function(id, simulado, questao){
 const QuestoesSimulado = module.exports = questoesSimuladoSchema;
 
 module.exports.insertQuestaoSimulado = insertQuestaoSimulado;
+module.exports.countQuestionsSimulado = countQuestionsSimulado;
 
 // Insert Questão Simulado
 function insertQuestaoSimulado(informacoes, callback){
@@ -32,6 +33,13 @@ function insertQuestaoSimulado(informacoes, callback){
 		);	
 		
 	});
+}
 
-	
+// Count Questões de um Simulado
+function countQuestionsSimulado(simuladoID, callback){
+	database.query(
+		'select count(*) from questoessimulado  where simulado = $1',
+		[simuladoID],
+		callback
+	);
 }
