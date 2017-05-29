@@ -47,7 +47,7 @@
                 <div class="col-lg-10 col-lg-offset-2">
                     <button v-on:click="goBack" class="btn btn-success">Voltar</button>
                     <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-primary" value="Submit">Continuar Edição</button>
+                    <button type="submit" id="continuarEdicao" class="btn btn-primary" value="Submit">Continuar Edição</button>
                 </div>
             </fieldset>
         </form>

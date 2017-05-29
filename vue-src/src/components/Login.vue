@@ -9,7 +9,7 @@
         <input v-model="credentials.username" type="text" id="inputUsername" class="form-control" placeholder="Nome de Usuário" required autofocus name="username">
         <label for="inputPassword" class="sr-only">Senha</label>
         <input v-model="credentials.password" type="password" id="inputPassword" class="form-control" placeholder="Senha" required name="password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
+        <button id="login" class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
       </form>
   
     </div>

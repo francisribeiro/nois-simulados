@@ -44,15 +44,23 @@
     
                 <label for="answer" class="col-lg-2 control-label">Resposta</label>
                 <div class="col-lg-10">
-                    <span v-for="opt in options">
+                    <!--<span v-for="opt in options">
                                              <input type="radio" name="radiogroup" v-model="picked" v-bind:value="opt.id" >
                                                 {{ opt.name }}
-                                        </span>
+                        </span> -->
+                        <input type="radio" name="radiogroup" v-model="picked" v-bind:value="options[0].id" >
+                        {{ options[0].name }}<br>
+                        <input type="radio" name="radiogroup" v-model="picked" v-bind:value="options[1].id" >
+                        {{ options[1].name }}<br>
+                        <input type="radio" id="correta" name="radiogroup" v-model="picked" v-bind:value="options[2].id" >
+                        {{ options[2].name }}<br>
+                        <input type="radio" name="radiogroup" v-model="picked" v-bind:value="options[3].id" >
+                        {{ options[3].name }}<br><br>
                 </div>
     
                 <div class="col-lg-10 col-lg-offset-2">
                     <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-primary" value="Submit">Finalizar Cadastro</button>
+                    <button type="submit" id="finalizarCadastro" class="btn btn-primary" value="Submit">Finalizar Cadastro</button>
                 </div>
             </fieldset>
         </form>

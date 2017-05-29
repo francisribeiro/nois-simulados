@@ -9,12 +9,12 @@
   
           <div class="col-md-2">
             <div class="dropdown create">
-              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Adicionar Conteúdo
+              <button id="adicionarConteudo" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Adicionar Conteúdo
                                     <span class="caret"></span>
                                 </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <ul id="teste" class="dropdown-menu" aria-labelledby="adicionarConteudo">
                 <li>
-                  <router-link type="button" to="/questoes/add">Adicionar Questões</router-link>
+                  <router-link id="addQuestao" type="button" to="/questoes/add">Adicionar Questões</router-link>
                 </li>
                 <li>
                   <router-link type="button" to="/simulados/add">Adicionar Simulados</router-link>

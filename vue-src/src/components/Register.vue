@@ -31,12 +31,12 @@
           <div class="col-lg-10">
             <select class="form-control" id="inputTipo" required v-model="selected" name="type" required>
                                       <option value="" disabled hidden>Escolha uma opção...</option>
-                                      <option v-for="type in types" v-bind:value="type.id">{{type.name}}</option>
+                                      <option id="optionTipo" v-for="type in types" v-bind:value="type.id">{{type.name}}</option>
                                   </select>
           </div>
   
           <div class="col-lg-10 col-lg-offset-2">
-            <button type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">Registar</button>
+            <button type="submit" id="inscrever" class="btn btn-lg btn-primary btn-block" value="Submit">RegistRar</button>
           </div>
         </fieldset>
       </form>

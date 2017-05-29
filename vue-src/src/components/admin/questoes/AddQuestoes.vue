@@ -41,12 +41,12 @@
     
                 <label for="inputFeedback" class="col-lg-2 control-label">Feedback</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputUsuario" placeholder="Qual o feedback da Questão?" required v-model="newQuestion.feedback" name="feedback">
+                    <input type="text" class="form-control" id="inputFeedback" placeholder="Qual o feedback da Questão?" required v-model="newQuestion.feedback" name="feedback">
                 </div>
         
                 <div class="col-lg-10 col-lg-offset-2">
                     <button type="reset" class="btn btn-danger" value="Reset">Limpar Campos</button>
-                    <button type="submit" class="btn btn-primary" value="Submit">Continuar Cadastro</button>
+                    <button type="submit" id="continuarCadastro" class="btn btn-primary" value="Submit">Continuar Cadastro</button>
                 </div>
             </fieldset>
         </form>

@@ -8,7 +8,7 @@
         <p>Olá, seja muito bem vindo ao Nois Simulados!</p>
         <p>Caso ainda você seja novo por aqui Increva-se! Ou faça login.</p>
         <div>
-          <router-link class="btn btn-primary" to="/register">Inscreva-se</router-link>
+          <router-link id="inscrever" class="btn btn-primary" to="/register">Inscreva-se</router-link>
           <router-link class="btn btn-default" to="/login">Login</router-link>
         </div>
       </div>

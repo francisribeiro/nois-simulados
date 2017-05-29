@@ -31,7 +31,7 @@
                 <div class="col-lg-10 col-lg-offset-2">
                     <router-link to="/questoes" type="button" class="btn btn-success">Voltar</router-link>
                     <a class="btn btn-danger" type="button" v-on:click="confirmMsg(question.id)">Apagar</a></td>
-                    <router-link type="button" v-bind:to="{ path: '/questoes/edit/' + question.id }" class="btn btn-primary">Atualizar</router-link>
+                    <router-link type="button" id="atualizarButton" v-bind:to="{ path: '/questoes/edit/' + question.id }" class="btn btn-primary">Atualizar</router-link>
                 </div>
             </fieldset>
         </form>
@@ -62,6 +62,7 @@
     
             getAlternatives(questionId) {
                 this.$http.get(`http://localhost:3000/alternatives/list/${questionId}`).then((response) => {
+                    console.log(response);
                     this.alternativas = response.data.data
                 }, error => {
                     console.log('error')
@@ -106,7 +107,7 @@
         },
     
         created() {
-            this.getQuestionPerId(this.$route.params.id)
+            this.getQuestionPerId(this.$route.params.id),
             this.getAlternatives(this.$route.params.id)
         }
     }

@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover" id="questoesTable">
                                     <tbody>
                                         <tr>
                                             <th>Título da Questão</th>
@@ -52,7 +52,7 @@
                                             <td v-bind:class="{ 'ativa': question.status == 'ativa', 'inativa': question.status == 'inativa'}"><b>{{question.status | uppercase}}</b></td>
                                                  
                                             <td>
-                                                <router-link class=" btn btn-success btn-sm" type="button " v-bind:to="{ path: 'questoes/view/' + question.id } ">Visualizar</router-link>
+                                                <router-link id="visualizar" class=" btn btn-success btn-sm" type="button " v-bind:to="{ path: 'questoes/view/' + question.id } ">Visualizar</router-link>
                                                 <router-link class="btn btn-primary btn-sm" type="button " v-bind:to="{ path: 'questoes/edit/' + question.id } ">Editar</router-link>
                                                 <a class="btn btn-danger btn-sm" type="button " v-on:click="confirmMsg(question.id) ">Apagar</a></td>
                                         </tr>
