@@ -4,14 +4,17 @@
       <div class="container">
         <div class="row">
           <div class="col-md-10">
-            <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Controle Seus Simulados</small></h1>
+            <h1>
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
+              <small>Controle Seus Simulados</small>
+            </h1>
           </div>
   
           <div class="col-md-2">
             <div class="dropdown create">
               <button id="adicionarConteudo" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Adicionar Conteúdo
-                                    <span class="caret"></span>
-                                </button>
+                <span class="caret"></span>
+              </button>
               <ul id="teste" class="dropdown-menu" aria-labelledby="adicionarConteudo">
                 <li>
                   <router-link id="addQuestao" type="button" to="/questoes/add">Adicionar Questões</router-link>
@@ -86,55 +89,60 @@
 </template>
 
 <script>
-  import auth from '../../auth'
-  
-  export default {
-    name: 'dashboard',
-  
-    data() {
-      return {
-        numberOfQuestions: null,
-        numberOfUsers: null,
-        numberOfSimulados: null
-      }
-    },
-  
-    methods: {
-      getNumberOfQuestions() {
-        this.$http.get('http://localhost:3000/questions/q-c').then((response) => {
-          this.numberOfQuestions = response.data.data.count
-        }, error => {
-          console.log('error')
-        })
-      },
-  
-      getNumberOfUsers() {
-        this.$http.get('http://localhost:3000/users/u-c').then((response) => {
-          this.numberOfUsers = response.data.data.count
-        }, error => {
-          console.log('error')
-        })
-      },
-      getNumberOfSimulados(){
-        this.$http.get('http://localhost:3000/simulados/s-c').then((response) => {
-          this.numberOfSimulados = response.data.data.count
-        }, error => {
-          console.log('error')
-        })
-      }
-    },
-  
-    created() {
-      this.getNumberOfQuestions()
-      this.getNumberOfUsers()
-      this.getNumberOfSimulados()
-    },
-  
-    updated() {
-      this.getNumberOfQuestions()
-      this.getNumberOfUsers()
-      this.getNumberOfSimulados()
+import auth from '../../auth'
+
+export default {
+  name: 'dashboard',
+
+  data() {
+    return {
+      user: [],
+      numberOfQuestions: null,
+      numberOfUsers: null,
+      numberOfSimulados: null
     }
+  },
+
+  methods: {
+    getNumberOfQuestions() {
+      this.$http.get('http://localhost:3000/questions/q-c').then((response) => {
+        this.numberOfQuestions = response.data.data.count
+      }, error => {
+        console.log('error')
+      })
+    },
+
+    getNumberOfUsers() {
+      this.$http.get('http://localhost:3000/users/u-c').then((response) => {
+        this.numberOfUsers = response.data.data.count
+      }, error => {
+        console.log('error')
+      })
+    },
+    getNumberOfSimulados() {
+      this.$http.get('http://localhost:3000/simulados/s-c').then((response) => {
+        this.numberOfSimulados = response.data.data.count
+      }, error => {
+        console.log('error')
+      })
+    },
+
+    getProfile() {
+      this.$http.get('http://localhost:3000/users/profile', {
+        headers: auth.getAuthHeader()
+      }).then((response) => {
+        this.user = response.data.data.user
+      }, error => {
+        console.log('error getProfile')
+      })
+    }
+  },
+
+  created() {
+    this.getNumberOfQuestions()
+    this.getNumberOfUsers()
+    this.getNumberOfSimulados()
   }
+}
 </script>
 

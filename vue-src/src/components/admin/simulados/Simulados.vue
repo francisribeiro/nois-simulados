@@ -12,7 +12,7 @@
     
                     <div class="col-md-2">
                         <div class="dropdown create">
-                            <router-link type="button" to="/simulados/add" class="btn btn-danger dropdown-toggle">Inserir Novo Simulado</router-link>
+                            <router-link type="button" to="/simulados/add" class="btn btn-danger dropdown-toggle">Iniciar Novo Simulado</router-link>
                         </div>
                     </div>
     

@@ -68,7 +68,7 @@ const router = new VueRouter({
     {path: '/profile/edit/:username', component: EditUsuarios, meta: {requiresAuth: true}},
     {path: '/simulados', component: Simulados, meta: {requiresAuth: true}},
     {path: '/simulados/add', component: AddSimulados, meta: {requiresAuth: true}},
-    {path: '/simulados/iniciar', component: IniciarSimulado, meta: {requiresAuth: true}},
+    {path: '/simulados/iniciar/:sid/:qid', component: IniciarSimulado, meta: {requiresAuth: true}},
     {path: '/simulados/view/:id', component: ViewSimulados, meta: {requiresAuth: true}}
   ]
 })
