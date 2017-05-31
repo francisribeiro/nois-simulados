@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/francisribeiro/nois-simulados/issues"
   },
-  "homepage": "https://github.com/francisribeiro/nois-simulados#readme"
+  "homepage": "https://github.com/francisribeiro/nois-simulados#readme",
+  "devDependencies": {
+    "protractor": "^5.1.2"
+  }
 }

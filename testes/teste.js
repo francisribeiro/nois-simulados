@@ -6,7 +6,7 @@ var Alternativa = require('./Alternativa');
 describe('Teste Simulado', function() {
   it('Teste Inicial', function(done) {
     browser.waitForAngularEnabled(false);
-    browser.get('http://localhost:8081/home').then(function(){
+    browser.get('http://localhost:3000/home').then(function(){
       $('#inscrever').click().then(function(){
         inscrever().then(function(){
           browser.sleep(5000).then(function(){
@@ -25,7 +25,7 @@ describe('Teste Simulado', function() {
                                      new Questao().continuarEdicao().then(function(){
                                        browser.sleep(2000).then(function(){
                                          addAlternativa().then(function(){
-                                           browser.get('http://localhost:8081/dashboard').then(function(){
+                                           browser.get('http://localhost:3000/dashboard').then(function(){
                                              browser.sleep(3000).then(function(){
                                               console.log('Teste acabou sem falhas!');
                                              });
