@@ -25,10 +25,10 @@
                     <br>
                     <div v-for="alt in alternativesList">
                         <p><b>{{alt.pergunta}}</b></p>
-                        <small>{{alt.a}}</b></small>
-                        <small>{{alt.b}}</b></small>
-                        <small>{{alt.c}}</b></small>
-                        <small>{{alt.d}}</b></small>
+                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'a', 'ativa': corretas[alt.id] == 'a', 'inativa': respostas[alt.id] == 'a'}">{{alt.a}}</b></small></h4>
+                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'b', 'ativa': corretas[alt.id] == 'b', 'inativa': respostas[alt.id] == 'b'}">{{alt.b}}</b></small></h4>
+                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'c', 'ativa': corretas[alt.id] == 'c', 'inativa': respostas[alt.id] == 'c'}">{{alt.c}}</b></small></h4>
+                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'd', 'ativa': corretas[alt.id] == 'd', 'inativa': respostas[alt.id] == 'd'}">{{alt.d}}</b></small></h4>
                         <br>
                     </div>
                                         
@@ -51,7 +51,9 @@
         data() {
             return {
                 simulado: [],
-                alternativesList: []
+                alternativesList: [],
+                respostas:[],
+                corretas:['c', 'c', 'c', 'a', 'a']
             }
         },
     
@@ -73,21 +75,23 @@
             },
             generateResponse(questions){
             var t = this;
+            var id = 0;
             questions.forEach(function(q){
-                t.getPergunta(q, t)
+                t.getPergunta(q, t, id)
+                id++;
             });
         },
-            getPergunta(questionId, t){
+            getPergunta(questionId, t, id){
                 var url = 'http://localhost:3000/questions/pergunta/' + questionId;
                 t.$http.get(url)
                 .then((response) => {
-                    t.getAlternative(questionId, t, response.body.data);
+                    t.getAlternative(questionId, t, response.body.data, id);
                 }, error => {
                     console.log('error')
                 });
                 
             },
-            getAlternative(questionId, t, pergunta){
+            getAlternative(questionId, t, pergunta, id){
                 var url = 'http://localhost:3000/alternatives/list/' + questionId;
                     t.$http.get(url)
                     .then(response => {
@@ -96,6 +100,7 @@
                         for(var i=0; i<array.length; i+=4){
                             cont = i;
                             var obj = {
+                                id:id,
                                 pergunta: pergunta,
                                 a: array[cont].alternative,
                                 b: array[cont+1].alternative,
@@ -113,6 +118,7 @@
         created() {
             this.getSimuladoPerId(this.$route.params.id),
             this.getAlternatives(this.$route.params.id)
+            this.respostas = this.$store.state.simulado.resposta
         },
 
          filters: {

@@ -25,16 +25,16 @@
             <h4>
                 <b>{{alternativesList[question].pergunta}}</b>
             </h4>
-            <h4>a){{alternativesList[question].a}}</h4>
-            <h4>b){{alternativesList[question].b}}</h4>
-            <h4>c){{alternativesList[question].c}}</h4>
-            <h4>d){{alternativesList[question].d}}</h4>
+            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[0]"> {{alternativesList[question].a}}<br></h4>
+            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[1]"> {{alternativesList[question].b}}<br></h4>
+            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[2]"> {{alternativesList[question].c}}<br></h4>
+            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[3]"> {{alternativesList[question].d}}<br></h4>
             <br>
     
-            <div class="col-lg-10 col-lg-offset-2">
+            <div class="col-lg-10 col-lg-offset-1 text-center">
                 <a v-on:click="decrementQuestion" v-if="question > 0" to="/" class="btn btn-success">Voltar</a>
                 <a v-on:click="incrementQuestion" v-if="question < this.$store.state.simulado.size" class="btn btn-primary">Proxima </a>
-                <a v-if="question == this.$store.state.simulado.size" class="btn btn-info">Finalizar Simulado</a>
+                <a v-on:click="finalizarSimulado" v-if="question == this.$store.state.simulado.size" class="btn btn-info">Finalizar Simulado</a>
             </div>
             <br><br>
         </div>
@@ -50,11 +50,20 @@ export default {
     data() {
         return {
             alternativesList: [],
-            question: 0
+            respostas:[],
+            question: 0,
+            picked: null,
+            defaultValue:['a', 'b', 'c', 'd']
         }
     },
     methods: {
+        finalizarSimulado(){
+            this.$store.state.setResposta(this.question, this.picked)
+            this.confirmMsg() 
+        },
         incrementQuestion() {
+            this.$store.state.setResposta(this.question, this.picked)
+            this.picked = null
             this.question += 1;
             this.$router.push(`/simulados/iniciar/${this.$store.state.simulado.id}/${this.question}`)
         },
@@ -110,11 +119,29 @@ export default {
                 }, response => {
                     console.log('error')
                 });
+        },
+            confirmMsg() {
+            this.$swal({
+                title: 'Você tem certeza?',
+                text: "Deseja Realmente Finalizar o Simulado?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, termine isso!'
+            }).then(() => {
+                this.$router.push(`/simulados/view/${this.$store.state.simulado.id}`)
+                this.$swal(
+                    'Finalizado!',
+                    'Confira seu resultado!',
+                    'success'
+                )
+            })
         }
     },
     created() {
-        console.log(this.$store.state.simulado.size)
         this.getQuestions(this.$store.state.simulado.id, this.$store.state.simulado.questoes);
+        this.$store.state.simulado.resposta = []
     }
 
 }
