@@ -92,7 +92,9 @@ export default {
 
     methods: {
         getAllSimulados() {
-            this.$http.get('http://localhost:3000/simulados/usuario/' + this.user).then((response) => {
+            var url = 'http://localhost:3000/simulados/usuario/' + this.user;
+            console.log(url);
+            this.$http.get(url).then((response) => {
                 this.simulados = response.data.data
             }, error => {
                 console.log('error')
@@ -109,7 +111,6 @@ export default {
             this.$http.get('http://localhost:3000/users/profile', {
                 headers: auth.getAuthHeader()
             }).then((response) => {
-                console.log('user', response.data.data.user.nome);
                 this.user = response.data.data.user.nome
             }, error => {
                 console.log('error')
@@ -145,10 +146,11 @@ export default {
 
     created() {
         this.getProfile(),
-            this.getAllSimulados()
+        this.getAllSimulados()
     },
 
     updated() {
+        this.getProfile(),
         this.getAllSimulados()
     },
 
