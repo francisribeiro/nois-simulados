@@ -8,7 +8,8 @@ const state = {
     id: null,
     questoes: [],
     size: null,
-    resposta: []
+    resposta: [],
+    corretas: []
   },
 
   setSimuladoID(id) {
@@ -31,6 +32,11 @@ const state = {
       this.simulado.resposta.push(resposta);
 
     console.log(this.simulado.resposta)
+  },
+
+  setCorreta(correta){
+    this.simulado.corretas.push(correta);
+    // console.log(this.simulado.corretas);
   }
 }
 

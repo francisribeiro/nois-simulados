@@ -58,14 +58,28 @@ export default {
     },
     methods: {
         finalizarSimulado(){
-            this.$store.state.setResposta(this.question, this.picked)
+            this.$store.state.setResposta(this.question, this.getAlternativePicked())
+            console.log(this.$store.state.simulado.corretas);
             this.confirmMsg() 
         },
         incrementQuestion() {
-            this.$store.state.setResposta(this.question, this.picked)
+            this.$store.state.setResposta(this.question, this.getAlternativePicked())
             this.picked = null
             this.question += 1;
             this.$router.push(`/simulados/iniciar/${this.$store.state.simulado.id}/${this.question}`)
+        },
+        getAlternativePicked(){
+            var alternativePicked = null
+            if(this.picked == 'a'){
+                alternativePicked = this.alternativesList[this.question].a;
+            }else if(this.picked == 'b'){
+                alternativePicked = this.alternativesList[this.question].b;
+            }else if(this.picked == 'c'){
+                alternativePicked = this.alternativesList[this.question].c;
+            }else{
+                alternativePicked = this.alternativesList[this.question].d;
+            }                                                
+            return alternativePicked;
         },
         decrementQuestion() {
             this.question -= 1;
@@ -112,15 +126,27 @@ export default {
                             a: array[cont].alternative,
                             b: array[cont + 1].alternative,
                             c: array[cont + 2].alternative,
-                            d: array[cont + 3].alternative
+                            d: array[cont + 3].alternative,
+                            correta: t.getCorrect(array)
                         }
-                        this.alternativesList.push(obj);
+                        t.alternativesList.push(obj);
+                        t.$store.state.setCorreta(obj.correta);
                     }
                 }, response => {
                     console.log('error')
                 });
         },
-            confirmMsg() {
+        getCorrect(array){
+            var correta = null;
+            for(var i = 0; i < array.length; i++){
+                if(array[i].correct){
+                    correta = array[i].alternative;
+                    break;
+                }
+            }
+            return correta;
+        },
+        confirmMsg() {
             this.$swal({
                 title: 'Você tem certeza?',
                 text: "Deseja Realmente Finalizar o Simulado?",
@@ -140,6 +166,7 @@ export default {
         }
     },
     created() {
+        this.$store.state.simulado.corretas = []
         this.getQuestions(this.$store.state.simulado.id, this.$store.state.simulado.questoes);
         this.$store.state.simulado.resposta = []
     }

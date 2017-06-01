@@ -44,6 +44,7 @@ create table questoesSimulado(
     id serial primary key,
     simulado int not null,
     questao int not null,
+    correta boolean default false,
     foreign key(simulado) references simulado(id) on delete cascade,
     foreign key(questao) references questao(id) 
 );
