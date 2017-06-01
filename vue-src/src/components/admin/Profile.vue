@@ -65,7 +65,6 @@
                     this.user = response.data.data.user
                 }, error => {
                     console.log('error')
-                    console.log(auth.getAuthHeader())
                 })
             },
     

@@ -4,13 +4,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10">
-                        <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Simulado <small>Controle Seu Simulado</small></h1>
+                        <h1>
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Simulado
+                            <small>Controle Seu Simulado</small>
+                        </h1>
                     </div>
                 </div>
             </div>
             <!-- /.container -->
         </header>
-
+    
         <section id="breadcrumb">
             <div class="container">
                 <ol class="breadcrumb">
@@ -18,15 +21,24 @@
                 </ol>
             </div>
         </section>
-        <div v-for="q in alternativesList">
-            <h4><b>{{q.pergunta}}</b></h4>
-            <h4>a){{q.a}}</h4>
-            <h4>b){{q.b}}</h4>
-            <h4>c){{q.c}}</h4>
-            <h4>d){{q.d}}</h4>            
+        <div v-model="question" class="form-signin form-horizontal well form-size">
+            <h4>
+                <b>{{alternativesList[question].pergunta}}</b>
+            </h4>
+            <h4>a){{alternativesList[question].a}}</h4>
+            <h4>b){{alternativesList[question].b}}</h4>
+            <h4>c){{alternativesList[question].c}}</h4>
+            <h4>d){{alternativesList[question].d}}</h4>
             <br>
+    
+            <div class="col-lg-10 col-lg-offset-2">
+                <a v-on:click="decrementQuestion" v-if="question > 0" to="/" class="btn btn-success">Voltar</a>
+                <a v-on:click="incrementQuestion" v-if="question < this.$store.state.simulado.size" class="btn btn-primary">Proxima </a>
+                <a v-if="question == this.$store.state.simulado.size" class="btn btn-info">Finalizar Simulado</a>
+            </div>
+            <br><br>
         </div>
-        
+    
     </div>
 </template>
 
@@ -35,54 +47,63 @@
 
 export default {
     name: 'iniciarSimulado',
-    data(){
+    data() {
         return {
-            alternativesList: []
+            alternativesList: [],
+            question: 0
         }
     },
     methods: {
-        getQuestions(simulado, questoes){
+        incrementQuestion() {
+            this.question += 1;
+            this.$router.push(`/simulados/iniciar/${this.$store.state.simulado.id}/${this.question}`)
+        },
+        decrementQuestion() {
+            this.question -= 1;
+            this.$router.push(`/simulados/iniciar/${this.$store.state.simulado.id}/${this.question}`)
+        },
+        getQuestions(simulado, questoes) {
             var obj = {
                 simulado: parseInt(simulado),
                 questoes: questoes
             }
-             this.$http.post('http://localhost:3000/questoes-simulado', obj)
+            this.$http.post('http://localhost:3000/questoes-simulado', obj)
                 .then(response => {
                     this.generateResponse(questoes);
                 }, response => {
                     console.log('error')
                 });
         },
-        generateResponse(questions){
+        generateResponse(questions) {
             var t = this;
-            questions.forEach(function(q){
+            questions.forEach(function (q) {
                 t.getPergunta(q, t)
             });
         },
-        getPergunta(questionId, t){
+        getPergunta(questionId, t) {
             var url = 'http://localhost:3000/questions/pergunta/' + questionId;
             t.$http.get(url)
-            .then((response) => {
-                t.getAlternative(questionId, t, response.body.data);
-            }, error => {
-                console.log('error')
-            });
-            
+                .then((response) => {
+                    t.getAlternative(questionId, t, response.body.data);
+                }, error => {
+                    console.log('error')
+                });
+
         },
-        getAlternative(questionId, t, pergunta){
+        getAlternative(questionId, t, pergunta) {
             var url = 'http://localhost:3000/alternatives/list/' + questionId;
-                 t.$http.get(url)
+            t.$http.get(url)
                 .then(response => {
                     var array = response.body.data;
                     var cont = 0;
-                    for(var i=0; i<array.length; i+=4){
+                    for (var i = 0; i < array.length; i += 4) {
                         cont = i;
                         var obj = {
                             pergunta: pergunta,
                             a: array[cont].alternative,
-                            b: array[cont+1].alternative,
-                            c: array[cont+2].alternative,
-                            d: array[cont+3].alternative
+                            b: array[cont + 1].alternative,
+                            c: array[cont + 2].alternative,
+                            d: array[cont + 3].alternative
                         }
                         this.alternativesList.push(obj);
                     }
@@ -91,9 +112,10 @@ export default {
                 });
         }
     },
-    created(){
-        this.getQuestions(this.$store.state.simulado.id, this.$store.state.simulado.questoes);        
+    created() {
+        console.log(this.$store.state.simulado.size)
+        this.getQuestions(this.$store.state.simulado.id, this.$store.state.simulado.questoes);
     }
-    
-  }
+
+}
 </script>
