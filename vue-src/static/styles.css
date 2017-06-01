@@ -67,6 +67,10 @@ body {
   margin-bottom: 10px;
 }
 
+input[type="radio"]{
+  size: 20px;
+}
+
 .form-signin button,
 select,
 textarea {
@@ -104,6 +108,10 @@ textarea {
 
 .inativa{
   color:#d9534f;
+}
+
+.ok{
+  color:#0000cc;
 }
 
 .main-color-bg {
