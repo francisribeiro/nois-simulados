@@ -9,7 +9,8 @@ const state = {
     questoes: [],
     size: null,
     resposta: [],
-    corretas: []
+    corretas: [],
+    alternativesList: []
   },
 
   setSimuladoID(id) {
@@ -34,6 +35,10 @@ const state = {
 
   setCorreta(correta){
     this.simulado.corretas.push(correta);
+  },
+
+  setAlternativeList(lista){
+    this.simulado.alternativesList = lista;
   }
 }
 

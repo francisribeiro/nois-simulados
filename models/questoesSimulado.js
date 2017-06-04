@@ -12,6 +12,7 @@ const QuestoesSimulado = module.exports = questoesSimuladoSchema;
 
 module.exports.insertQuestaoSimulado = insertQuestaoSimulado;
 module.exports.countQuestionsSimulado = countQuestionsSimulado;
+module.exports.updateCorreta = updateCorreta;
 
 // Insert Questão Simulado
 function insertQuestaoSimulado(informacoes, callback){
@@ -45,3 +46,10 @@ function countQuestionsSimulado(simuladoID, callback){
 }
 
 // Update Questao Correta
+function updateCorreta(simulado, questao, callback){
+	database.query(
+		'update questoessimulado set correta = true where simulado = ($1) and questao = ($2)',
+		[simulado, questao],
+		callback
+	);
+}

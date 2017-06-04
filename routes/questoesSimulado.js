@@ -32,3 +32,13 @@ router.get('/simulado/:id', function(req, res, next){
         	res.json(WrappedResponse.generateResponse(200, 'success', 'Count Question Simulado Successfully!', result.rows[0].count));	
 	});
 });
+
+// Update Correta
+router.post('/s/:s/q/:q', function(req, res, next){
+    QuestoesSimulado.updateCorreta(req.params.s, req.params.q, function(err, result){
+        if(err)
+            res.json(WrappedResponse.generateResponse(400, 'error', 'Error at Update Correta Successfully!', ''));
+        else
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Update Correta Successfully!', ''));
+    });
+});

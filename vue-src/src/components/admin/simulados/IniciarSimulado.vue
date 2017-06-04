@@ -98,21 +98,37 @@ export default {
         },
         generateResponse(questions) {
             var t = this;
-            questions.forEach(function (q) {
-                t.getPergunta(q, t)
+            var id = 0;
+            var cont = 0;
+            for(var i = 0; i < questions.length; i++){
+                cont++;
+                if(cont == questions.length){
+                    t.getPergunta(questions[i], t, id)
+                    id++;
+                    this.sortAlternativeList();
+                } else{
+                    t.getPergunta(questions[i], t, id)
+                    id++;
+                }
+                
+            }
+        },
+        sortAlternativeList(){
+            this.alternativesList.sort(function(a, b){
+                    return a.id - b.id;
             });
         },
-        getPergunta(questionId, t) {
+        getPergunta(questionId, t, id) {
             var url = 'http://localhost:3000/questions/pergunta/' + questionId;
             t.$http.get(url)
                 .then((response) => {
-                    t.getAlternative(questionId, t, response.body.data.pergunta);
+                    t.getAlternative(questionId, t, response.body.data, id);
                 }, error => {
                     console.log('error')
                 });
 
         },
-        getAlternative(questionId, t, pergunta) {
+        getAlternative(questionId, t, data, id) {
             var url = 'http://localhost:3000/alternatives/list/' + questionId;
             t.$http.get(url)
                 .then(response => {
@@ -121,12 +137,15 @@ export default {
                     for (var i = 0; i < array.length; i += 4) {
                         cont = i;
                         var obj = {
-                            pergunta: pergunta,
+                            id: id,
+                            pergunta: data.pergunta,
                             a: array[cont].alternative,
                             b: array[cont + 1].alternative,
                             c: array[cont + 2].alternative,
                             d: array[cont + 3].alternative,
-                            correta: t.getCorrect(array)
+                            correta: t.getCorrect(array),
+                            feedback: data.feedback,
+                            questionId: questionId
                         }
                         t.alternativesList.push(obj);
                         t.$store.state.setCorreta(obj.correta);
@@ -155,7 +174,8 @@ export default {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, termine isso!'
             }).then(() => {
-                this.$router.push(`/simulados/view/${this.$store.state.simulado.id}`)
+                this.$store.state.setAlternativeList(this.alternativesList);
+                this.$router.push(`/simulados/correcao/${this.$store.state.simulado.id}`)
                 this.$swal(
                     'Finalizado!',
                     'Confira seu resultado!',

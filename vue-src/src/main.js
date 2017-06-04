@@ -28,6 +28,7 @@ import AddSimulados from './components/admin/simulados/AddSimulados'
 import IniciarSimulado from './components/admin/simulados/IniciarSimulado'
 import Simulados from './components/admin/simulados/Simulados'
 import ViewSimulados from './components/admin/simulados/ViewSimulados'
+import CorrecaoSimulados from './components/admin/simulados/CorrecaoSimulados'
 
 // Relatórios
 import Relatorios from './components/admin/relatorios/Relatorios'
@@ -77,6 +78,7 @@ const router = new VueRouter({
     {path: '/simulados/add', component: AddSimulados, meta: {requiresAuth: true}},
     {path: '/simulados/iniciar/:sid/:qid', component: IniciarSimulado, meta: {requiresAuth: true}},
     {path: '/simulados/view/:id', component: ViewSimulados, meta: {requiresAuth: true}},
+    {path: '/simulados/correcao/:id', component: CorrecaoSimulados, meta: {requiresAuth: true}},
     {path: '/relatorios', component: Relatorios, meta: {requiresAuth: true}}
   ]
 })
