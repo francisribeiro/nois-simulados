@@ -112,15 +112,19 @@ router.get('/q-s/:id', function (req, res, next) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get question per ID!', null));
         else {
             let row = result.rows[0];
-            let question = new Question(
-                row.id,
-                row.status,
-                row.vezesapareceu,
-                row.area,
-                row.feedback,
-                row.pergunta
-            );
-            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Question Successfully!', question));
+            if(row == null){
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Question Successfully!', ''));
+            }else {
+                let question = new Question(
+                    row.id,
+                    row.status,
+                    row.vezesapareceu,
+                    row.area,
+                    row.feedback,
+                    row.pergunta
+                );
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Question Successfully!', question));
+            }
         }
     });
 });

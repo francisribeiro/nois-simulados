@@ -15,7 +15,8 @@ router.post('/area/:a/limite/:l', function (req, res, next) {
         req.body.id,
         req.body.user,
         executionTime,
-        req.body.title
+        req.body.title,
+        req.body.area
     );
 
     Simulado.insertSimulado(novoSimulado, function (err, result) {
@@ -41,14 +42,26 @@ function getQuestoes(area, limite, id, res){
             res.json(WrappedResponse.generateResponse(200, 'success',
                         'Insert Simulado Successfully!', ''));
         }else{
-            var obj = [];
-            obj.push({id: id});
-            obj.push({questoes: getIDs(result.rows)});
-            res.json(WrappedResponse.generateResponse(200, 'success',
-                            'Insert Simulado Successfully!', obj));
-        }
-        
+            var cont = 0;
+            var array = getIDs(result.rows);
+            array.forEach(function(qId){
+                Question.updateVezesApareceu(qId, function(err, result){
+                    cont++;
+                    if(cont == array.length){
+                        response(id, array, res);
+                    }
+                });
+            });
+        }        
     });
+}
+
+function response(id, questoes, res){
+    var obj = [];
+    obj.push({id: id});
+    obj.push({questoes: questoes});
+    res.json(WrappedResponse.generateResponse(200, 'success',
+                    'Insert Simulado Successfully!', obj));
 }
 
 function getIDs(array){
@@ -58,19 +71,6 @@ function getIDs(array){
     }
     return questoes;
 }
-
-// function getUnique(array, count) {
-//     var tmp = array.slice(array);
-
-//     var questoes = [];
-
-//     for (var i = 0; i < count; i++) {
-//         var index = Math.floor(Math.random() * tmp.length);
-//         var removed = tmp.splice(index, 1);
-//         questoes.push(removed[0].id);
-//     }
-//     return questoes;
-// }
 
 // Get Simulado
 router.get('/usuario/:u/titulo/:t', function (req, res, next) {
@@ -164,5 +164,53 @@ router.delete('/:id', function (req, res, next) {
     Simulado.deleteSimulado(req.params.id, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at delete simulado!', null));
         else res.json(WrappedResponse.generateResponse(200, 'success', 'Delete Simulado Successfully!', null));
+    });
+});
+
+// Get Simulado por Area
+router.get('/list/area', function(req, res, next){
+    Simulado.listSimuladosArea(function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado per area!', null));
+        else {
+            var rows = result.rows;
+            if(rows == null){
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', ''));
+            }else{
+                var array = [];
+                rows.forEach(function(data){
+                    array.push(
+                        {
+                            area: data.area,
+                            quantidade: data.count     
+                        }
+                    );
+                });
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', array));
+            }
+        }
+    });
+});
+
+// Get Simulados by Area
+router.get('/area/:a', function(req, res, next){
+    Simulado.getSimuladoArea(req.params.a, function(err, result){
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado by area!', null));
+        else {
+            if(result.rows == null){
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulados by Area Successfully!', ''));
+            }else{
+                let simulados = new Array();
+                result.rows.forEach(function (q) {
+                    simulados.push(new Simulado(
+                        q.id,
+                        q.usuario,
+                        q.tempoexecucao,
+                        q.titulo,
+                        q.area
+                    ));
+                });
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulados by Area Successfully!', simulados));
+            }
+        }
     });
 });

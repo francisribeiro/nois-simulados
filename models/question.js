@@ -25,6 +25,8 @@ module.exports.getQuestionsByAreaAtiva = getQuestionsByAreaAtiva;
 module.exports.listArea = listArea;
 module.exports.getPergunta = getPergunta;
 module.exports.getQuestionsSimulado = getQuestionsSimulado;
+module.exports.updateVezesApareceu = updateVezesApareceu;
+module.exports.getQuestionsByArea = getQuestionsByArea;
 
 // Insert Question
 function insertQuestion(question, callback){
@@ -148,6 +150,24 @@ function getQuestionsSimulado(area, limit, callback){
 	database.query(
 		'SELECT id FROM (SELECT DISTINCT * FROM questao WHERE area = ($1) and status = ($2)) questao ORDER BY RANDOM() LIMIT ($3)',
 		[area, 'ativa', limit],
+		callback
+	);
+}
+
+// Update vezes que apareceu
+function updateVezesApareceu(idQuestao, callback){
+	database.query(
+		'UPDATE questao SET vezesapareceu = (SELECT vezesapareceu FROM questao WHERE id = ($1)) + 1 WHERE id = ($1)',
+		[idQuestao],
+		callback
+	);
+}
+
+// Get Questions Area
+function getQuestionsByArea(area, callback){
+	database.query(
+		'SELECT * from questao where area = ($1)',
+		[area],
 		callback
 	);
 }

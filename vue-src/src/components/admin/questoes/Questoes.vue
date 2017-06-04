@@ -83,6 +83,9 @@
         methods: {
             getAllQuestions() {
                 this.$http.get('http://localhost:3000/questions/list').then((response) => {
+                    response.data.data.sort(function(a, b){
+                            return a.question.localeCompare(b.question);
+                    });
                     this.questions = response.data.data
                 }, error => {
                     console.log('error')

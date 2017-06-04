@@ -77,6 +77,7 @@ export default {
     methods: {
         addSimulado: function () {
             var url = 'http://localhost:3000/simulados/area/' + this.area + '/limite/' + this.limit;
+            this.novoSimulado.area = this.area;
             this.$http.post(url, this.novoSimulado).then(response => {
                 var simulado = response.data.data[0].id;
                 var questoesSimulado = response.data.data[1].questoes;

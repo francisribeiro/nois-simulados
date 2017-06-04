@@ -37,6 +37,7 @@ create table simulado(
     usuario varchar(50) not null,
     tempoExecucao real default '0',
     titulo varchar(50) not null,
+    area varchar(50) not null,
     foreign key(usuario) references usuario(username) on delete cascade
 );
 

@@ -29,16 +29,23 @@ import IniciarSimulado from './components/admin/simulados/IniciarSimulado'
 import Simulados from './components/admin/simulados/Simulados'
 import ViewSimulados from './components/admin/simulados/ViewSimulados'
 
+// Relatórios
+import Relatorios from './components/admin/relatorios/Relatorios'
+
 // Sweet Alert
 import VueSweetAlert from 'vue-sweetalert'
 
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
+// Highcharts
+import VueHighcharts from 'vue-highcharts';
+
 // Uses
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueSweetAlert)
+Vue.use(VueHighcharts);
 
 import auth from './auth'
 
@@ -69,7 +76,8 @@ const router = new VueRouter({
     {path: '/simulados', component: Simulados, meta: {requiresAuth: true}},
     {path: '/simulados/add', component: AddSimulados, meta: {requiresAuth: true}},
     {path: '/simulados/iniciar/:sid/:qid', component: IniciarSimulado, meta: {requiresAuth: true}},
-    {path: '/simulados/view/:id', component: ViewSimulados, meta: {requiresAuth: true}}
+    {path: '/simulados/view/:id', component: ViewSimulados, meta: {requiresAuth: true}},
+    {path: '/relatorios', component: Relatorios, meta: {requiresAuth: true}}
   ]
 })
 

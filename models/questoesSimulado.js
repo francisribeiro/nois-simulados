@@ -43,3 +43,5 @@ function countQuestionsSimulado(simuladoID, callback){
 		callback
 	);
 }
+
+// Update Questao Correta

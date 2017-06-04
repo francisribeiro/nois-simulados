@@ -53,7 +53,7 @@
                 simulado: [],
                 alternativesList: [],
                 respostas:[],
-                corretas:['c', 'c', 'c', 'a', 'a']
+                corretas:[]
             }
         },
     
@@ -81,44 +81,47 @@
                 id++;
             });
         },
-            getPergunta(questionId, t, id){
-                var url = 'http://localhost:3000/questions/pergunta/' + questionId;
+        getPergunta(questionId, t, id){
+            var url = 'http://localhost:3000/questions/pergunta/' + questionId;
+            t.$http.get(url)
+            .then((response) => {
+                t.getAlternative(questionId, t, response.body.data, id);
+            }, error => {
+                console.log('error')
+            });
+            
+        },
+        getAlternative(questionId, t, pergunta, id){
+            var url = 'http://localhost:3000/alternatives/list/' + questionId;
                 t.$http.get(url)
-                .then((response) => {
-                    t.getAlternative(questionId, t, response.body.data, id);
-                }, error => {
+                .then(response => {
+                    var array = response.body.data;
+                    var cont = 0;
+                    for(var i=0; i<array.length; i+=4){
+                        cont = i;
+                        var obj = {
+                            id:id,
+                            pergunta: pergunta,
+                            a: array[cont].alternative,
+                            b: array[cont+1].alternative,
+                            c: array[cont+2].alternative,
+                            d: array[cont+3].alternative
+                        }
+                        this.alternativesList.push(obj);
+                    }
+                }, response => {
                     console.log('error')
                 });
-                
-            },
-            getAlternative(questionId, t, pergunta, id){
-                var url = 'http://localhost:3000/alternatives/list/' + questionId;
-                    t.$http.get(url)
-                    .then(response => {
-                        var array = response.body.data;
-                        var cont = 0;
-                        for(var i=0; i<array.length; i+=4){
-                            cont = i;
-                            var obj = {
-                                id:id,
-                                pergunta: pergunta,
-                                a: array[cont].alternative,
-                                b: array[cont+1].alternative,
-                                c: array[cont+2].alternative,
-                                d: array[cont+3].alternative
-                            }
-                            this.alternativesList.push(obj);
-                        }
-                    }, response => {
-                        console.log('error')
-                    });
             }
         },
     
         created() {
+            this.respostas = this.$store.state.simulado.resposta
+            this.corretas = this.$store.state.simulado.corretas
+            console.log(this.respostas);
+            console.log(this.corretas);
             this.getSimuladoPerId(this.$route.params.id),
             this.getAlternatives(this.$route.params.id)
-            this.respostas = this.$store.state.simulado.resposta
         },
 
          filters: {

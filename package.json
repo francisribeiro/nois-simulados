@@ -18,6 +18,7 @@
     "passport-jwt": "*",
     "pg": "*",
     "vue-cli": "^2.8.2",
+    "vue-highcharts": "0.0.10",
     "vuex": "^2.3.1"
   },
   "repository": {

@@ -18,8 +18,7 @@
                     <span class="badge">{{numberOfUsers}}</span>
                 </router-link>
                 <router-link v-if="user.tipo == 'professor'" type="button" to="/relatorios" class="list-group-item">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Relatórios
-                    <span class="badge">12</span>
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Relatórios
                 </router-link>
             </div>
         </div>

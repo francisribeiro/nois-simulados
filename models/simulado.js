@@ -1,10 +1,11 @@
 const database = require('../config/database');
 
-var simuladoSchema = function(id, user, executionTime, title){
+var simuladoSchema = function(id, user, executionTime, title, area){
 	this.id = id;
 	this.user = user;
 	this.executionTime = executionTime;
 	this.title = title;
+	this.area = area;
 }
 
 const Simulado = module.exports = simuladoSchema;
@@ -16,12 +17,14 @@ module.exports.getLastIdSimulado = getLastIdSimulado;
 module.exports.getSimuladosByUsuario = getSimuladosByUsuario;
 module.exports.countSimulados = countSimulados;
 module.exports.getSimuladoByID = getSimuladoByID;
+module.exports.listSimuladosArea = listSimuladosArea;
+module.exports.getSimuladoArea = getSimuladoArea;
 
 // Insert Simulado
 function insertSimulado(simulado, callback){
     database.query(
-		'INSERT INTO simulado(usuario, tempoExecucao, titulo) values($1, $2, $3)',
-		[simulado.user, simulado.executionTime, simulado.title], 
+		'INSERT INTO simulado(usuario, tempoExecucao, titulo, area) values($1, $2, $3, $4)',
+		[simulado.user, simulado.executionTime, simulado.title, simulado.area], 
 		callback
 	);
 }
@@ -88,3 +91,21 @@ module.exports.deleteSimulado = (function (id, callback) {
         callback
     );
 });
+
+// List Simulado por Area
+function listSimuladosArea(callback){
+	database.query(
+		'SELECT area, count(id) FROM simulado GROUP BY area',
+		[],
+		callback
+	);
+}
+
+// GEt Simulado por Area
+function getSimuladoArea(area, callback){
+	database.query(
+		'SELECT * FROM simulado simulado WHERE area = ($1)',
+		[area],
+		callback
+	);
+}
