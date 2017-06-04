@@ -25,14 +25,20 @@
                     <br>
                     <div v-for="alt in alternativesList">
                         <p><b>{{alt.pergunta}}</b></p>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.a, 'inativa': erradas[alt.id] == alt.a}">{{alt.a}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.b, 'inativa': erradas[alt.id] == alt.b}">{{alt.b}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.c, 'inativa': erradas[alt.id] == alt.c}">{{alt.c}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.d, 'inativa': erradas[alt.id] == alt.d}">{{alt.d}}</b></small></h4>
+                        <h4><small>{{alt.a}}</b></small></h4>
+                        <h4><small>{{alt.b}}</b></small></h4>
+                        <h4><small>{{alt.c}}</b></small></h4>
+                        <h4><small>{{alt.d}}</b></small></h4>
                         <pre><b>Feedback do Professor:</b><br>{{alt.feedback}}</pre>
+                        <div v-if="respostas[alt.id]">
+                            <pre><h4><b>Você acertou!</b></h4></pre>
+                        </div>
+                        <div v-else>
+                            <pre><h4><b>Você errou!</b></h4></pre>
+                        </div>
                         <br>
                     </div>
-                                        
+                                                        
                 </blockquote>
     
                 <div class="col-lg-10 col-lg-offset-2">
@@ -56,7 +62,8 @@
                 respostas:[],
                 corretas:[],
                 correcao: [],
-                erradas: []
+                erradas: [],
+                contador: 0
             }
         },
     
@@ -68,41 +75,123 @@
                     console.log('error')
                 })
             },
-            corrigirSimulado(){
-                for(var i = 0; i < this.respostas.length; i++){
-                    if(this.respostas[i] == this.corretas[i]){
-                        console.log('acertou a questão ' + i);
-                        this.correcao.push(this.respostas[i]);
-                        this.erradas.push('null');
-                        this.updateCorretaBd(this.alternativesList[i].questionId);                        
-                    }else {
-                        console.log('errou a questão ' + i + '. A correta é a ' + this.corretas[i]);
-                        this.correcao.push(this.corretas[i]);
-                        this.erradas.push(this.respostas[i]);
-                        this.updateCorretaBd(this.alternativesList[i].questionId);
-                    }
-                }
-            },
-            updateCorretaBd(questionId){
-                var url = 'http://localhost:3000/questoes-simulado/s/'+ this.$route.params.id 
-                            +'/q/' + questionId;
-                this.$http.post(url).then((response) => {
-                    console.log('Atualizou');
+            getQuestions(simuladoID){
+                this.$http.get('http://localhost:3000/questoes-simulado/s/' + simuladoID).then((response) => {
+                    this.generateResponse(response.data.data);
                 }, error => {
                     console.log('error')
                 })
+            },
+            generateResponse(array) {
+                var t = this;
+                var id = 0;
+                var cont = 0;
+                
+                for(var i = 0; i < array.length; i++){
+                    cont++;
+                    if(cont == array.length){
+                        t.getPergunta(array[i], t, id, array.length)
+                        id++;
+                        t.getRespostasUsuario(array);
+                    } else{
+                        t.getPergunta(array[i], t, id, array.length)
+                        id++;
+                    }
+                 }
+                                
+            },
+            sortAlternativeList(){
+                this.alternativesList.sort(function(a, b){
+                        return a.id - b.id;
+                });
+                console.log(this.alternativesList);
+                this.getRespostasUsuario();
+            },
+            getRespostasUsuario(array){
+                var t = this;
+                array.forEach(function(data){
+                    t.respostas.push(data.correta);
+                });
+            },
+            getPergunta(questaoSimulado, t, id, qtdQuestoes) {
+                var url = 'http://localhost:3000/questions/pergunta/' + questaoSimulado.questao;
+                t.$http.get(url)
+                    .then((response) => {
+                        t.getAlternative(questaoSimulado, t, response.body.data, id, qtdQuestoes);
+                    }, error => {
+                        console.log('error')
+                    });
+
+            },
+            getAlternative(questaoSimulado, t, data, id, qtdQuestoes) {
+                var url = 'http://localhost:3000/alternatives/list/' + questaoSimulado.questao;
+                t.$http.get(url)
+                    .then(response => {
+                        var array = response.body.data;
+                        var cont = 0;
+                        this.contador++;
+                        for (var i = 0; i < array.length; i += 4) {
+                            cont = i;
+                            var obj = {
+                                id: id,
+                                pergunta: data.pergunta,
+                                a: array[cont].alternative,
+                                b: array[cont + 1].alternative,
+                                c: array[cont + 2].alternative,
+                                d: array[cont + 3].alternative,
+                                feedback: data.feedback,
+                                questionId: questaoSimulado.questao,
+                                correta: t.getCorrect(array)
+                            }                     
+                            if(this.contador == qtdQuestoes){
+                                t.alternativesList.push(obj);
+                                t.corrigirSimulado();
+                            }else{
+                                t.alternativesList.push(obj);
+                            }
+                        }
+                    }, response => {
+                        console.log('error')
+                    });
+            },
+            getCorrect(array){
+                var correta = null;
+                for(var i = 0; i < array.length; i++){
+                    if(array[i].correct){
+                        correta = array[i].alternative;
+                        break;
+                    }
+                }
+                return correta;
+            },
+            corrigirSimulado(){
+                var t = this;
+                this.alternativesList.forEach(function(data){
+                    t.corretas.push(data.correta);
+                });
+                
+                this.alternativesList.forEach(function(data){
+                    if(t.respostas[data.id]){
+                        console.log('acertou a questão ' + data.id);
+                        // t.correcao.push(t.corretas[data.id]);
+                        // t.erradas.push('null');
+                    }else{
+                        console.log('errou a questão ' + data.id + '. A correta é a ' + t.corretas[data.id]);
+                        // t.correcao.push(t.corretas[data.id]);
+                        // t.erradas.push(t.respostas[data.id]);
+                    }
+                });
             }
         },
     
         created() {
-            this.respostas = this.$store.state.simulado.resposta
-            this.corretas = this.$store.state.simulado.corretas
-            this.alternativesList = this.$store.state.simulado.alternativesList;
-            console.log('Usuario', this.respostas);
-            console.log('Corretas', this.corretas);
-            this.getSimuladoPerId(this.$route.params.id),
-            this.corrigirSimulado()            
-            console.log(this.alternativesList);
+            
+            this.alternativesList.sort(function(a, b){
+                return a.id - b.id;
+            });
+            
+            this.getSimuladoPerId(this.$route.params.id)
+            this.getQuestions(this.$route.params.id)
         },
 
          filters: {

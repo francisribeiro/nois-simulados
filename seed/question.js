@@ -4,7 +4,6 @@ const Alternative = require('../models/alternative');
 module.exports = (function () {
 	var area = ['Área 1', 'Área 2', 'Área 3', 'Área 4', 'Área 5'];
 	var feedback = ['OK', 'NOT OK'];
-	var alternatives = ['letra A', 'letra B', 'letra C', 'letra D'];
 
 	return {
 		run: run
@@ -17,10 +16,12 @@ module.exports = (function () {
 
 	function questions(){
 		for(var i = 1; i <= 300; i++){
+			var num1 = Math.floor(Math.random() * 100);
+			var num2 = Math.floor(Math.random() * 100);
 			if(i <= 280)
-				insertQuestion(generateQuestion(i, 'ativa', 'ok'));
+				insertQuestion(generateQuestion(i, 'ativa', 'ok', num1, num2));
 			else
-				insertQuestion(generateQuestion(i, 'inativa', 'not ok'));
+				insertQuestion(generateQuestion(i, 'inativa', 'not ok', num1, num2));
 		}
 	}
 
@@ -46,24 +47,25 @@ module.exports = (function () {
 		return area[Math.floor(Math.random() * 4)];
 	}
 
-	function generateQuestion(i, status, feedback){
+	function generateQuestion(i, status, feedback, num1, num2){
+		var pergunta = num1 + "+" + num2;
 		return new Question(
 			i,
 			status,
 			getTimesAppeared(),
 			getArea(),
 			feedback,
-			'Pergunta ' + i
+			pergunta
 		);
 	}
 
 	function getIdQuestion(question, callback){
 		Question.getIdQuestion(question, function(err, result){
-			insertAlternative(result.rows[0].id);
+			insertAlternative(question, result.rows[0].id);
 		});
 	}
 	
-	function insertAlternative(questionId){
+	function insertAlternative(question, questionId){
     	var indexCorrect = Math.floor(Math.random() * 4);
     	var aCorreta, bCorreta, cCorreta, dCorreta;
     	aCorreta = (indexCorrect == 0) ? true : false;
@@ -71,12 +73,21 @@ module.exports = (function () {
     	cCorreta = (indexCorrect == 2) ? true : false;
     	dCorreta = (indexCorrect == 3) ? true : false;
 
+    	var res = question.split("+");
+    	var correta = parseInt(res[0]) + parseInt(res[1]);
+
+    	var letraA, letraB, letraC, letraD;
+    	letraA = aCorreta ? parseInt(correta) : parseInt(randomSum());
+    	letraB = bCorreta ? parseInt(correta) : parseInt(randomSum());
+    	letraC = cCorreta ? parseInt(correta) : parseInt(randomSum());
+    	letraD = dCorreta ? parseInt(correta) : parseInt(randomSum());
+
     	var alternativeList = {
     		alternativas: [
-	            {letra: alternatives[0], correta:aCorreta},
-	            {letra: alternatives[1], correta:bCorreta},
-	            {letra: alternatives[2], correta:cCorreta},
-	            {letra: alternatives[3], correta:dCorreta}
+	            {letra: letraA, correta:aCorreta},
+	            {letra: letraB, correta:bCorreta},
+	            {letra: letraC, correta:cCorreta},
+	            {letra: letraD, correta:dCorreta}
 	        ],
 	        questao: questionId	
     	};
@@ -89,5 +100,10 @@ module.exports = (function () {
 				console.log('Alternativa não foi inserida!');
 			}
 		);
+	}
+
+	function randomSum(){
+		var num = (parseInt(Math.floor(Math.random() * 100))) + parseInt((Math.floor(Math.random() * 100)));
+		return num;
 	}
 })();

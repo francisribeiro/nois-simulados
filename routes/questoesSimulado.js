@@ -42,3 +42,26 @@ router.post('/s/:s/q/:q', function(req, res, next){
             res.json(WrappedResponse.generateResponse(200, 'success', 'Update Correta Successfully!', ''));
     });
 });
+
+// Get Questoes Por Simulado
+router.get('/s/:s', function(req, res, next){
+    QuestoesSimulado.getQuestoesSimulado(req.params.s, function(err, result){
+        if(err)
+            res.json(WrappedResponse.generateResponse(400, 'error', 'Error at Get Questions Simulado Successfully!', ''));
+        else{
+            if(result.rows == null){
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Questions Simulado Successfully!', ''));  
+            }else{
+                var array = [];
+                result.rows.forEach(function(q){
+                    var obj = {
+                        questao: q.questao,
+                        correta: q.correta
+                    };
+                    array.push(obj);
+                });
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Questions Simulado Successfully!', array));  
+            }            
+        }
+    });
+});

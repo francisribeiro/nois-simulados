@@ -30,7 +30,7 @@
             <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[2]"> {{alternativesList[question].c}}<br></h4>
             <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[3]"> {{alternativesList[question].d}}<br></h4>
             <br>
-    
+            <pre>{{alternativesList[question]}}</pre>
             <div class="col-lg-10 col-lg-offset-1 text-center">
                 <a v-on:click="decrementQuestion" v-if="question > 0" to="/" class="btn btn-success">Voltar</a>
                 <a v-on:click="incrementQuestion" v-if="question < this.$store.state.simulado.size" class="btn btn-primary">Proxima </a>
