@@ -139,7 +139,7 @@ function listArea(callback){
 // Get Title
 function getPergunta(questionId, callback){
 	database.query(
-		'SELECT pergunta FROM questao WHERE id = ($1)',
+		'SELECT * FROM questao WHERE id = ($1)',
 		[questionId],
 		callback
 	);

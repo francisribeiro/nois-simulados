@@ -30,13 +30,10 @@ const state = {
       this.simulado.resposta[qId] = resposta;
     else
       this.simulado.resposta.push(resposta);
-
-    console.log(this.simulado.resposta)
   },
 
   setCorreta(correta){
     this.simulado.corretas.push(correta);
-    // console.log(this.simulado.corretas);
   }
 }
 

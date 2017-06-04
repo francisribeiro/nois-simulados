@@ -25,10 +25,11 @@
                     <br>
                     <div v-for="alt in alternativesList">
                         <p><b>{{alt.pergunta}}</b></p>
-                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'a', 'ativa': corretas[alt.id] == 'a', 'inativa': respostas[alt.id] == 'a'}">{{alt.a}}</b></small></h4>
-                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'b', 'ativa': corretas[alt.id] == 'b', 'inativa': respostas[alt.id] == 'b'}">{{alt.b}}</b></small></h4>
-                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'c', 'ativa': corretas[alt.id] == 'c', 'inativa': respostas[alt.id] == 'c'}">{{alt.c}}</b></small></h4>
-                        <h4><small v-bind:class="{ 'ok': corretas[alt.id] == respostas[alt.id] && respostas[alt.id] == 'd', 'ativa': corretas[alt.id] == 'd', 'inativa': respostas[alt.id] == 'd'}">{{alt.d}}</b></small></h4>
+                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.a, 'inativa': erradas[alt.id] == alt.a}">{{alt.a}}</b></small></h4>
+                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.b, 'inativa': erradas[alt.id] == alt.b}">{{alt.b}}</b></small></h4>
+                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.c, 'inativa': erradas[alt.id] == alt.c}">{{alt.c}}</b></small></h4>
+                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.d, 'inativa': erradas[alt.id] == alt.d}">{{alt.d}}</b></small></h4>
+                        <pre><b>Feedback do Professor:</b><br>{{alt.feedback}}</pre>
                         <br>
                     </div>
                                         
@@ -53,7 +54,9 @@
                 simulado: [],
                 alternativesList: [],
                 respostas:[],
-                corretas:[]
+                corretas:[],
+                correcao: [],
+                erradas: []
             }
         },
     
@@ -91,7 +94,7 @@
             });
             
         },
-        getAlternative(questionId, t, pergunta, id){
+        getAlternative(questionId, t, data, id){
             var url = 'http://localhost:3000/alternatives/list/' + questionId;
                 t.$http.get(url)
                 .then(response => {
@@ -101,27 +104,41 @@
                         cont = i;
                         var obj = {
                             id:id,
-                            pergunta: pergunta,
+                            pergunta: data.pergunta,
                             a: array[cont].alternative,
                             b: array[cont+1].alternative,
                             c: array[cont+2].alternative,
-                            d: array[cont+3].alternative
+                            d: array[cont+3].alternative,
+                            feedback: data.feedback
                         }
                         this.alternativesList.push(obj);
                     }
                 }, response => {
                     console.log('error')
                 });
+            },
+            corrigirSimulado(){
+                for(var i = 0; i < this.respostas.length; i++){
+                    if(this.respostas[i] == this.corretas[i]){
+                        console.log('acertou a questão ' + i);
+                        this.correcao.push(this.respostas[i]);
+                    }else {
+                        console.log('errou a questão ' + i + '. A correta é a ' + this.corretas[i]);
+                        this.correcao.push(this.corretas[i]);
+                        this.erradas.push(this.respostas[i]);
+                    }
+                }
             }
         },
     
         created() {
             this.respostas = this.$store.state.simulado.resposta
             this.corretas = this.$store.state.simulado.corretas
-            console.log(this.respostas);
-            console.log(this.corretas);
+            console.log('Usuario', this.respostas);
+            console.log('Corretas', this.corretas);
             this.getSimuladoPerId(this.$route.params.id),
-            this.getAlternatives(this.$route.params.id)
+            this.getAlternatives(this.$route.params.id),
+            this.corrigirSimulado()
         },
 
          filters: {

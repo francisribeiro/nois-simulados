@@ -199,7 +199,7 @@ router.get('/pergunta/:id', function(req, res, next){
     Question.getPergunta(req.params.id, function(err, result){
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get pergunta!', null));
         else {
-            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Pergunta Successfully!', result.rows[0].pergunta));
+            res.json(WrappedResponse.generateResponse(200, 'success', 'Get Pergunta Successfully!', result.rows[0]));
         }
     });
 });

@@ -59,7 +59,6 @@ export default {
     methods: {
         finalizarSimulado(){
             this.$store.state.setResposta(this.question, this.getAlternativePicked())
-            console.log(this.$store.state.simulado.corretas);
             this.confirmMsg() 
         },
         incrementQuestion() {
@@ -107,7 +106,7 @@ export default {
             var url = 'http://localhost:3000/questions/pergunta/' + questionId;
             t.$http.get(url)
                 .then((response) => {
-                    t.getAlternative(questionId, t, response.body.data);
+                    t.getAlternative(questionId, t, response.body.data.pergunta);
                 }, error => {
                     console.log('error')
                 });
