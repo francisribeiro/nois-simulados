@@ -1,5 +1,5 @@
 <template>
-    <div class="ViewSimulados">
+    <div class="CorrecaoSimulados">
         <header id="header">
             <div class="container">
                 <div class="row">
@@ -47,7 +47,7 @@
 
 <script>
     export default {
-        name: 'ViewSimulados',
+        name: 'CorrecaoSimulados',
     
         data() {
             return {
@@ -68,77 +68,41 @@
                     console.log('error')
                 })
             },
-    
-            getAlternatives(simuladoId) {
-                this.$http.get(`http://localhost:3000/alternatives/simulado/${simuladoId}`).then((response) => {
-                    this.generateResponse(response.body.data.questoes);
-                }, error => {
-                    console.log('error')
-                })
-            },
-            generateResponse(questions){
-            var t = this;
-            var id = 0;
-            questions.forEach(function(q){
-                t.getPergunta(q, t, id)
-                id++;
-            });
-        },
-        getPergunta(questionId, t, id){
-            var url = 'http://localhost:3000/questions/pergunta/' + questionId;
-            t.$http.get(url)
-            .then((response) => {
-                t.getAlternative(questionId, t, response.body.data, id);
-            }, error => {
-                console.log('error')
-            });
-            
-        },
-        getAlternative(questionId, t, data, id){
-            var url = 'http://localhost:3000/alternatives/list/' + questionId;
-                t.$http.get(url)
-                .then(response => {
-                    var array = response.body.data;
-                    var cont = 0;
-                    for(var i=0; i<array.length; i+=4){
-                        cont = i;
-                        var obj = {
-                            id:id,
-                            pergunta: data.pergunta,
-                            a: array[cont].alternative,
-                            b: array[cont+1].alternative,
-                            c: array[cont+2].alternative,
-                            d: array[cont+3].alternative,
-                            feedback: data.feedback
-                        }
-                        this.alternativesList.push(obj);
-                    }
-                }, response => {
-                    console.log('error')
-                });
-            },
             corrigirSimulado(){
                 for(var i = 0; i < this.respostas.length; i++){
                     if(this.respostas[i] == this.corretas[i]){
                         console.log('acertou a questão ' + i);
                         this.correcao.push(this.respostas[i]);
+                        this.erradas.push('null');
+                        this.updateCorretaBd(this.alternativesList[i].questionId);                        
                     }else {
                         console.log('errou a questão ' + i + '. A correta é a ' + this.corretas[i]);
                         this.correcao.push(this.corretas[i]);
                         this.erradas.push(this.respostas[i]);
+                        this.updateCorretaBd(this.alternativesList[i].questionId);
                     }
                 }
+            },
+            updateCorretaBd(questionId){
+                var url = 'http://localhost:3000/questoes-simulado/s/'+ this.$route.params.id 
+                            +'/q/' + questionId;
+                this.$http.post(url).then((response) => {
+                    console.log('Atualizou');
+                }, error => {
+                    console.log('error')
+                })
             }
         },
     
         created() {
             this.respostas = this.$store.state.simulado.resposta
             this.corretas = this.$store.state.simulado.corretas
+            this.alternativesList = this.$store.state.simulado.alternativesList;
             console.log('Usuario', this.respostas);
             console.log('Corretas', this.corretas);
             this.getSimuladoPerId(this.$route.params.id),
-            this.getAlternatives(this.$route.params.id),
-            this.corrigirSimulado()
+            this.corrigirSimulado()            
+            console.log(this.alternativesList);
         },
 
          filters: {

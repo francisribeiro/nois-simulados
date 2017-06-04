@@ -32,7 +32,7 @@
                         <pre><b>Feedback do Professor:</b><br>{{alt.feedback}}</pre>
                         <br>
                     </div>
-                                        
+                                                        
                 </blockquote>
     
                 <div class="col-lg-10 col-lg-offset-2">
@@ -69,19 +69,19 @@
                 })
             },
             corrigirSimulado(){
-                for(var i = 0; i < this.respostas.length; i++){
-                    if(this.respostas[i] == this.corretas[i]){
-                        console.log('acertou a questão ' + i);
-                        this.correcao.push(this.respostas[i]);
-                        this.erradas.push('null');
-                        this.updateCorretaBd(this.alternativesList[i].questionId);                        
-                    }else {
-                        console.log('errou a questão ' + i + '. A correta é a ' + this.corretas[i]);
-                        this.correcao.push(this.corretas[i]);
-                        this.erradas.push(this.respostas[i]);
-                        this.updateCorretaBd(this.alternativesList[i].questionId);
+                var t = this;
+                this.alternativesList.forEach(function(data){
+                    if(t.respostas[data.id] == t.corretas[data.id]){
+                        console.log('acertou a questão ' + data.id);
+                        t.correcao.push(t.respostas[data.id]);
+                        t.erradas.push('null');
+                        t.updateCorretaBd(data.questionId);
+                    }else{
+                        console.log('errou a questão ' + data.id + '. A correta é a ' + t.corretas[data.id]);
+                        t.correcao.push(t.corretas[data.id]);
+                        t.erradas.push(t.respostas[data.id]);
                     }
-                }
+                });
             },
             updateCorretaBd(questionId){
                 var url = 'http://localhost:3000/questoes-simulado/s/'+ this.$route.params.id 
@@ -98,6 +98,9 @@
             this.respostas = this.$store.state.simulado.resposta
             this.corretas = this.$store.state.simulado.corretas
             this.alternativesList = this.$store.state.simulado.alternativesList;
+            this.alternativesList.sort(function(a, b){
+                return a.id - b.id;
+            });
             console.log('Usuario', this.respostas);
             console.log('Corretas', this.corretas);
             this.getSimuladoPerId(this.$route.params.id),
