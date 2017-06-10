@@ -43,6 +43,7 @@ export default {
             return parseInt(this.total / 3600);
         }
     }
+
 }
 </script>
 

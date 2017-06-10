@@ -36,37 +36,41 @@ router.post('/area/:a/limite/:l', function (req, res, next) {
     });
 });
 
-function getQuestoes(area, limite, id, res){
-    Question.getQuestionsSimulado(area, limite, function(err, result){
-        if(result.rows.length == 0 || result.rows == null){
+function getQuestoes(area, limite, id, res) {
+    Question.getQuestionsSimulado(area, limite, function (err, result) {
+        if (result.rows.length == 0 || result.rows == null) {
             res.json(WrappedResponse.generateResponse(200, 'success',
-                        'Insert Simulado Successfully!', ''));
-        }else{
+                'Insert Simulado Successfully!', ''));
+        } else {
             var cont = 0;
             var array = getIDs(result.rows);
-            array.forEach(function(qId){
-                Question.updateVezesApareceu(qId, function(err, result){
+            array.forEach(function (qId) {
+                Question.updateVezesApareceu(qId, function (err, result) {
                     cont++;
-                    if(cont == array.length){
+                    if (cont == array.length) {
                         response(id, array, res);
                     }
                 });
             });
-        }        
+        }
     });
 }
 
-function response(id, questoes, res){
+function response(id, questoes, res) {
     var obj = [];
-    obj.push({id: id});
-    obj.push({questoes: questoes});
+    obj.push({
+        id: id
+    });
+    obj.push({
+        questoes: questoes
+    });
     res.json(WrappedResponse.generateResponse(200, 'success',
-                    'Insert Simulado Successfully!', obj));
+        'Insert Simulado Successfully!', obj));
 }
 
-function getIDs(array){
+function getIDs(array) {
     var questoes = [];
-    for(var i = 0; i < array.length; i++){
+    for (var i = 0; i < array.length; i++) {
         questoes.push(array[i].id);
     }
     return questoes;
@@ -78,9 +82,9 @@ router.get('/usuario/:u/titulo/:t', function (req, res, next) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado!', null));
         else {
             let row = result.rows[0];
-            if(row == null){
+            if (row == null) {
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado Successfully!', ''));
-            }else{
+            } else {
                 let simulado = new Simulado(
                     row.id,
                     row.usuario,
@@ -114,14 +118,14 @@ router.get('/list', function (req, res, next) {
 
 
 // Get Simulados por Usuário
-router.get('/usuario/:u', function(req, res, next){
+router.get('/usuario/:u', function (req, res, next) {
     Simulado.getSimuladosByUsuario(req.params.u, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado por usuario!', null));
         else {
             let row = result.rows[0];
-            if(row == null){
+            if (row == null) {
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado por Usuário Successfully!', ''));
-            }else{
+            } else {
                 let simulados = new Array();
                 result.rows.forEach(function (s) {
                     simulados.push(new Simulado(
@@ -150,8 +154,8 @@ router.get('/s-c', function (req, res, next) {
 });
 
 // Get Simulado por ID
-router.get('/:id', function(req, res, next){
-    Simulado.getSimuladoByID(req.params.id, function(err, result){
+router.get('/:id', function (req, res, next) {
+    Simulado.getSimuladoByID(req.params.id, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado by id!', null));
         else {
             res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado by ID Successfully!', result.rows[0]));
@@ -168,22 +172,20 @@ router.delete('/:id', function (req, res, next) {
 });
 
 // Get Simulado por Area
-router.get('/list/area', function(req, res, next){
-    Simulado.listSimuladosArea(function(err, result){
+router.get('/list/area', function (req, res, next) {
+    Simulado.listSimuladosArea(function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado per area!', null));
         else {
             var rows = result.rows;
-            if(rows == null){
+            if (rows == null) {
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', ''));
-            }else{
+            } else {
                 var array = [];
-                rows.forEach(function(data){
-                    array.push(
-                        {
-                            area: data.area,
-                            quantidade: data.count     
-                        }
-                    );
+                rows.forEach(function (data) {
+                    array.push({
+                        area: data.area,
+                        quantidade: data.count
+                    });
                 });
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', array));
             }
@@ -192,13 +194,13 @@ router.get('/list/area', function(req, res, next){
 });
 
 // Get Simulados by Area
-router.get('/area/:a', function(req, res, next){
-    Simulado.getSimuladoArea(req.params.a, function(err, result){
+router.get('/area/:a', function (req, res, next) {
+    Simulado.getSimuladoArea(req.params.a, function (err, result) {
         if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado by area!', null));
         else {
-            if(result.rows == null){
+            if (result.rows == null) {
                 res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulados by Area Successfully!', ''));
-            }else{
+            } else {
                 let simulados = new Array();
                 result.rows.forEach(function (q) {
                     simulados.push(new Simulado(
@@ -214,3 +216,13 @@ router.get('/area/:a', function(req, res, next){
         }
     });
 });
+
+// Update simulado time
+router.put('/u-t', function (req, res, next) {
+    time = req.body.time;
+    id = req.body.id;
+    Simulado.updateSimuladoTime(time, id, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at update Simulado!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Update Simulado Successfully!', id));
+    });
+})

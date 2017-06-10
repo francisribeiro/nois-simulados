@@ -109,3 +109,13 @@ function getSimuladoArea(area, callback){
 		callback
 	);
 }
+
+
+    // Update User
+module.exports.updateSimuladoTime = (function(time, id, callback){
+	database.query(
+		'UPDATE simulado set tempoexecucao = $1 WHERE id = $2',
+		[time, id], 
+		callback
+	);
+});

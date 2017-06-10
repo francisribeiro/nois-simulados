@@ -21,24 +21,37 @@
                 </ol>
             </div>
         </section>
-        
+    
         <div v-model="question" class="form-signin form-horizontal well form-size">
-                  <countdown></countdown>
-
+            <countdown></countdown>
+    
             <h4>
                 <b>{{alternativesList[question].pergunta}}</b>
             </h4>
-            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[0]"> {{alternativesList[question].a}}<br></h4>
-            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[1]"> {{alternativesList[question].b}}<br></h4>
-            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[2]"> {{alternativesList[question].c}}<br></h4>
-            <h4><input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[3]"> {{alternativesList[question].d}}<br></h4>
+            <h4>
+                <input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[0]"> {{alternativesList[question].a}}
+                <br>
+            </h4>
+            <h4>
+                <input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[1]"> {{alternativesList[question].b}}
+                <br>
+            </h4>
+            <h4>
+                <input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[2]"> {{alternativesList[question].c}}
+                <br>
+            </h4>
+            <h4>
+                <input type="radio" name="radiogroup" v-model="picked" v-bind:value="defaultValue[3]"> {{alternativesList[question].d}}
+                <br>
+            </h4>
             <br>
-             <div class="col-lg-10 col-lg-offset-1 text-center">
+            <div class="col-lg-10 col-lg-offset-1 text-center">
                 <a v-on:click="decrementQuestion" v-if="question > 0" to="/" class="btn btn-success">Voltar</a>
                 <a v-on:click="incrementQuestion" v-if="question < this.$store.state.simulado.size" class="btn btn-primary">Proxima </a>
                 <a v-on:click="finalizarSimulado" v-if="question == this.$store.state.simulado.size" class="btn btn-info">Finalizar Simulado</a>
             </div>
-            <br><br>
+            <br>
+            <br>
         </div>
     
     </div>
@@ -52,16 +65,17 @@ export default {
     data() {
         return {
             alternativesList: [],
-            respostas:[],
+            respostas: [],
             question: 0,
             picked: null,
-            defaultValue:['a', 'b', 'c', 'd']
+            defaultValue: ['a', 'b', 'c', 'd']
         }
     },
     methods: {
-        finalizarSimulado(){
+        finalizarSimulado() {
             this.$store.state.setResposta(this.question, this.getAlternativePicked())
-            this.confirmMsg() 
+            this.updateTime();
+            this.confirmMsg()
         },
         incrementQuestion() {
             this.$store.state.setResposta(this.question, this.getAlternativePicked())
@@ -69,17 +83,17 @@ export default {
             this.question += 1;
             this.$router.push(`/simulados/iniciar/${this.$store.state.simulado.id}/${this.question}`)
         },
-        getAlternativePicked(){
+        getAlternativePicked() {
             var alternativePicked = null
-            if(this.picked == 'a'){
+            if (this.picked == 'a') {
                 alternativePicked = this.alternativesList[this.question].a;
-            }else if(this.picked == 'b'){
+            } else if (this.picked == 'b') {
                 alternativePicked = this.alternativesList[this.question].b;
-            }else if(this.picked == 'c'){
+            } else if (this.picked == 'c') {
                 alternativePicked = this.alternativesList[this.question].c;
-            }else{
+            } else {
                 alternativePicked = this.alternativesList[this.question].d;
-            }                                                
+            }
             return alternativePicked;
         },
         decrementQuestion() {
@@ -102,22 +116,22 @@ export default {
             var t = this;
             var id = 0;
             var cont = 0;
-            for(var i = 0; i < questions.length; i++){
+            for (var i = 0; i < questions.length; i++) {
                 cont++;
-                if(cont == questions.length){
+                if (cont == questions.length) {
                     t.getPergunta(questions[i], t, id)
                     id++;
                     this.sortAlternativeList();
-                } else{
+                } else {
                     t.getPergunta(questions[i], t, id)
                     id++;
                 }
-                
+
             }
         },
-        sortAlternativeList(){
-            this.alternativesList.sort(function(a, b){
-                    return a.id - b.id;
+        sortAlternativeList() {
+            this.alternativesList.sort(function (a, b) {
+                return a.id - b.id;
             });
         },
         getPergunta(questionId, t, id) {
@@ -156,15 +170,26 @@ export default {
                     console.log('error')
                 });
         },
-        getCorrect(array){
+        getCorrect(array) {
             var correta = null;
-            for(var i = 0; i < array.length; i++){
-                if(array[i].correct){
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].correct) {
                     correta = array[i].alternative;
                     break;
                 }
             }
             return correta;
+        },
+        updateTime() {
+            var url = 'http://localhost:3000/simulados/u-t';
+            this.$http.put(url, {
+                id: this.$store.state.simulado.id,
+                time: this.$store.state.simulado.tempo
+            }).then(response => {
+                console.log('success')
+            }, error => {
+                console.log('error')
+            })
         },
         confirmMsg() {
             this.$swal({

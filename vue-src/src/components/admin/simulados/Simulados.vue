@@ -54,7 +54,7 @@
                                         <tr valign="middle" v-for="simulado in filterBy(simulados, filterInput)">
                                             <td>{{simulado.title}}</td>
                                             <td>
-                                                <b>{{simulado.executionTime | formatDate}}</b>
+                                                <b>{{simulado.executionTime}}</b>
                                             </td>
     
                                             <td>

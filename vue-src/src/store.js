@@ -11,15 +11,16 @@ const state = {
     resposta: [],
     corretas: [],
     alternativesList: [],
-    tempo: '',
+    tempo: null,
   },
 
   setTempo(totalTimeinSeconds) {
     var seconds = totalTimeinSeconds % 60;
     var minutes = parseInt(totalTimeinSeconds / 60);
     var hours = parseInt(totalTimeinSeconds / 3600);
-    this.tempo = hours + ' : ' + minutes + ' : ' + seconds;
+    this.simulado.tempo = hours + ' : ' + minutes + ' : ' + seconds;
   },
+
 
   setSimuladoID(id) {
     this.simulado.id = id;
