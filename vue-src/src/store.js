@@ -10,7 +10,15 @@ const state = {
     size: null,
     resposta: [],
     corretas: [],
-    alternativesList: []
+    alternativesList: [],
+    tempo: '',
+  },
+
+  setTempo(totalTimeinSeconds) {
+    var seconds = totalTimeinSeconds % 60;
+    var minutes = parseInt(totalTimeinSeconds / 60);
+    var hours = parseInt(totalTimeinSeconds / 3600);
+    this.tempo = hours + ' : ' + minutes + ' : ' + seconds;
   },
 
   setSimuladoID(id) {
@@ -33,11 +41,11 @@ const state = {
       this.simulado.resposta.push(resposta);
   },
 
-  setCorreta(correta){
+  setCorreta(correta) {
     this.simulado.corretas.push(correta);
   },
 
-  setAlternativeList(lista){
+  setAlternativeList(lista) {
     this.simulado.alternativesList = lista;
   }
 }

@@ -21,7 +21,7 @@
             <fieldset>
                 <blockquote>
                     <p><b>{{simulado.titulo}}</b></p>
-                    <p>Tempo de Execução: {{simulado.tempoexecucao | formatDate}}</p>
+                    <p>Tempo de Execução: {{simulado.tempoexecucao}}</p>
                     <br>
                     <div v-for="alt in alternativesList">
                         <p><b>{{alt.pergunta}}</b></p>
