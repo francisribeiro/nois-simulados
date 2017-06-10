@@ -33,6 +33,9 @@ import CorrecaoSimulados from './components/admin/simulados/CorrecaoSimulados'
 // Relatórios
 import Relatorios from './components/admin/relatorios/Relatorios'
 
+// Countdown
+import Countdown from './components/Countdown'
+
 // Sweet Alert
 import VueSweetAlert from 'vue-sweetalert'
 
@@ -85,6 +88,7 @@ const router = new VueRouter({
 
 // Components register
 Vue.component('sidebar', Sidebar);
+Vue.component('countdown', Countdown);
 
 // Route Safe Guard
 router.beforeEach((to, from, next) => {
@@ -97,9 +101,27 @@ router.beforeEach((to, from, next) => {
   next()
 });
 
+
+Vue.filter('two_digits', function (value) {
+    if(value.toString().length <= 1)
+    {
+        return "0"+value.toString();
+    }
+    return value.toString();
+});
+
 // App Register
 const app = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
+
+
+Vue.filter('two_digits', function (value) {
+    if(value.toString().length <= 1)
+    {
+        return "0"+value.toString();
+    }
+    return value.toString();
+});

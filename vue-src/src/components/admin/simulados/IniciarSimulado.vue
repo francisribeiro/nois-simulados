@@ -21,7 +21,10 @@
                 </ol>
             </div>
         </section>
+        
         <div v-model="question" class="form-signin form-horizontal well form-size">
+                  <countdown></countdown>
+
             <h4>
                 <b>{{alternativesList[question].pergunta}}</b>
             </h4>
