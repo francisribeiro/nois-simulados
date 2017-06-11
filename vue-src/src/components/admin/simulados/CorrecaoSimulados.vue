@@ -21,8 +21,8 @@
             <fieldset>
                 <blockquote>
                     <p><b>{{simulado.titulo}}</b></p>
-                    <p v-if="nota >= 70" style="color: #000000"><b>Nota: {{nota | formatNota}}</b></p>
-                    <p v-if="nota < 70" style="color: #000000"><b>Nota: {{nota | formatNota}}</b></p>
+                    <p v-if="nota >= 70" style="color: #1D18B2"><b>Nota: {{nota | formatNota}}</b></p>
+                    <p v-if="nota < 70" style="color: #B21818"><b>Nota: {{nota | formatNota}}</b></p>
                     <p>Tempo de Execução: {{simulado.tempoexecucao}}</p>
                     <br>
                     <div v-for="alt in alternativesList">
@@ -76,19 +76,28 @@
             },
             corrigirSimulado(){
                 var t = this;
+                var cont = 0;
                 this.alternativesList.forEach(function(data){
+                    cont++;
+                    
                     if(t.respostas[data.id] == t.corretas[data.id]){
                         console.log('acertou a questão ' + data.id);
                         t.correcao.push(t.respostas[data.id]);
                         t.erradas.push('null');
                         t.updateCorretaBd(data.questionId);
                         t.acertou[data.id] = "Acertou!"
+                        if(cont == t.alternativesList.length){
+                            t.updateNota();
+                        }
                     }else{
                         console.log('errou a questão ' + data.id + '. A correta é a ' + t.corretas[data.id]);
                         t.correcao.push(t.corretas[data.id]);
                         t.erradas.push(t.respostas[data.id]);
                         t.acertou[data.id] = "Errou!"
                         t.nota -= t.cadaErro
+                        if(cont == t.alternativesList.length){
+                            t.updateNota();
+                        }
                     }
                 });
             },
@@ -97,6 +106,17 @@
                             +'/q/' + questionId;
                 this.$http.post(url).then((response) => {
                     console.log('Atualizou');
+                }, error => {
+                    console.log('error')
+                })
+            },
+            updateNota() {
+                var url = 'http://localhost:3000/simulados/u-n';
+                this.$http.put(url, {
+                    id: this.$route.params.id,
+                    nota: this.nota
+                }).then(response => {
+                    console.log('success')
                 }, error => {
                     console.log('error')
                 })

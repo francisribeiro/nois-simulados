@@ -52,6 +52,15 @@
                     <h4>Usuários</h4>
                   </div>
                 </div>
+                
+                <div class="col-md-4" v-on:click="relatorioNotaUsuario()" v-if="!relatorioProfessor">
+                  <div class="well dash-box">
+                    <h2>
+                      <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Nota
+                    </h2>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -112,6 +121,10 @@
             </table>
         </div>
     </div>
+
+    <div v-if="clicouNotaUsuario">
+            <RelatorioNotaUsuario></RelatorioNotaUsuario>
+        </div>
 
     </div>
 </template>
@@ -212,7 +225,8 @@ export default {
             simuladosArea: [],
             clicouSimulado: false,
             simulados: [],
-            relatorioProfessor: true
+            relatorioProfessor: true,
+            clicouNotaUsuario: false
         }
     },
     methods: {
@@ -283,6 +297,11 @@ export default {
         relatorioQuestao(){
             this.questaoFlag = true;
             this.simuladoFlag = false;
+        },
+        relatorioNotaUsuario(){
+            this.questaoFlag = false;
+            this.simuladoFlag = false;
+            this.clicouNotaUsuario = true;
         },
         getQuestionsArea(area) {
             this.questions = []

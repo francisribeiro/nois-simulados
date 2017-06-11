@@ -215,6 +215,13 @@ router.get('/list/usuario/:u', function (req, res, next) {
     });
 });
 
+router.get('/nota/usuario/:u/area/:a', function (req, res, next) {
+    Simulado.notaSimulado(req.params.u, req.params.a, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get nota simulado!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Get Nota Simulado Successfully!', result.rows[0]));
+    });
+});
+
 // Get Simulados by Area
 router.get('/area/:a', function (req, res, next) {
     Simulado.getSimuladoArea(req.params.a, function (err, result) {
@@ -248,3 +255,14 @@ router.put('/u-t', function (req, res, next) {
         else res.json(WrappedResponse.generateResponse(200, 'success', 'Update Simulado Successfully!', id));
     });
 })
+
+// Update simulado nota
+router.put('/u-n', function (req, res, next) {
+    nota = req.body.nota;
+    id = req.body.id;
+    Simulado.updateSimuladoNota(nota, id, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at update Simulado!', null));
+        else res.json(WrappedResponse.generateResponse(200, 'success', 'Update Simulado Successfully!', id));
+    });
+})
+

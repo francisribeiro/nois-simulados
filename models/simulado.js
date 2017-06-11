@@ -121,11 +121,30 @@ function listSimuladosAreaUsuario(usuario, callback){
 }
 
 
-    // Update User
+// Update Simulado Time
 module.exports.updateSimuladoTime = (function(time, id, callback){
 	database.query(
 		'UPDATE simulado set tempoexecucao = $1 WHERE id = $2',
 		[time, id], 
+		callback
+	);
+});
+
+// Update Simulado Nota
+module.exports.updateSimuladoNota = (function(nota, id, callback){
+	database.query(
+		'UPDATE simulado set nota = $1 WHERE id = $2',
+		[nota, id], 
+		callback
+	);
+});
+
+
+// Média Nota Simulado por Hora
+module.exports.notaSimulado = (function(usuario, area, callback){
+	database.query(
+		'SELECT avg(nota) FROM simulado WHERE usuario = ($1) and area = ($2)',
+		[usuario, area], 
 		callback
 	);
 });

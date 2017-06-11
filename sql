@@ -36,6 +36,7 @@ create table simulado(
     id serial primary key,
     usuario varchar(50) not null,
     tempoExecucao real default '0',
+    nota real default '0',
     titulo varchar(50) not null,
     area varchar(50) not null,
     foreign key(usuario) references usuario(username) on delete cascade
