@@ -36,7 +36,7 @@
                     <h4>Simulados</h4>
                   </div>
                 </div>
-                <div class="col-md-4" v-on:click="relatorioQuestao()">
+                <div class="col-md-4" v-on:click="relatorioQuestao()" v-if="relatorioProfessor">
                   <div class="well dash-box">
                     <h2>
                       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{numberOfQuestions}}
@@ -44,7 +44,7 @@
                     <h4>Questões</h4>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="relatorioProfessor">
                   <div class="well dash-box">
                     <h2>
                       <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{numberOfUsers}}
@@ -58,27 +58,33 @@
         </div>
       </div>
     </section>
-
+    
     <!-- RELATORIOS SIMULADOS -->
     <div v-if="simuladoFlag">
-        <div style="float: left; width: 50%;  height: 500px;">
-            <highcharts :options="simuladoGraph" ref="highcharts"></highcharts>
+        <div v-if="relatorioProfessor">
+            <div style="float: left; width: 50%;  height: 500px;">
+                <highcharts :options="simuladoGraph" ref="highcharts"></highcharts>
+            </div>
+            <div style="float: right; width: 50%; height: 400px; overflow: auto" v-if="clicouSimulado">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Título</th>
+                            <th>Tempo Execução</th>
+                            <th>Opção</th>
+                        </tr>
+                        <tr valign="middle" v-for="simulado in simulados">
+                            <th>{{simulado.title}}</th>
+                            <th>{{simulado.executionTime}}</th>
+                            <th><router-link id="visualizar" class=" btn btn-success btn-sm" type="button " v-bind:to="{ path: 'simulados/view/' + simulado.id } ">Visualizar</router-link></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div style="float: right; width: 50%; height: 400px; overflow: auto" v-if="clicouSimulado">
-            <table class="table table-striped table-hover">
-                <tbody>
-                    <tr>
-                        <th>Título</th>
-                        <th>Tempo Execução</th>
-                        <th>Opção</th>
-                    </tr>
-                    <tr valign="middle" v-for="simulado in simulados">
-                        <th>{{simulado.title}}</th>
-                        <th>{{simulado.executionTime}}</th>
-                        <th><router-link id="visualizar" class=" btn btn-success btn-sm" type="button " v-bind:to="{ path: 'simulados/view/' + simulado.id } ">Visualizar</router-link></th>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div v-if="!relatorioProfessor">
+            <RelatorioUsuario></RelatorioUsuario>
         </div>
     </div>
 
@@ -112,6 +118,7 @@
 
 <script>
 var context
+import auth from '../../../auth';
 export default {
     
     name: 'Relatorios',
@@ -204,7 +211,8 @@ export default {
             simuladoFlag: false,
             simuladosArea: [],
             clicouSimulado: false,
-            simulados: []
+            simulados: [],
+            relatorioProfessor: true
         }
     },
     methods: {
@@ -335,10 +343,21 @@ export default {
             }, error => {
                 console.log('error')
             })
+        },
+        getProfile() {
+            this.$http.get('http://localhost:3000/users/profile', {
+                headers: auth.getAuthHeader()
+            }).then((response) => {
+                if(response.data.data.user.tipo == 'aluno')
+                    this.relatorioProfessor = false
+            }, error => {
+                console.log('error getProfile')
+            })
         }
     },
     created(){
         context = this
+        this.getProfile()
         this.getNumberOfQuestions()
         this.getNumberOfUsers()
         this.getNumberOfSimulados()

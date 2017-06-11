@@ -19,6 +19,7 @@ module.exports.countSimulados = countSimulados;
 module.exports.getSimuladoByID = getSimuladoByID;
 module.exports.listSimuladosArea = listSimuladosArea;
 module.exports.getSimuladoArea = getSimuladoArea;
+module.exports.listSimuladosAreaUsuario = listSimuladosAreaUsuario;
 
 // Insert Simulado
 function insertSimulado(simulado, callback){
@@ -106,6 +107,15 @@ function getSimuladoArea(area, callback){
 	database.query(
 		'SELECT * FROM simulado simulado WHERE area = ($1)',
 		[area],
+		callback
+	);
+}
+
+// GET Simulado por Area e Usuario
+function listSimuladosAreaUsuario(usuario, callback){
+	database.query(
+		'SELECT area, count(id) FROM simulado WHERE usuario = ($1) GROUP BY area',
+		[usuario],
 		callback
 	);
 }

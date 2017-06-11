@@ -21,14 +21,16 @@
             <fieldset>
                 <blockquote>
                     <p><b>{{simulado.titulo}}</b></p>
+                    <p v-if="nota >= 70" style="color: #000000"><b>Nota: {{nota | formatNota}}</b></p>
+                    <p v-if="nota < 70" style="color: #000000"><b>Nota: {{nota | formatNota}}</b></p>
                     <p>Tempo de Execução: {{simulado.tempoexecucao}}</p>
                     <br>
                     <div v-for="alt in alternativesList">
-                        <p><b>{{alt.pergunta}}</b></p>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.a, 'inativa': erradas[alt.id] == alt.a}">{{alt.a}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.b, 'inativa': erradas[alt.id] == alt.b}">{{alt.b}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.c, 'inativa': erradas[alt.id] == alt.c}">{{alt.c}}</b></small></h4>
-                        <h4><small v-bind:class="{'ok': correcao[alt.id] == alt.d, 'inativa': erradas[alt.id] == alt.d}">{{alt.d}}</b></small></h4>
+                        <p><b>{{alt.pergunta}}</b></p><pre><h4><b>Você: {{acertou[alt.id]}}</b></h4></pre>
+                        <h4><small>{{alt.a}}</b></small></h4>
+                        <h4><small>{{alt.b}}</b></small></h4>
+                        <h4><small>{{alt.c}}</b></small></h4>
+                        <h4><small>{{alt.d}}</b></small></h4>
                         <pre><b>Feedback do Professor:</b><br>{{alt.feedback}}</pre>
                         <br>
                     </div>
@@ -56,7 +58,11 @@
                 respostas:[],
                 corretas:[],
                 correcao: [],
-                erradas: []
+                erradas: [],
+                acertou: [],
+                quantidadeQuestoes: 0,
+                cadaErro: 0,
+                nota: 100
             }
         },
     
@@ -76,10 +82,13 @@
                         t.correcao.push(t.respostas[data.id]);
                         t.erradas.push('null');
                         t.updateCorretaBd(data.questionId);
+                        t.acertou[data.id] = "Acertou!"
                     }else{
                         console.log('errou a questão ' + data.id + '. A correta é a ' + t.corretas[data.id]);
                         t.correcao.push(t.corretas[data.id]);
                         t.erradas.push(t.respostas[data.id]);
+                        t.acertou[data.id] = "Errou!"
+                        t.nota -= t.cadaErro
                     }
                 });
             },
@@ -97,6 +106,8 @@
         created() {
             this.respostas = this.$store.state.simulado.resposta
             this.corretas = this.$store.state.simulado.corretas
+            this.quantidadeQuestoes = this.corretas.length
+            this.cadaErro = 100 / this.quantidadeQuestoes
             this.alternativesList = this.$store.state.simulado.alternativesList;
             this.alternativesList.sort(function(a, b){
                 return a.id - b.id;
@@ -113,6 +124,9 @@
                 var hours  = parseInt(minuto / 60);
 		        var minutes  = minuto % 60;
                 return hours  + ":" + minutes ; 
+            },
+            formatNota(nota){
+                return parseFloat(nota.toFixed(2))
             }
         }
     }

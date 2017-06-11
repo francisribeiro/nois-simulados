@@ -36,6 +36,9 @@ import Relatorios from './components/admin/relatorios/Relatorios'
 // Countdown
 import Countdown from './components/Countdown'
 
+// Relatorio Usuario
+import RelatorioUsuario from './components/admin/relatorios/RelatorioUsuario'
+
 // Sweet Alert
 import VueSweetAlert from 'vue-sweetalert'
 
@@ -89,6 +92,7 @@ const router = new VueRouter({
 // Components register
 Vue.component('sidebar', Sidebar);
 Vue.component('countdown', Countdown);
+Vue.component('RelatorioUsuario', RelatorioUsuario);
 
 // Route Safe Guard
 router.beforeEach((to, from, next) => {

@@ -193,6 +193,28 @@ router.get('/list/area', function (req, res, next) {
     });
 });
 
+// Get Simulado por Area e Usuario
+router.get('/list/usuario/:u', function (req, res, next) {
+    Simulado.listSimuladosAreaUsuario(req.params.u, function (err, result) {
+        if (err) res.json(WrappedResponse.generateResponse(400, 'error', 'Error at get simulado per area and usuario!', null));
+        else {
+            var rows = result.rows;
+            if (rows == null) {
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', ''));
+            } else {
+                var array = [];
+                rows.forEach(function (data) {
+                    array.push({
+                        area: data.area,
+                        quantidade: data.count
+                    });
+                });
+                res.json(WrappedResponse.generateResponse(200, 'success', 'Get Simulado per Successfully!', array));
+            }
+        }
+    });
+});
+
 // Get Simulados by Area
 router.get('/area/:a', function (req, res, next) {
     Simulado.getSimuladoArea(req.params.a, function (err, result) {
